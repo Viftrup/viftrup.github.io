@@ -90,7 +90,7 @@ social:
 
   - name: GitHub
     icon: github
-    username: dmytro-lytvyn/
+    username: dmytro-lytvyn
     url: https://github.com/dmytro-lytvyn/
     desc: Fork me on GitHub
     share: false
@@ -104,7 +104,7 @@ social:
 
   - name: Google+
     icon: google-plus
-    username: +DmitryLitvin
+    username: DmitryLitvin
     url: https://plus.google.com/u/0/+DmitryLitvin
     desc: Add me to your Circles
     share: true
