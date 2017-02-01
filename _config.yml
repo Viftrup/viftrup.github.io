@@ -10,8 +10,8 @@ exclude:
   - "/vendor/"
 
 # Site settings
-title: Centrarium
-subtitle: "A simple yet classy theme for your Jekyll website or blog"
+title: Dmytro Lytvyn's blog
+subtitle: A blog about DWH, ETL, and other related BI stuff
 email: 
 name: Dmytro Lytvyn
 description: >
