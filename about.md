@@ -4,14 +4,12 @@ title: About
 permalink: /about/
 ---
 
-<img src="{{ site.baseurl }}/assets/profile-placeholder.gif" title="Profile Picture" class="profile">
+<img src="{{ site.baseurl }}/assets/profile_photo.jpg" title="Profile Picture" class="profile">
 
-Centrarium is a custom theme for Jekyll, made by [Ben Centra][bencentra] for his own blog. He'd be humbled if you liked it enough to use it as well! Installation and configuration instructions can be found in the [GitHub repository](https://github.com/bencentra/centrarium).
+My name is Dmytro Lytvyn (this is a Ukrainian name, in Russian it's Dmitry Litvin). I'm a ukrainian database developer, born in Kharkiv and currently living in Berlin, Germany.
 
-This page is a good place to write about yourself, your project, your product, or whatever it is your site is for. You can replace the image above, or you can get rid of it entirely. 
+This blog's purpose is to put together and document my ideas and approaches to building DWH (data warehouses), ETL processes, and other relevant things. Usually, there's never enough time or interest to know how things are done within the company, but maybe this can be useful for other people. And surely, it's valuable for myself, to have my thoughts and ideas organized in a structured way.
 
-You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](http://jekyllrb.com/). And you can find the source code for Jekyll at [github.com/jekyll/jekyll](https://github.com/jekyll/jekyll)
+I know how sad it is to see the abandoned and forgotten blogs, but this blog's goal is not to be my life's diary, but rather a collection of articles with ideas and best practices for BI-related subjects.
 
-[centrarium]: https://github.com/bencentra/centrarium
-[bencentra]: http://bencentra.com
-[jekyll]: https://github.com/jekyll/jekyll
+This blog is built using [Jekyll](http://jekyllrb.com/) ([github.com/jekyll/jekyll](https://github.com/jekyll/jekyll)).
