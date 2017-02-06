@@ -3,8 +3,8 @@ layout: post
 title: DWH - The beginning
 date: 2017-02-06 22:37:33
 author: Dmytro Lytvyn
-categories: DWH
-cover:  "/assets/header_image.jpg"
+categories: Data warehouse
+[//]: # (cover:  "/assets/header_image.jpg")
 ---
 
 # DWH - The beginning
