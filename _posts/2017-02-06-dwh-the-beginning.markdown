@@ -1,13 +1,11 @@
 ---
 layout: post
 title: DWH - The beginning
-date: 2017-02-06 22:37:33
-author: Dmytro Lytvyn
+[//]: # (date: 2017-02-06 22:37:33)
+[//]: # (author: Dmytro Lytvyn)
 categories: Data warehouse
 [//]: # (cover:  "/assets/header_image.jpg")
 ---
-
-# DWH - The beginning
 
 So, Data Warehouse (DWH). Before we start discussing the implementation, we need to agree on our expectations from it.
 
@@ -19,7 +17,7 @@ Good, it already gives us some basic information. The DWH is basically a storage
 
 From my experience, there are several types, or rather stages, of BI implementation in different companies:
 
-## 1. No separate BI system at all.
+### 1. No separate BI system at all.
 
 A lot of companies in the beginning simply use their operational systems for some basic reporting. Most reporting is done in Excel at this stage, by manually populating the numbers like monthly totals, and copying them from one spreadsheet to another.
 
@@ -29,7 +27,7 @@ The information from other third party systems needs to be analysed, like custom
 
 Thus, the company now requires a single storage for all these data, allowing to somehow link them together.
 
-## 2. BI system as a plain copy of one or more operational systems.
+### 2. BI system as a plain copy of one or more operational systems.
 
 At this point, we already can see the first requirement to our DWH.
 
@@ -37,7 +35,7 @@ At this point, we already can see the first requirement to our DWH.
 
 **Requirement to DWH #2**: the tables structure in the DWH should preferably be as close as possible to that of the source systems, because the developers and analysts are already used to it, and there are existing reports using this naming conventions, etc.
 
-This is not a strict requirement and there are approaches to DWH that heavily normalize the data or completely rearrange all data structures according to "Subject Areas", following Kimball's definition of the DWH. This, however, makes the DWH development more complicated, and the cycle of altering the data structures longer. Additionally, it's better when analysts and developers talk the same language and refer more or less the same tables and column names, otherwise the transparency is lost.
+This is not a strict requirement and there are approaches to DWH that heavily normalize the data or completely rearrange all data structures according to be "Subject Oriented", following Bill Inmon's characteristifs of the DWH. This, however, makes the DWH development more complicated, and the cycle of altering the data structures longer. Additionally, it's better when analysts and developers talk the same language and refer more or less the same tables and column names, otherwise the transparency is lost.
 
 Following the basic requirements, companies choose the simplest approach to data warehousing: simply copying all data from operational systems to a dedicated BI database as is, often not even incrementally, but the complete tables every day. Then, some transformations and aggregations are done, to prepare the data for the reports.
 
@@ -45,11 +43,11 @@ Such approach might help to assemble data from different systems in one, and kee
 
 Additionally, as the company grows, the amount of data grows even faster, and "full daily reloads" very quickly start to take the whole night to finish.
 
-## 3. Fully-featured DWH system
+### 3. Fully-featured DWH system
 
 In order to optimize the loading times, the DWH must support the incremental data loads, i.e. only the recently changed data should be written to the DWH during the load. This will also help with tracking the changes and storing the changes history.
 
-**Requirement to DWH #3**: support incremental data load.
+**Requirement to DWH #3**: support incremental data loading and ensure the best performance when writing, but most importantly, reading the data.
 
 As we have already discussed, one of the major requirements to the DWH is storing the historical data (for example all previous addresses of the customers). This is something that operational systems usually don't do, and therefore all previous versions of the data are simply lost. Therefore, we need to start storing them in DWH as early as possible.
 
@@ -66,3 +64,4 @@ Obviously, it means that nobody should use these raw data before "cleansing", wh
 **Requirement to DWH #5**: DWH loading processes must validate and if possible fix the incoming data for reporting.
  This includes removal of duplicates and fixing other major inconsistencies.
 
+If we now look at Oracle's [Introduction to Data Warehousing Concepts](https://docs.oracle.com/database/121/DWHSG/concept.htm), we'll see that Bill Inmon's DWH characteristics are very close to what we came up with: "Integrated" means of possibility to link diverse data and avoid inconsistencies, "Nonvolatile" and "Time Variant" refer to the requirement to keep all incoming information and track the history of changes. The only thing we deceded to avoid is the reorganization of data to be "Subject Oriented", because it contradicts the requirements #2 and #3 (keeping the existing data structures and best performance for both writing and reading the data).
