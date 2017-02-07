@@ -66,6 +66,7 @@ If we now look at Oracle's [Introduction to Data Warehousing Concepts](https://d
 ### Summary
 
 Let's review the list requirements to the DWH we came up with:
+
 1. DWH must be a separate system with SQL interface, holding the information from various data sources.
 2. The tables structure in the DWH should preferably be as close as possible to that of the source systems.
 3. DWH must support incremental data loading and ensure the best performance for reading and writing the data.
