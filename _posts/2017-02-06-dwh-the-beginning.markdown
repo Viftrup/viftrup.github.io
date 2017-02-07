@@ -1,15 +1,13 @@
 ---
 layout: post
 title: DWH - The beginning
-[//]: # (date: 2017-02-06 22:37:33)
-[//]: # (author: Dmytro Lytvyn)
+author: Dmytro Lytvyn
 categories: DWH
-[//]: # (cover:  "/assets/header_image.jpg")
 ---
 
-So, Data Warehouse (DWH). Before we start discussing the implementation, we need to agree on our expectations from it.
+So, Data Warehouse. Before we start discussing the architecture and technical implementation, we need to agree on our expectations from it and put together a list of requirements.
 
-OK Google, define data warehouse.
+OK Google, define Data Warehouse.
 
 > [Data warehouse](https://en.m.wikipedia.org/wiki/Data_warehouse) (DW or DWH) is a system used for reporting and data analysis, and is considered a core component of business intelligence. DWs are central repositories of integrated data from one or more disparate sources. They store current and historical data and are used for creating analytical reports... The data stored in the warehouse is uploaded from the operational systems (such as marketing or sales). 
 
@@ -45,13 +43,9 @@ Additionally, as the company grows, the amount of data grows even faster, and "f
 
 ### 3. Fully-featured DWH system
 
-In order to optimize the loading times, the DWH must support the incremental data loads, i.e. only the recently changed data should be written to the DWH during the load. This will also help with tracking the changes and storing the changes history.
+In order to optimize the loading times, we need to introduce the incremental data loads, i.e. only the recently changed data should be written to the DWH during the load. Unfortunately, when implementing the incremental data load "by hand", it's very easy to either miss some data, or load it twice (for example, when you try to delete and then reload the recently changed data by timestamp). DWH must "natively" support the incremental data loads, so that it never has duplicated data. This will also help with tracking the changes and storing the historical data.
 
-**Requirement to DWH #3**: support incremental data loading and ensure the best performance when writing, but most importantly, reading the data.
-
-As we have already discussed, one of the major requirements to the DWH is storing the historical data (for example all previous addresses of the customers). This is something that operational systems usually don't do, and therefore all previous versions of the data are simply lost. Therefore, we need to start storing them in DWH as early as possible.
-
-**Requirement to DWH #4**: when information is stored, it must not be lost. Therefore, all changes of the source data must be reflected in the history tables.
+**Requirement to DWH #3**: it must support incremental data loading and ensure the best performance for writing, but most importantly, reading the data.
 
 Additionally, it's not rare that operational systems have inconsistent or duplicate data because of the design issues and "organic growth" of those systems, and simply because it might not interfere with their work. Of course, these issues become obvious when somebody starts to analyse the data. Therefore, we need to think about how to fix such issues on DWH level.
 
@@ -61,7 +55,19 @@ Logically, it makes sense, but in real life, the developers of operational syste
 
 Obviously, it means that nobody should use these raw data before "cleansing", which somewhat limits the usefulness of the DWH. Thus, BI can take initiative and try to fix the most obvious data issues before loading them to DWH.
 
-**Requirement to DWH #5**: DWH loading processes must validate and if possible fix the incoming data for reporting.
- This includes removal of duplicates and fixing other major inconsistencies.
+**Requirement to DWH #4**: DWH design must support the loading processes that properly handle the duplicates, missing data and fix other major inconsistencies coming from the source systems.
+
+As we have already discussed, one of the major requirements to the DWH is storing the historical data (for example all previous addresses of the customers). This is something that operational systems usually don't do, and therefore all previous versions of the data are simply lost. Therefore, we need to start storing them in DWH as early as possible.
+
+**Requirement to DWH #5**: when information is stored, it must not be lost. Therefore, all changes of the source data must be reflected in the history tables.
 
 If we now look at Oracle's [Introduction to Data Warehousing Concepts](https://docs.oracle.com/database/121/DWHSG/concept.htm), we'll see that Bill Inmon's DWH characteristics are very close to what we came up with: "Integrated" means of possibility to link diverse data and avoid inconsistencies, "Nonvolatile" and "Time Variant" refer to the requirement to keep all incoming information and track the history of changes. The only thing we deceded to avoid is the reorganization of data to be "Subject Oriented", because it contradicts the requirements #2 and #3 (keeping the existing data structures and best performance for both writing and reading the data).
+
+### Summary
+
+Let's review the list requirements to the DWH we came up with:
+1. DWH must be a separate system with SQL interface, holding the information from various data sources.
+2. The tables structure in the DWH should preferably be as close as possible to that of the source systems.
+3. DWH must support incremental data loading and ensure the best performance for reading and writing the data.
+4. DWH design must support the loading processes that properly handle the duplicates, missing data, etc.
+5. All changes of the source data must be reflected in the DWH history tables.
