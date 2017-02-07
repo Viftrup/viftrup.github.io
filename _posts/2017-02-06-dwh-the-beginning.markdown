@@ -35,7 +35,7 @@ At this point, we already can see the first requirement to our DWH.
 
 **Requirement to DWH #2**: the tables structure in the DWH should preferably be as close as possible to that of the source systems, because the developers and analysts are already used to it, and there are existing reports using this naming conventions, etc.
 
-This is not a strict requirement and there are approaches to DWH that heavily normalize the data or completely rearrange all data structures according to be "Subject Oriented", following Bill Inmon's characteristifs of the DWH. This, however, makes the DWH development more complicated, and the cycle of altering the data structures longer. Additionally, it's better when analysts and developers talk the same language and refer more or less the same tables and column names, otherwise the transparency is lost.
+This is not a strict requirement and there are approaches to DWH that heavily normalize the data or completely rearrange all data structures to be "Subject Oriented", following Bill Inmon's characteristics of the DWH. This, however, makes the DWH development more complicated, and the development cycle - longer. Additionally, it's better when analysts and developers talk the same language and refer more or less the same tables and column names, otherwise the transparency is lost. In principal, modern approaches to data warehousing like Data Vault (or even Data Lake) also try to keep the structure of the source data as is, so we're on the right track here.
 
 Following the basic requirements, companies choose the simplest approach to data warehousing: simply copying all data from operational systems to a dedicated BI database as is, often not even incrementally, but the complete tables every day. Then, some transformations and aggregations are done, to prepare the data for the reports.
 
@@ -55,7 +55,7 @@ As we have already discussed, one of the major requirements to the DWH is storin
 
 Additionally, it's not rare that operational systems have inconsistent or duplicate data because of the design issues and "organic growth" of those systems, and simply because it might not interfere with their work. Of course, these issues become obvious when somebody starts to analyse the data. Therefore, we need to think about how to fix such issues on DWH level.
 
-There are approaches to data warehousing like Data Vault (or even Data Lake), which try to avoid being the "single point of truth" and push the responsibility for the data quality either to the systems that generate it, or to the consumers of the data.
+The modern approaches to data warehousing, mentioned earlier (Data Vault and Data Lake), try to avoid being the "single point of truth" and push the responsibility for the data quality either to the systems that generate it, or to the consumers of the data.
 
 Logically, it makes sense, but in real life, the developers of operational systems have their own urgent problems to deal with, and if the data quality issue doesn't break the system, they will try to avoid fixing it for as long as they can. Therefore, in such systems the data can be stored in its "broken" form, and only be fixed during export/publishing.
 
