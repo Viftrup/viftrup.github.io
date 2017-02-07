@@ -46,7 +46,7 @@ permalink: /:year/:month/:day/:title/
 #    tag: '/tag/:name/'
 
 # Disqus comments
-# disqus_shortname: bencentra
+disqus_shortname: dmytro-lytvyn
 
 # Google analytics
 # ga_tracking_id: "UA-XXXX-1"
