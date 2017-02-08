@@ -5,7 +5,7 @@ author: Dmytro Lytvyn
 categories: DWH
 ---
 
-Let's quickly remember the requirements to the DWH we came up with in the first article:
+Let's quickly recall the requirements to the DWH we came up with in the first article:
 
 1. DWH must be a separate system with SQL interface, holding the information from various data sources.
 2. The tables structure in the DWH should preferably be as close as possible to that of the source systems.
