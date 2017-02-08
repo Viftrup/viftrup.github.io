@@ -62,7 +62,7 @@ insert into target_table
 select *
 from source_table s
 where (s.pk_column1, s.pk_column2) not in (
-	select t.pk_column1, t.pk_column2 from target_table t
+    select t.pk_column1, t.pk_column2 from target_table t
 );
 ```
 
@@ -73,10 +73,10 @@ insert into target_table
 select *
 from source_table s
 where not exists (
-	select 1
-	from target_table t
-	where t.pk_column1 = s.pk_column1
-		and t.pk_column2 = s.pk_column2
+    select 1
+    from target_table t
+    where t.pk_column1 = s.pk_column1
+        and t.pk_column2 = s.pk_column2
 );
 ```
 
@@ -87,23 +87,23 @@ To deal with NULLs, we could write 3 (!) OR comparisons per column:
 ```sql
 update target_table t
 set
-	text_column1 = s.text_column1,
-	int_column2 = s.int_column2,
-	date_column3 = s.date_column3
+    text_column1 = s.text_column1,
+    int_column2 = s.int_column2,
+    date_column3 = s.date_column3
 from source_table s
 where t.pk_column1 = s.pk_column1
-	and t.pk_column2 = s.pk_column2
-	and (
-		t.text_column1 != s.text_column1
-		or (t.text_column1 is null and s.text_column1 is not null)
-		or (t.text_column1 is not null and s.text_column1 is null)
-		or t.int_column2 != s.int_column2
-		or (t.int_column2 is null and s.int_column2 is not null)
-		or (t.int_column2 is not null and s.int_column2 is null)
-		or t.date_column3 != s.date_column3
-		or (t.date_column3 is null and s.date_column3 is not null)
-		or (t.date_column3 is not null and s.date_column3 is null)
-	)
+    and t.pk_column2 = s.pk_column2
+    and (
+        t.text_column1 != s.text_column1
+        or (t.text_column1 is null and s.text_column1 is not null)
+        or (t.text_column1 is not null and s.text_column1 is null)
+        or t.int_column2 != s.int_column2
+        or (t.int_column2 is null and s.int_column2 is not null)
+        or (t.int_column2 is not null and s.int_column2 is null)
+        or t.date_column3 != s.date_column3
+        or (t.date_column3 is null and s.date_column3 is not null)
+        or (t.date_column3 is not null and s.date_column3 is null)
+    )
 ;
 ```
 
@@ -112,17 +112,17 @@ Alternatively, we can use coalesce(), and either set the NULL value to some "mag
 ```sql
 update target_table t
 set
-	text_column1 = s.text_column1,
-	int_column2 = s.int_column2,
-	date_column3 = s.date_column3
+    text_column1 = s.text_column1,
+    int_column2 = s.int_column2,
+    date_column3 = s.date_column3
 from source_table s
 where t.pk_column1 = s.pk_column1
-	and t.pk_column2 = s.pk_column2
-	and (
-		colesce(t.text_column1, '<NULL>') != colesce(s.text_column1, '<NULL>')
-		or colesce(cast(t.int_column2 as varchar), '') != colesce(cast(s.int_column2 as varchar), '')
-		or colesce(to_char(t.date_column3, 'YYYY-MM-DD'), '') != colesce(to_char(s.date_column3, 'YYYY-MM-DD'), '')
-	)
+    and t.pk_column2 = s.pk_column2
+    and (
+        colesce(t.text_column1, '<NULL>') != colesce(s.text_column1, '<NULL>')
+        or colesce(cast(t.int_column2 as varchar), '') != colesce(cast(s.int_column2 as varchar), '')
+        or colesce(to_char(t.date_column3, 'YYYY-MM-DD'), '') != colesce(to_char(s.date_column3, 'YYYY-MM-DD'), '')
+    )
 );
 ```
 
