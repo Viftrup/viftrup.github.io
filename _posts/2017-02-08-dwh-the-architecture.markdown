@@ -19,9 +19,11 @@ Now, we can discuss how to approach the implementation of the DWH system, satisf
 
 The easiest way to have a separate system with SQL interface is to set up a new database server (it must not be the same physical machine as one of the operational databases, of course). It can be a cloud server like Amazon Redshift, or a normal server, preferably in a Data Center, with all proper monitoring and high availability cluster setup.
 
+Data migration can be set up natively between the DBMS of the same provider (Oracle to Oracle, SQL Server to SQL Server or Postgres to Postgres), so you might want to choose for DWH the same DBMS provider as for your biggest operational database. Of course, it will not solve all your ETL needs, and you will have to choose and set up a proper ETL solution for your DWH, supporting various types of jobs, scheduling and dependencies between them. I will cover this topic in future articles.
+
 ### 2. Tables structure
 
-Moving on to the second requirement, we can set up a similarly structured database by just copying the tables structure 1:1 from the operational databases. Data migration can be done natively between the DBMS of the same provider (Oracle to Oracle, SQL Server to SQL Server or Postgres to Postgres), so you might want to choose for DWH the same DBMS provider as for your biggest operational database. Of course, it will not solve all your ETL needs, and you will have to choose and set up a proper ETL solution for your DWH, supporting various types of jobs, scheduling and dependencies between them. I will cover this topic in future articles.
+Moving on to the second requirement, we can set up a similarly structured database by just copying the tables structure 1:1 from the operational databases. Later, we'll discuss what minor changes are needed to satisfy other DWH requirements.
 
 For now, let's assume we can simply copy the data from the operational database to our DWH fully every day, keeping the same tables structure. Now we can move on to other requirements: incremental loading, handling duplicates and storing the changes history.
 
@@ -50,31 +52,49 @@ However, I saw examples when the value in date_updated column is set by a backen
 
 In case the data in the table can be altered, but date_updated column is not available (for whatever reasons), we can only load the full table to get all the changes. This is also necessary when the data can be deleted from the source table, and we must somehow reflect it in the DWH. In such situations, I usually load daily only the new records if possible (using date_created), and perform a full table synchronization once per week, for example.
 
+For this approach, we'll need a set of so-called "staging" tables of exactly the same structure as our source tables. We'll use them as a temporary disposable buffer between the source system and DWH tables. Normally, the amount of data in staging tables is much smaller than in source tables, because we only load the recently created/updated records to them, and then copy the data to the target tables.
+
 #### Merging the data
 
 We made sure we're not missing any new or changed records now, but how to merge them with our previously loaded records? For that, we need to know the Primary Keys for every table (one or more columns that uniquely identify the record and can't be changed themselves). Knowing them, we can just insert all new records (where PK doesn't exist in the target table yet), and update all columns for the existing records with the updated values.
 
 This method will work, but there are two performance/usability concerns:
 
-- To find out whether you need to insert or to update a record, you need to scan the whole target table for every new record, to see if it already exists in the target table. This becomes even harder if the table's Primary Key is composite (consists of two or more columns). SQL becomes clumsy:
+- To find out whether you need to insert or to update a record, you need to scan the whole target table for every record in a staging table, to see if it already exists there. This becomes even harder if the table's Primary Key is composite (consists of two or more columns). SQL becomes clumsy:
 
-Postgres/Oracle:
+Syntax with NOT IN for multiple columns, working in Postgres/Oracle:
 
 ```sql
+-- Inserting new records
 insert into target_table
 select *
-from source_table s
+from staging_table s
 where (s.pk_column1, s.pk_column2) not in (
     select t.pk_column1, t.pk_column2 from target_table t
 );
 ```
 
-MS SQL Server:
+More generic syntax using LEFT JOIN:
 
 ```sql
+-- Inserting new records
 insert into target_table
 select *
-from source_table s
+from staging_table s
+    left join target_table t
+        on t.pk_column1 = s.pk_column1
+            and t.pk_column2 = s.pk_column2
+where t.pk_column1 is null
+;
+```
+
+Another syntax using NOT EXISTS subquery, working in SQL Server:
+
+```sql
+-- Inserting new records
+insert into target_table
+select *
+from staging_table s
 where not exists (
     select 1
     from target_table t
@@ -83,17 +103,18 @@ where not exists (
 );
 ```
 
-- For every record that already exists in the target table, you will run a table update statement, even if nothing was changed. Or, you will have to compare every column's value in source and target tables (using the slow OR conditions), taking into consideration NULLs.
+- For every record that already exists in the target table, you will run a table update statement, even if nothing was changed. Or, you will have to compare every column's value in staging and target tables (using the slow OR conditions), taking into consideration NULLs.
 
 To deal with NULLs, we could write 3 (!) OR conditions per column:
 
 ```sql
+-- Updating changed records
 update target_table t
 set
     text_column1 = s.text_column1,
     int_column2 = s.int_column2,
     date_column3 = s.date_column3
-from source_table s
+from staging_table s
 where t.pk_column1 = s.pk_column1
     and t.pk_column2 = s.pk_column2
     and (
@@ -113,12 +134,13 @@ where t.pk_column1 = s.pk_column1
 Alternatively, we can use coalesce(), and either set the NULL value to some "magical" values, like -1 for integers and '0001-01-01' for dates (which is ugly), or just cast() the value to varchar and set NULL values to empty strings, and then compare them.
 
 ```sql
+-- Updating changed records
 update target_table t
 set
     text_column1 = s.text_column1,
     int_column2 = s.int_column2,
     date_column3 = s.date_column3
-from source_table s
+from staging_table s
 where t.pk_column1 = s.pk_column1
     and t.pk_column2 = s.pk_column2
     and (
@@ -129,6 +151,6 @@ where t.pk_column1 = s.pk_column1
 );
 ```
 
-Now imagine you need to write that for a table with 130 columns (i.e. Snowplow events), and for 200 more source tables with different keys and data types? Of course, this SQL is unmanageable and very slow, because we're joining our target table to the source table 2 times just to load new/updated data, and using a lot of OR conditions.
+Now imagine you need to write that for a table with 130 columns (i.e. Snowplow events), and for 200 more source tables with different keys and data types? Of course, this SQL is unmanageable and very slow, because we're joining our target table to the staging table 2 times just to load new/updated data, and using a lot of OR conditions.
 
 Let's think how to optimize this from performance point of view, and also whether we can make those SQLs more generic.
