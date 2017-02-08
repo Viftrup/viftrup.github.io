@@ -23,13 +23,13 @@ The easiest way to have a separate system with SQL interface is to set up a new 
 
 Moving on to the second requirement, we can set up a similarly structured database by just copying the tables structure 1:1 from the operational databases. Data migration can be done natively between the DBMS of the same provider (Oracle to Oracle, SQL Server to SQL Server or Postgres to Postgres), so you might want to choose for DWH the same DBMS provider as for your biggest operational database. Of course, it will not solve all your ETL needs, and you will have to choose and set up a proper ETL solution for your DWH, supporting various types of jobs, scheduling and dependencies between them. I will cover this topic in future articles.
 
-For now, let's assume we can simply copy the data from the operational database to our DWH fully every day, keeping the same tables structure. Now we can move on to other requirements: incremental load, handling duplicates and storing the changes history.
+For now, let's assume we can simply copy the data from the operational database to our DWH fully every day, keeping the same tables structure. Now we can move on to other requirements: incremental loading, handling duplicates and storing the changes history.
 
 ### 3. Incremental loading
 
-Let's see now how we can implement the incremental load. I will describe several approaches for getting the source data, that I personally observed in real systems, and will try to find the one that will work for all situations.
-
 #### Getting the source data
+
+There are several approaches for getting the source data incrementally, that I personally observed in real systems, but let's try to find the one that will work for all situations.
 
 **Option #1**: using the date_created field, always deleting the last 3 days (for example) of data, and inserting again everything created within those last 3 days.
 
@@ -42,11 +42,13 @@ Moreover, nobody can guarantee that the newly created ID or even date_created is
 
 **Option #3**: loading the most recent changes using date_updated column.
 
-At this point, people start to realize that we need a date_updated column in almost every table we load from, unless the data in the table is never updated by design (audit log, website tracking events, etc.) - then it's enough to have just date_created column.
+At this point, we realized that we need a date_updated column in almost every table we load from, unless the data in the table is never updated by design (audit log, website tracking events, etc.) - then it's enough to have just date_created column.
 
 Luckily, such column is very easy to implement with a default value of now() or current_timestamp for this column (just as it should be for date_created), and a trigger on update, setting it to current timestamp again.
 
-In case the data in the table can be updated, but date_updated column is not available (for whatever reasons), we can only load the full table to get all the changes. This is also necessary when the data can be deleted from the source table, and we must somehow reflect it in the DWH. In such situations, I usually load only the new records, if possible (using date_created) daily, and perform a full table synchronization once per week, for example.
+However, I saw examples when the value in date_updated column is set by a backend application, and not on a database level. This is of course wrong, because we can't rely on this column to be updated properly. For example, you can expect the record to be updated (manually), but the date_updated remain unchanged, or to have the date_updated earlier than date_created for the same record, etc.
+
+In case the data in the table can be altered, but date_updated column is not available (for whatever reasons), we can only load the full table to get all the changes. This is also necessary when the data can be deleted from the source table, and we must somehow reflect it in the DWH. In such situations, I usually load daily only the new records if possible (using date_created), and perform a full table synchronization once per week, for example.
 
 #### Merging the data
 
@@ -81,9 +83,9 @@ where not exists (
 );
 ```
 
-- For every record that already exists in the target table, you will run a table update statement, even if nothing was changed. Or, you will have to compare every column' value in source and target tables (using the slow OR conditions), taking into consideration NULLs.
+- For every record that already exists in the target table, you will run a table update statement, even if nothing was changed. Or, you will have to compare every column's value in source and target tables (using the slow OR conditions), taking into consideration NULLs.
 
-To deal with NULLs, we could write 3 (!) OR comparisons per column:
+To deal with NULLs, we could write 3 (!) OR conditions per column:
 
 ```sql
 update target_table t
@@ -108,7 +110,7 @@ where t.pk_column1 = s.pk_column1
 ;
 ```
 
-Alternatively, we can use coalesce(), and either set the NULL value to some "magical" values, like -1 for integers and '0001-01-01' for dates (which is ugly), or just cast the value to varchar and set NULL values to empty strings, and then compare them.
+Alternatively, we can use coalesce(), and either set the NULL value to some "magical" values, like -1 for integers and '0001-01-01' for dates (which is ugly), or just cast() the value to varchar and set NULL values to empty strings, and then compare them.
 
 ```sql
 update target_table t
@@ -127,6 +129,6 @@ where t.pk_column1 = s.pk_column1
 );
 ```
 
-Now imagine you need to write that for a table with 130 columns (Snowplow events), and for 200 more source tables with different keys and data types? Of course, it becomes unmanageable, and also very slow, because we're joining our target table to the source table 2 times just to load new/updated data.
+Now imagine you need to write that for a table with 130 columns (i.e. Snowplow events), and for 200 more source tables with different keys and data types? Of course, this SQL is unmanageable and very slow, because we're joining our target table to the source table 2 times just to load new/updated data, and using a lot of OR conditions.
 
 Let's think how to optimize this from performance point of view, and also whether we can make those SQLs more generic.
