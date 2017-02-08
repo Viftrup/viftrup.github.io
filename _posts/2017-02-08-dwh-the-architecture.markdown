@@ -57,6 +57,7 @@ This method will work, but there are two performance/usability concerns:
 - To find out whether you need to insert or to update a record, you need to scan the whole target table for every new record, to see if it already exists in the target table. This becomes even harder if the table's Primary Key is composite (consists of two or more columns). SQL becomes clumsy:
 
 Postgres/Oracle:
+
 ```sql
 insert into target_table
 select *
