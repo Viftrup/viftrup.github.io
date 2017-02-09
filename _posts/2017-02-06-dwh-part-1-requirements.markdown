@@ -1,6 +1,6 @@
 ---
 layout: post
-title: DWH - The requirements
+title: DWH, part 1: Requirements
 author: Dmytro Lytvyn
 categories: DWH
 ---

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: DWH - The architecture
+title: DWH, part 2: Architecture
 author: Dmytro Lytvyn
 categories: DWH
 ---
