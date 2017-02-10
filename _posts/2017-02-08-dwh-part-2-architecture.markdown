@@ -154,3 +154,48 @@ where t.pk_column1 = s.pk_column1
 Now imagine you need to write that for a table with 130 columns (i.e. Snowplow events), and for 200 more source tables with different keys and data types? Of course, this SQL is unmanageable and very slow, because we're joining our target table to the staging table 2 times just to load new/updated data, and using a lot of OR conditions.
 
 Let's think how to optimize this from performance point of view, and also whether we can make those SQLs more generic.
+
+First of all, how to avoid scanning the whole target table just to check, whether the record already exists in it? One obvious solution is to just have a small table, only consisting of this primary key and nothing else. Then, we can join it wherever we need to without any serious performance issues.
+
+But what about those composite (multi-column) primary keys? We don't want our small dictionary table to contain an arbitrary number of columns with random names for every source table we load. In fact, it would be better if all such "helper" tables had exactly the same structure.
+
+To solve this, I prefer to concatenate all source primary key columns into one string value, and call it a Business Key (a key that makes sense for the business), and generate a corresponding numeric Entity Key (surrogate key for this entity), which would be used as a unified key for this table across the whole DWH (including Foreign Keys in other tables). Therefore, every target table should be enriched with one more column: entity_key, and should have a small "helper" table alongside it - let's call it "PK Lookup", containing the columns entity_bk (varchar) and entity_key (bigint). We can simply create a sequence for every target table and use it to generate Entity Keys for every Business key as soon as it's inserted to the PK Lookup table.
+
+Since the primary key columns can have different data types, we can use the same approach as for comparing fields for changes: convert to varchar and use coalesce to handle NULLs:
+
+```sql
+coalesce(cast(s.pk_column1 as varchar), '') || '^' ||  coalesce(cast(s.pk_column2 as varchar), '') as entity_bk
+```
+
+One more problem we need to address is that ugly comparison of each and every column's value, to find out whether the record was changed or not. This is especially problematic when we synchronize the full table (by mistake, or in case when date_updated is not available, or when we also need to locate and mark the deleted records). We want to make our DWH design as bulletproof as possible, so that there were no implicit rules like "never load the full source table to staging".
+
+What if we could somehow calculate the hash of every record we load to our DWH, and then simply compare it with the has for incoming records? If the hash has changed, we need to update the record, if not - we don't touch it. Moreover, we could store those hashes in a separate small "helper" table (along with a unified Entity Key we already have) and then we don't even have to read our big target table at all during the data load process!
+
+To calculate the hash for the whole record, we can cast all the records except primary keys to varchar (depending on the data type), concatenate them together and use for example MD5 function to get our 128-character hash for the record.
+
+I would not like to store it in the same PK Lookup table we invented, because that table must stay as small as possible to serve one goal - figuring out whether we already have this Business Key loaded to the target table in DWH or not.
+
+Hash value for every record serves a completely different goal: figuring out whether the record was changed or not, and for some biggest tables we don't even need to check for changes at all (audit log, or website tracking, as I mentioned earlier). Therefore, it doesn't make sense to have a separate varchar column with hash for every record in their PK Lookup table.
+
+Plus, and we also need to store some additional metadata fields (ETL batch number and loading date, and others) somewhere, and it would be a perfect place for this optional record hash column. I'll call this new "helper" table "Batch Info".
+
+We already mentioned the possible requirement to mark some records as "deleted". Of course, we don't want to actually delete anything from DWH, but sometimes we need to know, whether the record was deleted or not in the source system. For that, we can use "Is Deleted" flag, and store it in our "Batch Info" table. For such flags, I personally prefer using the "integer" data type, and not "boolean", because it might not be supported by the DBMS, and I would like to have the DWH architecture as portable as possible.
+
+Thus, we now have the following structure of our "helper" tables:
+
+```sql
+create sequence target_table_seq;
+
+create table target_table_pk_lookup (
+    entity_bk varchar not null primary key,
+    entity_key bigint not null default nextval('target_table_seq')
+);
+
+create table target_table_batch_info (
+    entity_key bigint not null primary key,
+    is_deleted smallint not null default 0,
+    hash varchar(128),
+    batch_date timestamp not null,
+    batch_number bigint not null
+);
+```
