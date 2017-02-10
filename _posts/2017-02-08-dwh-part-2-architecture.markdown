@@ -15,21 +15,21 @@ Let's quickly recall the requirements to the DWH we came up with in the first ar
 
 Now, we can discuss how to approach the implementation of the DWH system, satisfying these requirements.
 
-### 1. Choosing the system
+## 1. Choosing the system
 
 The easiest way to have a separate system with SQL interface is to set up a new database server (it must not be the same physical machine as one of the operational databases, of course). It can be a cloud server like Amazon Redshift, or a normal server, preferably in a Data Center, with all proper monitoring and high availability cluster setup.
 
 Data migration can be set up natively between the DBMS of the same provider (Oracle to Oracle, SQL Server to SQL Server or Postgres to Postgres), so you might want to choose for DWH the same DBMS provider as for your biggest operational database. Of course, it will not solve all your ETL needs, and you will have to choose and set up a proper ETL solution for your DWH, supporting various types of jobs, scheduling and dependencies between them. I will cover this topic in future articles.
 
-### 2. Tables structure
+## 2. Tables structure
 
 Moving on to the second requirement, we can set up a similarly structured database by just copying the tables structure 1:1 from the operational databases. Later, we'll discuss what minor changes are needed to satisfy other DWH requirements.
 
 For now, let's assume we can simply copy the data from the operational database to our DWH fully every day, keeping the same tables structure. Now we can move on to other requirements: incremental loading, handling duplicates and storing the changes history.
 
-### 3. Incremental loading
+## 3. Incremental loading
 
-#### Getting the source data
+### Getting the source data
 
 There are several approaches for getting the source data incrementally, that I personally observed in real systems, but let's try to find the one that will work for all situations.
 
@@ -54,7 +54,9 @@ In case the data in the table can be altered, but date_updated column is not ava
 
 For this approach, we'll need a set of so-called "staging" tables of exactly the same structure as our source tables. We'll use them as a temporary disposable buffer between the source system and DWH tables. Normally, the amount of data in staging tables is much smaller than in source tables, because we only load the recently created/updated records to them, and then copy the data to the target tables.
 
-#### Merging the data
+### Merging the data
+
+#### Traditional approach
 
 We made sure we're not missing any new or changed records now, but how to merge them with our previously loaded records? For that, we need to know the Primary Keys for every table (one or more columns that uniquely identify the record and can't be changed themselves). Knowing them, we can just insert all new records (where PK doesn't exist in the target table yet), and update all columns for the existing records with the updated values.
 
@@ -153,7 +155,11 @@ where t.pk_column1 = s.pk_column1
 
 Now imagine you need to write that for a table with 130 columns (i.e. Snowplow events), and for 200 more source tables with different keys and data types? Of course, this SQL is unmanageable and very slow, because we're joining our target table to the staging table 2 times just to load new/updated data, and using a lot of OR conditions.
 
+#### Optimized approach
+
 Let's think how to optimize this from performance point of view, and also whether we can make those SQLs more generic.
+
+##### PK Lookup table
 
 First of all, how to avoid scanning the whole target table just to check, whether the record already exists in it? One obvious solution is to just have a small table, only consisting of this primary key and nothing else. Then, we can join it wherever we need to without any serious performance issues.
 
@@ -161,11 +167,24 @@ But what about those composite (multi-column) primary keys? We don't want our sm
 
 To solve this, I prefer to concatenate all source primary key columns into one string value, and call it a Business Key (a key that makes sense for the business), and generate a corresponding numeric Entity Key (surrogate key for this entity), which would be used as a unified key for this table across the whole DWH (including Foreign Keys in other tables). Therefore, every target table should be enriched with one more column: entity_key, and should have a small "helper" table alongside it - let's call it "PK Lookup", containing the columns entity_bk (varchar) and entity_key (bigint). We can simply create a sequence for every target table and use it to generate Entity Keys for every Business key as soon as it's inserted to the PK Lookup table.
 
+This is the structure of our PK Lookup table:
+
+```sql
+create sequence target_table_seq;
+
+create table target_table_pk_lookup (
+    entity_bk varchar not null primary key,
+    entity_key bigint not null default nextval('target_table_seq')
+);
+```
+
 Since the primary key columns can have different data types, we can use the same approach as for comparing fields for changes: convert to varchar and use coalesce to handle NULLs:
 
 ```sql
 coalesce(cast(s.pk_column1 as varchar), '') || '^' ||  coalesce(cast(s.pk_column2 as varchar), '') as entity_bk
 ```
+
+##### Batch Info table
 
 One more problem we need to address is that ugly comparison of each and every column's value, to find out whether the record was changed or not. This is especially problematic when we synchronize the full table (by mistake, or in case when date_updated is not available, or when we also need to locate and mark the deleted records). We want to make our DWH design as bulletproof as possible, so that there were no implicit rules like "never load the full source table to staging".
 
@@ -175,24 +194,47 @@ To calculate the hash for the whole record, we can cast all the records except p
 
 I would not like to store it in the same PK Lookup table we invented, because that table must stay as small as possible to serve one goal - figuring out whether we already have this Business Key loaded to the target table in DWH or not.
 
-Hash value for every record serves a completely different goal: figuring out whether the record was changed or not, and for some biggest tables we don't even need to check for changes at all (audit log, or website tracking, as I mentioned earlier). Therefore, it doesn't make sense to have a separate varchar column with hash for every record in their PK Lookup table.
+Hash value for every record serves a completely different goal: figuring out whether the record was changed or not, and for some biggest tables we don't even need to check for changes at all (audit log, or website tracking, as I mentioned earlier). Therefore, it doesn't make sense to have a separate varchar column with a hash for every record in their PK Lookup tables.
 
 Plus, and we also need to store some additional metadata fields (ETL batch number and loading date, and others) somewhere, and it would be a perfect place for this optional record hash column. I'll call this new "helper" table "Batch Info".
 
-We already mentioned the possible requirement to mark some records as "deleted". Of course, we don't want to actually delete anything from DWH, but sometimes we need to know, whether the record was deleted or not in the source system. For that, we can use "Is Deleted" flag, and store it in our "Batch Info" table. For such flags, I personally prefer using the "integer" data type, and not "boolean", because it might not be supported by the DBMS, and I would like to have the DWH architecture as portable as possible.
-
-Thus, we now have the following structure of our "helper" tables:
+Here's the current structure of our Batch Info table:
 
 ```sql
-create sequence target_table_seq;
-
-create table target_table_pk_lookup (
-    entity_bk varchar not null primary key,
-    entity_key bigint not null default nextval('target_table_seq')
-);
-
 create table target_table_batch_info (
     entity_key bigint not null primary key,
+    hash varchar(128),
+    batch_date timestamp not null,
+    batch_number bigint not null
+);
+```
+
+##### Tracking deleted records
+
+We already mentioned the possible requirement to mark some records as "deleted". Of course, we don't want to actually delete anything from DWH, but sometimes we need to know, whether the record was deleted or not in the source system. For that, we can use "Is Deleted" flag, and store it in our "Batch Info" table. For such flags, I personally prefer using the "integer" data type, and not "boolean", because it might not be supported by the DBMS, and I would like to have the DWH architecture as portable as possible.
+
+After adding the new column, we have the following structure of our Batch Info table:
+
+```sql
+create table target_table_batch_info (
+    entity_key bigint not null primary key,
+    is_deleted smallint not null default 0,
+    hash varchar(128),
+    batch_date timestamp not null,
+    batch_number bigint not null
+);
+```
+
+##### Inferred records
+
+Since we mentioned the primary keys and foreign keys, let's discuss what happens if our currently loaded record has a reference to another table, but that table doesn't contain the corresponding key yet. Let's say, since our last data load, a new record was created in Customer table in the operational database, and it has a foreign key to Address table. But when we load this Customer record, we try to get the Entity Key for this Address in out DWH, and we see that it was not loaded yet. Maybe we simply did not load Address table yet, or maybe there is an inconsistency in the source tables. If we simply keep this Entity Key value as NULL, we'll have to somehow track the appearance of that key in Address table and then update all records in all tables, that are linked to it. Of course, that's not a good approach. A good practice in such cases is to create inferred keys (*"Late Arriving Dimensions"*, in other words). We will add any keys, missing in the referenced FK table, to that table. The Inferred option is recommended, because it allows us not to worry about the order of loading the tables.
+
+This is the resulting structure of our Batch Info table:
+
+```sql
+create table target_table_batch_info (
+    entity_key bigint not null primary key,
+    is_inferred smallint not null default 0,
     is_deleted smallint not null default 0,
     hash varchar(128),
     batch_date timestamp not null,
