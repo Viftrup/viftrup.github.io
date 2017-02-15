@@ -161,7 +161,7 @@ Let's think how to optimize this from performance point of view, and also whethe
 
 ##### PK Lookup table
 
-First of all, how to avoid scanning the whole target table just to check, whether the record already exists in it? One obvious solution is to just have a small table, only consisting of this primary key and nothing else. Then, we can join it wherever we need to without any serious performance issues.
+First of all, how to avoid scanning the whole target table just to check, whether the record already exists in it? One obvious solution is to just have an additional small table, only consisting of this primary key and nothing else. Then, we can join it wherever we need to without any serious performance issues.
 
 But what about those composite (multi-column) primary keys? We don't want our small dictionary table to contain an arbitrary number of columns with random names for every source table we load. In fact, it would be better if all such "helper" tables had exactly the same structure.
 
@@ -243,3 +243,19 @@ create table target_table_batch_info (
     batch_number bigint not null
 );
 ```
+
+## 4. Handling duplicates
+
+This requirement will be easy to fulfill, because we already have defined a Business Key for every Entity we load, and even found an optimized approach as to how to figure out, whether the Business Key already exists in the target table, or not.
+
+But we still haven't considered the case, when there are possible duplicates in the source table, or in the staging table we load from (for example, because of some issue with the ETL process). Of course, we need to load only one of such duplicated records, but the question is - which one? Preferrably, the one with the most recent data. This is where we also need date_updated column. We can assign the duplicated records the sequential numbers using the analytical function row_number(), and sort them by date_updated in descending order. But what if even the date_updated is the same for the duplicated records? If the records are completely equal, we don't care, but what if at least one field differs? Well, we still need to choose only one, but what is important, is that we always select the same one if we run the script twice, or load the same data on the different servers. Luckily, we already have an answer for comparing the differences in two records, which is the Hash field! It's (almost) guaranteed to be different for different records, so we can use it in the "order by" statement to always order the records in the same way.
+
+As a result, we have the following calculation of the row number per Business Key and we will only load the records with row_number = 1:
+
+```sql
+row_number() over (partition by entity_bk order by date_updated desc nulls last, hash) as row_number
+```
+
+## 5. Storing the changes history
+
+TBD
