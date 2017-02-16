@@ -256,6 +256,8 @@ As a result, we have the following calculation of the row number per Business Ke
 row_number() over (partition by entity_bk order by date_updated desc nulls last, hash) as row_number
 ```
 
+If date_updated field is not available, we can order by any other field instead (version or date_created, for example), or, if there is absolutely no way to find out which record is the latest, we will simply order by hash field only, to at least have a deterministic result.
+
 ## 5. Storing the changes history
 
 We only have one final piece of DWH architecture missing, which is storing the history of record changes.
