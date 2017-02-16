@@ -258,4 +258,50 @@ row_number() over (partition by entity_bk order by date_updated desc nulls last,
 
 ## 5. Storing the changes history
 
-TBD
+We only have one final piece of DWH architecture missing, which is storing the history of record changes.
+
+### Theoretical background
+
+In DWH theory, this is usually called Slowly Changing Dimensions (SCD) and there are different approaches to handling them. You can read more about them here.
+
+Of course, changes can happen not only in Dimensions, but also in Facts, although significantly less often. In our DWH, all source tables are equal, and merely represent Business Entities that we want to load into DWH. Therefore, we will allow both Dimension and Fact tables to have a history.
+
+### Choosing the best approach
+
+If you have already read about the different types of Slowly Changing Dimensions, you might be surprised by some of them (Type 1 - "overwrite" and Type 3 - "add new attribute"), where we simply overwrite the previous values, or only store one previous value per attribute instead of the whole history. I think the explanation is simple: these approaches made sense decades ago, when every kilobyte of disk space was valuable. Nowadays, disk space is negligibly cheap and the data is significantly more valuable the disk space, so we can disregard those approaches.
+
+Now we can choose, whether to use SCD Type 2 - "add new row", Type 4 - "add history table", or a so-called Type 6 - "hybrid" approach. From my point of view, we should not generate a new surrogate Entity Key for every change of the record, because then a) we'll have to make sure all facts referring this dimension are assigned a correct key, and b) it simply forces the users to always select the historical data, which might not be their intention. In fact, from my experience, we need to get the historical data significantly more rarely than just a simple current state, which is what people expect "by default".
+
+### Hybrid approach implementation
+
+Therefore, we go with Type 6 - "pure type 6 implementation". But we still have a choice of how to arrange it:
+1. Keep all history in the same table as the original;
+2. Have a normal table with current values, plus a separate table with both the current values and history;
+3. Have a normal table with current values, plus a separate table with just the history.
+
+Obviously, if we need to select some historical data, options 1 and 2 look more preferable, because we won't have to join 2 tables to get the value we need by date.
+
+#### 1. Keep all history in the same table as the original
+
+Unfortunately, option 1 makes the normal data querying more complicated and error-prone, because all users will have to remember that they always need to join tables not just by the key, but also by the date, or by some flag of the current version of record, even though most of the time they simply need the current versions of data. It also contradicts our requirement to be developer-friendly and provide the tables structure as close as possible to the source tables.
+
+#### 2. Have a normal table with current values, plus a separate table with both the current values and history
+
+With the second option, this issue is solved. When users need the current versions of data, they just select from the main table as usual, and when they need the history, they use the historical table instead, and apply a condition by date.
+
+However, that means that the current version of the record will have to be in two tables at once (which is not a big issue), but also that we'll have to update those current records not only in the main table, but also the history table, as soon as they become obsolete (to set them the ending date). And this is already a more serious problem, because if we want to achieve the best performance, we should avoid updating the records that were written to the DWH. Each update is essentially a combination of delete and insert operations, and it requires the database engine to perform vacuuming if the tables, etc.
+
+An alternative to that is to simply not have the ending date for a historical record, and just have a starting date. If course, it means that every select of historical data requires users to write a window function, getting the next starting date per Entity Key (which would be the ending date), wrap it in a sub-query, and only then use it in the join or filter expression. The performance of such queries will be low and the complexity will be high.
+
+#### 3. Have a normal table with current values, plus a separate table with just the history
+
+Let's see how we can address all of these issues with oru option number three.
+
+Here, again, when users need the current versions of data, they just select from the main table as usual. But when they need the history (which happens quite rarely), they have to select from a "union all" of the historical and main tables, and just apply a condition by date.
+
+This way, we only insert to our history table once, when the record becomes obsolete and we already know its starting and ending dates (and never update it). We also don't need to use performance-expensive window functions every time we need to get historical data. The only downside is the need to union the main and history tables, but it's not required often, so we can live with that.
+
+### History tables structure
+
+Now that we understood how our history tables will work, we can think about their structure.
+
