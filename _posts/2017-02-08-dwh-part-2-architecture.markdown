@@ -297,11 +297,11 @@ An alternative to that is to simply not have the ending date for a historical re
 
 #### 3. Have a normal table with current values, plus a separate table with just the history
 
-Let's see how we can address all of these issues with oru option number three.
+Let's see how we can address all of these issues with our option number three.
 
 Here, again, when users need the current versions of data, they just select from the main table as usual. But when they need the history (which happens quite rarely), they have to select from a "union all" of the historical and main tables, and just apply a condition by date.
 
-This way, we only insert to our history table once, when the record becomes obsolete and we already know its starting and ending dates (and never update it). We also don't need to use performance-expensive window functions every time we need to get historical data. The only downside is the need to union the main and history tables, but it's not required often, so we can live with that.
+This way, we only insert to our history table once - when the record becomes obsolete and we already know its starting and ending dates, and never update it. We also don't need to use performance-expensive window functions every time we need to get historical data. The only downside is the need to union the main and history tables, but since it's not required that  often, we can live with that.
 
 ### History tables structure
 
