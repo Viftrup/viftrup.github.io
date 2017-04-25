@@ -188,7 +188,7 @@ Since the primary key columns can have different data types, we can use the same
 coalesce(cast(s.pk_column1 as varchar), '') || '^' ||  coalesce(cast(s.pk_column2 as varchar), '') as entity_bk
 ```
 
-The ^ character you see above helps to avoid treating different PKs, which concatenate to the same value, as the same PK. For example, both '123' || '123' and '12' || '3123' result in '123123'. Using ^ (or any other rarely-used character) turns them into '123^123' and '12^3123', respectively.
+The ^ character you see above helps to avoid treating different PKs, which concatenate to the same value, as the same PK. For example, both '123' \|\| '123' and '12' \|\| '3123' result in '123123'. Using ^ (or any other rarely-used character) turns them into '123^123' and '12^3123', respectively.
 
 ##### Batch Info table
 
