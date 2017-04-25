@@ -5,7 +5,7 @@ author: Dmytro Lytvyn
 categories: DWH
 ---
 
-Let's quickly recall the requirements to the DWH we came up with in the first article:
+Let's quickly recall the requirements to the DWH we came up with in the [first article](/2017/02/06/dwh-part-1-requirements/):
 
 1. DWH must be a separate system with SQL interface, holding the information from various data sources.
 2. The tables structure in the DWH should preferably be as close as possible to that of the source systems.
@@ -25,34 +25,36 @@ Data migration can be set up natively between the DBMS of the same provider (Ora
 
 Moving on to the second requirement, we can set up a similarly structured database by just copying the tables structure 1:1 from the operational databases. Later, we'll discuss what minor changes are needed to satisfy other DWH requirements.
 
-For now, let's assume we can simply copy the data from the operational database to our DWH fully every day, keeping the same tables structure. Now we can move on to other requirements: incremental loading, handling duplicates and storing the changes history.
+For simplicity, let's assume we will simply copy the data from the operational database to our DWH fully every day, keeping the same tables structure. Now we can move on to other requirements: incremental loading, handling duplicates and storing the changes history.
 
 ## 3. Incremental loading
 
 ### Getting the source data
 
-There are several approaches for getting the source data incrementally, that I personally observed in real systems, but let's try to find the one that will work for all situations.
+There are several approaches for getting the source data incrementally that I personally observed in real systems, but let's try to find the one that will work for all situations.
 
-**Option #1**: using the date_created field, always deleting the last 3 days (for example) of data, and inserting again everything created within those last 3 days.
+**Option #1**: using the date_created field, always delete the last 3 days (for example) of data, and insert again everything created within those last 3 days.
 
-It will only work with the data that never changes, because you won't load the recently changed record, if it was created more than 3 days ago, and if the date_created itself is changed, you might either load the same record twice, or just completely lose it.
+It will only work with the data that never changes, because you won't load a recently changed record if it was created more than 3 days ago, and if the date_created itself is changed, you might either load the same record twice, or just completely miss it.
 
 **Option #2**: load all records where date_created or record ID is bigger than the maximal date or ID you already have in your table.
 
-This, again, eliminates the possibility to load the changes, plus it requires you to either store the maximal date/ID per source table somewhere, or select it from DWH tables dynamically, and somehow link this information to the source systems. And joining data between separate systems is a bad idea from performance point of view. 
+This, again, eliminates the possibility to load the changes, plus it requires you to either store the maximal date/ID per source table somewhere, or select it from DWH tables dynamically, and somehow link this information to the source systems. And joining data between separate systems is a bad idea from the performance point of view. 
 Moreover, nobody can guarantee that the newly created ID or even date_created is always bigger than previous values in the same table.
 
 **Option #3**: loading the most recent changes using date_updated column.
 
-At this point, we realized that we need a date_updated column in almost every table we load from, unless the data in the table is never updated by design (audit log, website tracking events, etc.) - then it's enough to have just date_created column.
+At this point, we realized that we need a date_updated column in almost every table we load from, unless the data in the table is never updated by design (audit log, website tracking events, etc.) - then it's enough to have just date_created column, or just a tiny dimension table (countries or payment methods) - then it can be just fully loaded every time.
 
-Luckily, such column is very easy to implement with a default value of now() or current_timestamp for this column (just as it should be for date_created), and a trigger on update, setting it to current timestamp again.
+Luckily, such column is very easy to implement with a default value of now() or current_timestamp for this column (just as it should be for date_created), and a trigger on row update, setting it to current timestamp again.
 
-However, I saw examples when the value in date_updated column is set by a backend application, and not on a database level. This is of course wrong, because we can't rely on this column to be updated properly. For example, you can expect the record to be updated (manually), but the date_updated remain unchanged, or to have the date_updated earlier than date_created for the same record, etc.
+However, I saw examples when the value in date_updated column is set by a backend application, and not on a database level. This is of course wrong, because we can't rely on this column to be updated properly. For example, you should expect the cases when the record is updated (manually), but the date_updated remains unchanged, or has an earlier date than date_created for the same record, etc.
 
 In case the data in the table can be altered, but date_updated column is not available (for whatever reasons), we can only load the full table to get all the changes. This is also necessary when the data can be deleted from the source table, and we must somehow reflect it in the DWH. In such situations, I usually load daily only the new records if possible (using date_created), and perform a full table synchronization once per week, for example.
 
-For this approach, we'll need a set of so-called "staging" tables of exactly the same structure as our source tables. We'll use them as a temporary disposable buffer between the source system and DWH tables. Normally, the amount of data in staging tables is much smaller than in source tables, because we only load the recently created/updated records to them, and then copy the data to the target tables.
+For incremental loading, we'll need a set of so-called "staging" tables of exactly the same structure as our source tables. We'll use them as a temporary disposable buffer between the source system and DWH tables. Normally, the amount of data in staging tables is much smaller than in source tables, because we only load the recently created/updated records to them, and then copy the data to the target tables.
+
+If we load the data from untyped data sources, like CSV files, we can choose to have all staging tables columns typed as varchar, so that the loading process doesn't fail on type conversions, but then we have to manage such issues when loading the data from staging to target tables. Some ETL processes allow to store the "bad" records in separate tables for further investigation, and load all "good" ones.
 
 ### Merging the data
 
@@ -123,9 +125,11 @@ where t.pk_column1 = s.pk_column1
         t.text_column1 != s.text_column1
         or (t.text_column1 is null and s.text_column1 is not null)
         or (t.text_column1 is not null and s.text_column1 is null)
+        --
         or t.int_column2 != s.int_column2
         or (t.int_column2 is null and s.int_column2 is not null)
         or (t.int_column2 is not null and s.int_column2 is null)
+        --
         or t.date_column3 != s.date_column3
         or (t.date_column3 is null and s.date_column3 is not null)
         or (t.date_column3 is not null and s.date_column3 is null)
@@ -157,7 +161,7 @@ Now imagine you need to write that for a table with 130 columns (i.e. Snowplow e
 
 #### Optimized approach
 
-Let's think how to optimize this from performance point of view, and also whether we can make those SQLs more generic.
+Let's think how to optimize this from the performance point of view, and also whether we can make those SQLs more generic.
 
 ##### PK Lookup table
 
@@ -184,11 +188,13 @@ Since the primary key columns can have different data types, we can use the same
 coalesce(cast(s.pk_column1 as varchar), '') || '^' ||  coalesce(cast(s.pk_column2 as varchar), '') as entity_bk
 ```
 
+The ^ character you see above helps to avoid treating different PKs, which concatenate to the same value, as the same PK. For example, both '123' || '123' and '12' || '3123' result in '123123'. Using ^ (or any other rarely-used character) turns them into '123^123' and '12^3123', respectively.
+
 ##### Batch Info table
 
 One more problem we need to address is that ugly comparison of each and every column's value, to find out whether the record was changed or not. This is especially problematic when we synchronize the full table (by mistake, or in case when date_updated is not available, or when we also need to locate and mark the deleted records). We want to make our DWH design as bulletproof as possible, so that there were no implicit rules like "never load the full source table to staging".
 
-What if we could somehow calculate the hash of every record we load to our DWH, and then simply compare it with the has for incoming records? If the hash has changed, we need to update the record, if not - we don't touch it. Moreover, we could store those hashes in a separate small "helper" table (along with a unified Entity Key we already have) and then we don't even have to read our big target table at all during the data load process!
+What if we somehow calculate the hash of every record we load to our DWH, and then simply compare it with the hash for incoming records? If the hash has changed, we need to update the record, if not - we don't touch it. Moreover, we could store those hashes in a separate small "helper" table (along with a unified Entity Key we already have) and then we don't even have to read our big target table at all during the data load process!
 
 To calculate the hash for the whole record, we can cast all the records except primary keys to varchar (depending on the data type), concatenate them together and use for example MD5 function to get our 128-character hash for the record.
 
@@ -229,7 +235,7 @@ create table target_table_batch_info (
 
 Since we mentioned the primary keys and foreign keys, let's discuss what happens if our currently loaded record has a reference to another table, but that table doesn't contain the corresponding key yet. Let's say, since our last data load, a new record was created in Customer table in the operational database, and it has a foreign key to Address table. But when we load this Customer record, we try to get the Entity Key for this Address in out DWH, and we see that it was not loaded yet. Maybe we simply did not load Address table yet, or maybe there is an inconsistency in the source tables. Such problem is often referred to as *"Late Arriving Dimensions"*, although it may as well happen with the fact tables.
 
-If we simply keep this broken referred Entity Key value as NULL, we'll have to somehow track the appearance of that key in Address table and then update all records in all tables that are linked to it. Of course, that's not a good approach. A good practice in such cases is to create so-called inferred keys (dummy records). We will add any keys, missing in the referenced FK table, to that table, and populate the original Business Key column with the value we know, but keep all other columns NULL. We will also mark this record as "inferred", to be sure we overwrite it as soon as the original record for that table arrives. So, we need to also add the "Is Inferred" flag to the metadata of every record in "Batch Info" table.
+If we simply keep this broken referred Entity Key value as NULL, we'll have to somehow track the appearance of that key in Address table and then update all records in all tables that are linked to it. Of course, that's not a good approach. A good practice in such cases is to create so-called inferred keys (dummy records). We will add any keys, missing in the referenced FK table, to that table, and populate the original Business Key column with the value we know, but keep all other columns NULL. Alternatively, we can only insert a record to the PK Lookup table, but not to the actual target table. We will also mark this record as "inferred", to be sure we overwrite it as soon as the original record for that table arrives. So, we need to also add the "Is Inferred" flag to the metadata of every record in "Batch Info" table.
 
 This is the resulting structure of our Batch Info table:
 
@@ -246,9 +252,9 @@ create table target_table_batch_info (
 
 ## 4. Handling duplicates
 
-This requirement will be easy to fulfill, because we already have defined a Business Key for every Entity we load, and even found an optimized approach as to how to figure out, whether the Business Key already exists in the target table, or not.
+This requirement will be easy to fulfill, because we already have defined a Business Key for every Entity we load, and even found an optimized approach as to how to figure out, whether the Business Key already exists in the target table or not.
 
-But we still haven't considered the case, when there are possible duplicates in the source table, or in the staging table we load from (for example, because of some issue with the ETL process). Of course, we need to load only one of such duplicated records, but the question is - which one? Preferrably, the one with the most recent data. This is where we also need date_updated column. We can assign the duplicated records the sequential numbers using the analytical function row_number(), and sort them by date_updated in descending order. But what if even the date_updated is the same for the duplicated records? If the records are completely equal, we don't care, but what if at least one field differs? Well, we still need to choose only one, but what is important, is that we always select the same one if we run the script twice, or load the same data on the different servers. Luckily, we already have an answer for comparing the differences in two records, which is the Hash field! It's (almost) guaranteed to be different for different records, so we can use it in the "order by" statement to always order the records in the same way.
+But we still haven't considered the case, when there are possible duplicates in the source table, or in the staging table we load from (for example, because of some issue with the ETL process). Of course, we need to load only one of such duplicated records, but the question is - which one? Preferrably, the one with the most recent data. This is where we also need date_updated column. We can assign the duplicated records the sequential numbers using the analytical function row_number(), and sort them by date_updated in descending order. But what if even the date_updated is the same for the duplicated records? If the records are completely equal, we don't care which one to take, but what if at least one field differs? Well, we still need to choose only one, but what is important, is that we always select the same one if we run the script twice, or load the same data on the different servers. Luckily, we already have an answer for comparing the differences in two records, which is the Hash field. It's (almost) guaranteed to be different for different records, so we can use it in the "order by" statement to always order the records in the same way.
 
 As a result, we have the following calculation of the row number per Business Key and we will only load the records with row_number = 1:
 
@@ -264,7 +270,7 @@ We only have one final piece of DWH architecture missing, which is storing the h
 
 ### Theoretical background
 
-In DWH theory, this is usually called Slowly Changing Dimensions (SCD) and there are different approaches to handling them. You can read more about them here.
+In DWH theory, this is usually called Slowly Changing Dimensions (SCD) and there are different approaches to handling them. You can read more about them [here](https://en.wikipedia.org/wiki/Slowly_changing_dimension) and [here](http://datawarehouse4u.info/SCD-Slowly-Changing-Dimensions.html).
 
 Of course, changes can happen not only in Dimensions, but also in Facts, although significantly less often. In our DWH, all source tables are equal, and merely represent Business Entities that we want to load into DWH. Therefore, we will allow both Dimension and Fact tables to have a history.
 
@@ -276,7 +282,7 @@ Now we can choose, whether to use SCD Type 2 - "add new row", Type 4 - "add hist
 
 ### Hybrid approach implementation
 
-Therefore, we go with Type 6 - "pure type 6 implementation". But we still have a choice of how to arrange it:
+Therefore, we go with Type 6 - "[pure type 6 implementation](https://en.wikipedia.org/wiki/Slowly_changing_dimension#Pure_type_6_implementation)". But we still have a choice of how to arrange it:
 1. Keep all history in the same table as the original;
 2. Have a normal table with current values, plus a separate table with both the current values and history;
 3. Have a normal table with current values, plus a separate table with just the history.
@@ -301,7 +307,7 @@ Let's see how we can address all of these issues with our option number three.
 
 Here, again, when users need the current versions of data, they just select from the main table as usual. But when they need the history (which happens quite rarely), they have to select from a "union all" of the historical and main tables, and just apply a condition by date.
 
-This way, we only insert to our history table once - when the record becomes obsolete and we already know its starting and ending dates, and never update it. We also don't need to use performance-expensive window functions every time we need to get historical data. The only downside is the need to union the main and history tables, but since it's not required that  often, we can live with that.
+This way, we only insert to our history table once - when the record becomes obsolete and we already know its starting and ending dates, and never update it. We also don't need to use performance-expensive window functions every time we need to get historical data. The only downside is the need to union the main and history tables, but since it's not required that often, we can live with that.
 
 ### History tables structure
 
