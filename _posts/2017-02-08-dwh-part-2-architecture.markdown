@@ -313,3 +313,4 @@ This way, we only insert to our history table once - when the record becomes obs
 
 Now that we understood how our history tables will work, we can think about their structure.
 
+We definitely need the same fields as we had in the original target table, plus we need some metadata about the record, similar to what we already have in "Batch Info" table. As we agreed before, it makes sense to also add the ending date column, to be able to select a historical record easily. For that, we can use batnch_number and batch_date columns, but from the new batch - the one that caused this record to move to history.
