@@ -204,7 +204,7 @@ Hash value for every record serves a completely different goal: figuring out whe
 
 Plus, and we also need to store some additional metadata fields (ETL batch number and loading date, and others) somewhere, and it would be a perfect place for this optional record hash column. I'll call this new "helper" table "Batch Info".
 
-Here's the current structure of our Batch Info table:
+Here's the current structure of our "Batch Info" table:
 
 ```sql
 create table target_table_batch_info (
@@ -219,7 +219,7 @@ create table target_table_batch_info (
 
 We already mentioned the possible requirement to mark some records as "deleted". Of course, we don't want to actually delete anything from DWH, but sometimes we need to know, whether the record was deleted or not in the source system. For that, we can use "Is Deleted" flag, and store it in our "Batch Info" table. For such flags, I personally prefer using the "integer" data type, and not "boolean", because it might not be supported by the DBMS, and I would like to have the DWH architecture as portable as possible.
 
-After adding the new column, we have the following structure of our Batch Info table:
+After adding the new column, we have the following structure of our "Batch Info" table:
 
 ```sql
 create table target_table_batch_info (
@@ -237,7 +237,7 @@ Since we mentioned the primary keys and foreign keys, let's discuss what happens
 
 If we simply keep this broken referred Entity Key value as NULL, we'll have to somehow track the appearance of that key in Address table and then update all records in all tables that are linked to it. Of course, that's not a good approach. A good practice in such cases is to create so-called inferred keys (dummy records). We will add any keys, missing in the referenced FK table, to that table, and populate the original Business Key column with the value we know, but keep all other columns NULL. Alternatively, we can only insert a record to the PK Lookup table, but not to the actual target table. We will also mark this record as "inferred", to be sure we overwrite it as soon as the original record for that table arrives. So, we need to also add the "Is Inferred" flag to the metadata of every record in "Batch Info" table.
 
-This is the resulting structure of our Batch Info table:
+This is the resulting structure of our "Batch Info" table:
 
 ```sql
 create table target_table_batch_info (
@@ -313,4 +313,170 @@ This way, we only insert to our history table once - when the record becomes obs
 
 Now that we understood how our history tables will work, we can think about their structure.
 
-We definitely need the same fields as we had in the original target table, plus we need some metadata about the record, similar to what we already have in "Batch Info" table. As we agreed before, it makes sense to also add the ending date column, to be able to select a historical record easily. For that, we can use batnch_number and batch_date columns, but from the new batch - the one that caused this record to move to history.
+We definitely need the same fields as we had in the original target table, plus we need some metadata of the record, similar to what we already have in "Batch Info" table. As we agreed before, it makes sense to also add the ending date column, to be able to select a historical record easily. For that, we can use batch_number and batch_date columns, but from the new batch - the one that caused this record to move to history.
+
+It's better to have these metadata columns in the beginning of the table, before all the "normal" columns, because it makes it easier to add or replace columns, which happens quite often. This way, ALTER TABLE ADD COLUMN statement will work for both current data tables and historical tables, and the order of "normal" columns will remain consistent between them.
+
+Therefore, we have the following unified structure of the historical tables:
+
+```sql
+create table target_table_history (
+    -- History part
+    is_inferred smallint default 0,
+    is_deleted smallint not null default 0,
+    hash varchar(128),
+    batch_date timestamp,
+    batch_number bigint,
+    batch_date_new timestamp,
+    batch_number_new bigint,
+    -- Main part
+    entity_key bigint,
+    ...
+) tablespace dwh;
+
+create index target_table_history_entity_key_idx
+on target_table_history using btree
+(entity_key) tablespace dwh;
+
+create index target_table_history_batch_date_idx
+on target_table_history using btree
+(batch_date) tablespace dwh;
+
+create index target_table_history_batch_date_new_idx
+on target_table_history using btree
+(batch_date_new) tablespace dwh;
+```
+
+And the SQL, which allows to select both current and historical values, as well as all their metadata, including starting and ending dates, will look like this:
+
+```sql
+select
+    t.*
+from target_table_history t
+union all
+select
+    b.is_inferred,
+    b.is_deleted,
+    b.hash,
+    b.batch_date,
+    b.batch_number,
+    current_timestamp as batch_date_new,
+    null as batch_number_new,
+    m.*
+from target_table_batch_info b
+    left join target_table m
+        on m.entity_key = b.entity_key
+;
+```
+
+It can be joined as a subquery as usual, with additional condition:
+
+```sql
+and some_event_date between batch_date and batch_date_new
+```
+
+Inserting into such table is also quite straightforward - we simply insert there the data from both main target table and its "Batch Info" table, plus the information about the current batch, which caused the record to go to history.
+
+After that, we can delete the old records from the main target table and insert the new and updated ones, and also update the records in "Batch Info" table with the new values.
+
+## 6. Summary
+
+Now we have everything we need to prepare the tables structure for our DWH, and the ETL scripts that will populate it. As a summary, here is a sample set of tables, needed to load one simple source table into the DWH:
+
+```sql
+-- Staging table
+
+drop table if exists stage.website_url;
+
+create table stage.website_url
+(
+  id bigint,
+  parent_id bigint,
+  date_created timestamp,
+  last_updated timestamp,
+  url character varying(255)
+);
+
+
+-- DWH tables
+
+drop table if exists dw.dim_website_url_pk_lookup;
+
+drop sequence if exists dw.dim_website_url_seq;
+
+create sequence dw.dim_website_url_seq;
+
+create table dw.dim_website_url_pk_lookup (
+    entity_bk varchar not null primary key,
+    entity_key bigint not null default nextval('dw.dim_website_url_seq')
+) tablespace dwh;
+
+
+drop table if exists dw.dim_website_url_main_batch_info;
+
+create table dw.dim_website_url_main_batch_info (
+    entity_key bigint not null primary key,
+    is_inferred smallint not null default 0,
+    is_deleted smallint not null default 0,
+    hash varchar(128),
+    batch_date timestamp not null,
+    batch_number bigint not null
+) tablespace dwh;
+
+
+drop table if exists dw.dim_website_url_main;
+
+create table dw.dim_website_url_main (
+    entity_key bigint primary key,
+    id bigint,
+    parent_id_key bigint,
+    parent_id bigint,
+    date_created timestamp,
+    last_updated timestamp,
+    url varchar(255)
+) tablespace dwh;
+
+create index dim_website_url_main_context_id_key_idx
+on dw.dim_website_url_main using btree
+(parent_id_key) tablespace dwh;
+
+
+drop table if exists dw.dim_website_url_main_history;
+
+create table dw.dim_website_url_main_history (
+    -- History part
+    is_inferred smallint default 0,
+    is_deleted smallint not null default 0,
+    hash varchar(128),
+    batch_date timestamp,
+    batch_number bigint,
+    batch_date_new timestamp,
+    batch_number_new bigint,
+    -- Main part 
+    entity_key bigint,
+    id bigint,
+    parent_id_key bigint,
+    parent_id bigint,
+    date_created timestamp,
+    last_updated timestamp,
+    url varchar(255)
+) tablespace dwh;
+
+create index dim_website_url_main_history_entity_key_idx
+on dw.dim_website_url_main_history using btree
+(entity_key) tablespace dwh;
+
+create index dim_website_url_main_history_batch_date_idx
+on dw.dim_website_url_main_history using btree
+(batch_date) tablespace dwh;
+
+create index dim_website_url_main_history_batch_date_new_idx
+on dw.dim_website_url_main_history using btree
+(batch_date_new) tablespace dwh;
+
+create index dim_website_url_main_history_parent_id_key_idx
+on dw.dim_website_url_main_history using btree
+(parent_id_key) tablespace dwh;
+```
+
+Of course, writing the DDL scripts and custom ETL code for each of the DWH tables is not very productive and very error-prone, but luckily, the unified structure of the tables allows to automate the task of building such scripts. I'll cover this topic in the next article.
