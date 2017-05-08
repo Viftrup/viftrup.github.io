@@ -332,19 +332,19 @@ create table target_table_history (
     -- Main part
     entity_key bigint,
     ...
-) tablespace dwh;
+);
 
 create index target_table_history_entity_key_idx
 on target_table_history using btree
-(entity_key) tablespace dwh;
+(entity_key);
 
 create index target_table_history_batch_date_idx
 on target_table_history using btree
-(batch_date) tablespace dwh;
+(batch_date);
 
 create index target_table_history_batch_date_new_idx
 on target_table_history using btree
-(batch_date_new) tablespace dwh;
+(batch_date_new);
 ```
 
 And the SQL, which allows to select both current and historical values, as well as all their metadata, including starting and ending dates, will look like this:
@@ -409,7 +409,7 @@ create sequence dw.dim_website_url_seq;
 create table dw.dim_website_url_pk_lookup (
     entity_bk varchar not null primary key,
     entity_key bigint not null default nextval('dw.dim_website_url_seq')
-) tablespace dwh;
+);
 
 
 drop table if exists dw.dim_website_url_main_batch_info;
@@ -421,7 +421,7 @@ create table dw.dim_website_url_main_batch_info (
     hash varchar(128),
     batch_date timestamp not null,
     batch_number bigint not null
-) tablespace dwh;
+);
 
 
 drop table if exists dw.dim_website_url_main;
@@ -434,11 +434,11 @@ create table dw.dim_website_url_main (
     date_created timestamp,
     last_updated timestamp,
     url varchar(255)
-) tablespace dwh;
+);
 
 create index dim_website_url_main_context_id_key_idx
 on dw.dim_website_url_main using btree
-(parent_id_key) tablespace dwh;
+(parent_id_key);
 
 
 drop table if exists dw.dim_website_url_main_history;
@@ -460,23 +460,23 @@ create table dw.dim_website_url_main_history (
     date_created timestamp,
     last_updated timestamp,
     url varchar(255)
-) tablespace dwh;
+);
 
 create index dim_website_url_main_history_entity_key_idx
 on dw.dim_website_url_main_history using btree
-(entity_key) tablespace dwh;
+(entity_key);
 
 create index dim_website_url_main_history_batch_date_idx
 on dw.dim_website_url_main_history using btree
-(batch_date) tablespace dwh;
+(batch_date);
 
 create index dim_website_url_main_history_batch_date_new_idx
 on dw.dim_website_url_main_history using btree
-(batch_date_new) tablespace dwh;
+(batch_date_new);
 
 create index dim_website_url_main_history_parent_id_key_idx
 on dw.dim_website_url_main_history using btree
-(parent_id_key) tablespace dwh;
+(parent_id_key);
 ```
 
 Of course, writing the DDL scripts and custom ETL code for each of the DWH tables is not very productive and very error-prone, but luckily, the unified structure of the tables allows to automate the task of building such scripts. I'll cover this topic in the next article.
