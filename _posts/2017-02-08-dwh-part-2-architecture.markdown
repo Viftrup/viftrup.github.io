@@ -388,13 +388,12 @@ Now we have everything we need to prepare the tables structure for our DWH, and 
 
 drop table if exists stage.website_url;
 
-create table stage.website_url
-(
-  id bigint,
-  parent_id bigint,
-  date_created timestamp,
-  last_updated timestamp,
-  url character varying(255)
+create table stage.website_url (
+    id bigint,
+    parent_id bigint,
+    date_created timestamp,
+    last_updated timestamp,
+    url varchar(255)
 );
 
 
