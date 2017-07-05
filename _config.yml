@@ -31,9 +31,9 @@ paginate_path: "/page_:num/"
 inter_post_navigation: false
 highlightjs_theme: "monokai-sublime"
 
-#permalink: /:title/
+permalink: /:title/
 #permalink: /:categories/:year/:month/:day/:title.html
-permalink: /:year/:month/:day/:title/
+#permalink: /:year/:month/:day/:title/
 
 # Archive settings (see https://github.com/jekyll/jekyll-archives/)
 #jekyll-archives:
