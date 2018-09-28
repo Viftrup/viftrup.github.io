@@ -94,15 +94,15 @@ social:
 
   - name: Google+
     icon: google-plus
-    username: DmitryLitvin
-    url: https://plus.google.com/u/0/+DmitryLitvin
+    username:
+    url:
     desc: Add me to your Circles
     share: true
 
   - name: Twitter
     icon: twitter
-    username: dmitry_litvin
-    url: https://twitter.com/dmitry_litvin
+    username:
+    url:
     desc: Follow me on Twitter
     share: true
 
