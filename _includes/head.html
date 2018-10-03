@@ -5,21 +5,6 @@
 
   <title>{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</title>
   <script src="/js/javascript.js"></script>
-  <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
-  <script type="text/javascript">
-    $(document).ready(function() {
-      // Click events tracking
-      $("a").click(function(){
-        // See also: this.attributes.onclick.nodeValue, this.id, this.href, this.outerText
-        var objectId = this.outerHTML;
-        sendPageEvent("WEBSITE", "LINK", objectId, "CLICK", "v.5");
-      });
-      $("button").click(function(){
-        var objectId = this.outerHTML;
-        sendPageEvent("WEBSITE", "BUTTON", objectId, "CLICK", "v.7");
-      });
-    });
-  </script>
 
   <meta name="description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
   {% if site.name %}
