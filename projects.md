@@ -10,6 +10,7 @@ DWH SQL CodeGen is a cross-platform GUI application with a simple interface, bui
 
 This application should be considered rather as a working prototype, and needs a lot of refactoring and cleaning up. Nevertheless, it's already useful in its current state, and saves the hours and days you can spend writing thousands of lines of SQL code.
 
+
 [Data Platform: Ansible Roles](https://github.com/dmytro-lytvyn/dp-ansible-roles)
 
 A set of Ansible roles to install and configure the components of the Data Platform:
