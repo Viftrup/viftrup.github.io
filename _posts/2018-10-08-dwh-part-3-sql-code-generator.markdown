@@ -90,7 +90,9 @@ select stage.dblink_disconnect('product');
 ![Customer columns screenshot](/assets/dwh-sql-codegen/tutorial-dim_customer.png)
 - For each foreign key, select the target table and some additional parameters like whether we want to create inferred records if the target record is missing, the column name to be populated with the known value for such cases, whether this column can be used as a "date_updated" column, whether this column should be indexed etc.
 ![Inferred columns screenshot](/assets/dwh-sql-codegen/tutorial-inferred.png)
-- Generate the DDL code for the target tables with Ctrl+D (Command+D on Mac), and generate the ETL SQL code with Ctrl+G (Command+G). The Code Generator will offer to save them as files named after the target table. Here is what the end results might look like.
+- Generate the DDL code for the target tables with Ctrl+D (Command+D on Mac), and generate the ETL SQL code with Ctrl+G (Command+G). The Code Generator will offer to save them as files named after the target table.
+![Save ETL screenshot](/assets/dwh-sql-codegen/tutorial-save-etl.png)
+Here is what the end results might look like.
 
 Target table DDL script:
 
