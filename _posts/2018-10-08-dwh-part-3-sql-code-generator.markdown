@@ -15,6 +15,7 @@ You can find a tutorial on how to use the Code Generator in the README of [the r
 
 - Create and run a DDL for a staging table with the same structure as the original in a source database (usually just by coping the table DDL from pgAdmin), but without any indexes.
 Staging table DDL:
+
 ```sql
 drop table if exists stage.customer;
 
@@ -37,6 +38,7 @@ grant all on stage.customer to write_stage;
 
 - Prepare the SQL to truncate the staging table and load into it either the last several days of changes, or the full source table (depending on a parameter substituted before the script execution by the ETL processes). The first load will obviously be a full load. Note that we specify the exact list of columns when selecting from a source table. This makes sure the ETL doesn't fail when the a column is added. We can always add missing new columns later and reload the data.
 Staging table Load script:
+
 ```sql
 select stage.dblink_connect('product','host=#PSQL_PRODUCT_SERVER# port=#PSQL_PRODUCT_PORT# dbname=#PSQL_PRODUCT_DB# user=#PSQL_PRODUCT_LOGIN# password=#PSQL_PRODUCT_PASS#');
 
@@ -96,6 +98,7 @@ select stage.dblink_disconnect('product');
 ![Save ETL screenshot](/assets/dwh-sql-codegen/tutorial-save-etl.png)
 Here is what the end results might look like.
 Target table DDL script:
+
 ```sql
 -- Generating DDL for all required tables, only run if the tables don't exist yet
 
@@ -182,7 +185,9 @@ create index dim_customer_main_history_email_key_idx
 on dw.dim_customer_main_history using btree
 (email_key);
 ```
+
 Target table Load script:
+
 ```sql
 
 -- ETL code for loading stage.customer to dw.dim_customer_main
