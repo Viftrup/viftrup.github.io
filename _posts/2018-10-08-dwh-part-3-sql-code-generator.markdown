@@ -12,10 +12,9 @@ So we need some kind of configuration for each of the tables we want to generate
 My "weapon of choice" for the code generator is Python, and after trying out several cross-platform UI libraries, I ended up choosing WxWidgets. The resulting tool is open-source, you can find the Git repository here: [https://github.com/dmytro-lytvyn/dwh-sql-codegen](https://github.com/dmytro-lytvyn/dwh-sql-codegen). The code itself is very hacky and not really reusable, because as soon as it started to work, it already fulfilled its purpose, and since it's only used once for every table we need to import, I can tolerate some small UI-related bugs. Ideally, it would be nice to separate the UI from the code generation completely, and also move out SQL code snippets into a separate configurable template storage, but I have more interesting things to work on in my spare time :) But if you're interested, please feel free to contribute.
 
 You can find a tutorial on how to use the Code Generator in the README of [the repository](https://github.com/dmytro-lytvyn/dwh-sql-codegen). But if we look at the process from the start, the typical use-case scenario to import a new table into DWH is the following:
+
 - Create and run a DDL for a staging table with the same structure as the original in a source database (usually just by coping the table DDL from pgAdmin), but without any indexes.
-
 Staging table DDL:
-
 ```sql
 drop table if exists stage.customer;
 
@@ -37,9 +36,7 @@ grant all on stage.customer to write_stage;
 ```
 
 - Prepare the SQL to truncate the staging table and load into it either the last several days of changes, or the full source table (depending on a parameter substituted before the script execution by the ETL processes). The first load will obviously be a full load. Note that we specify the exact list of columns when selecting from a source table. This makes sure the ETL doesn't fail when the a column is added. We can always add missing new columns later and reload the data.
-
 Staging table Load script:
-
 ```sql
 select stage.dblink_connect('product','host=#PSQL_PRODUCT_SERVER# port=#PSQL_PRODUCT_PORT# dbname=#PSQL_PRODUCT_DB# user=#PSQL_PRODUCT_LOGIN# password=#PSQL_PRODUCT_PASS#');
 
@@ -83,19 +80,22 @@ select stage.dblink_disconnect('product');
 
 - Run the SQL Code Generator, add a Project and Stage Db, select and import the new staging table into a specific project in it.
 ![Stage DB screenshot](/assets/dwh-sql-codegen/tutorial-stage-db.png)
+
 - Rename the target table, specify the target database schema and some other parameters on table level, like whether we need to check for changed our deleted records or whether we need to store the changes history. Of course, to check for deleted records, you will need to fully load the staging table from the source every time!
 ![Table configuration screenshot](/assets/dwh-sql-codegen/tutorial-stage-customer.png)
+
 - Check the list of columns and adapt the column types where necessary. It's also possible to change the existing or add new columns with custom SQL expressions.
+
 - Select one or more columns making up the business key.
 ![Customer columns screenshot](/assets/dwh-sql-codegen/tutorial-dim_customer.png)
+
 - For each foreign key, select the target table and some additional parameters like whether we want to create inferred records if the target record is missing, the column name to be populated with the known value for such cases, whether this column can be used as a "date_updated" column, whether this column should be indexed etc.
 ![Inferred columns screenshot](/assets/dwh-sql-codegen/tutorial-inferred.png)
+
 - Generate the DDL code for the target tables with Ctrl+D (Command+D on Mac), and generate the ETL SQL code with Ctrl+G (Command+G). The Code Generator will offer to save them as files named after the target table.
 ![Save ETL screenshot](/assets/dwh-sql-codegen/tutorial-save-etl.png)
 Here is what the end results might look like.
-
 Target table DDL script:
-
 ```sql
 -- Generating DDL for all required tables, only run if the tables don't exist yet
 
@@ -182,11 +182,7 @@ create index dim_customer_main_history_email_key_idx
 on dw.dim_customer_main_history using btree
 (email_key);
 ```
-
-
-
 Target table Load script:
-
 ```sql
 
 -- ETL code for loading stage.customer to dw.dim_customer_main
