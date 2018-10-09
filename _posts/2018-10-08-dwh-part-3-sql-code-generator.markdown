@@ -13,8 +13,8 @@ My "weapon of choice" for the code generator is Python, and after trying out sev
 
 You can find a tutorial on how to use the Code Generator in the README of [the repository](https://github.com/dmytro-lytvyn/dwh-sql-codegen). But if we look at the process from the start, the typical use-case scenario to import a new table into DWH is the following:
 - Create and run a DDL for a staging table with the same structure as the original in a source database (usually just by coping the table DDL from pgAdmin), but without any indexes.
-<details>
-  <summary>Staging table DDL (click to expand)</summary>
+
+Staging table DDL:
 
 ```sql
 drop table if exists stage.customer;
@@ -36,10 +36,9 @@ grant select on stage.customer to read_stage;
 grant all on stage.customer to write_stage;
 ```
 
-</details>
 - Prepare the SQL to truncate the staging table and load into it either the last several days of changes, or the full source table (depending on a parameter substituted before the script execution by the ETL processes). The first load will obviously be a full load. Note that we specify the exact list of columns when selecting from a source table. This makes sure the ETL doesn't fail when the a column is added. We can always add missing new columns later and reload the data.
-<details>
-  <summary>Staging table Load script (click to expand)</summary>
+
+Staging table Load script:
 
 ```sql
 select stage.dblink_connect('product','host=#PSQL_PRODUCT_SERVER# port=#PSQL_PRODUCT_PORT# dbname=#PSQL_PRODUCT_DB# user=#PSQL_PRODUCT_LOGIN# password=#PSQL_PRODUCT_PASS#');
@@ -82,7 +81,6 @@ as t1 (
 select stage.dblink_disconnect('product');
 ```
 
-</details>
 - Run the SQL Code Generator, add a Project and Stage Db, select and import the new staging table into a specific project in it.
 ![Stage DB screenshot](/assets/dwh-sql-codegen/tutorial-stage-db.png)
 - Rename the target table, specify the target database schema and some other parameters on table level, like whether we need to check for changed our deleted records or whether we need to store the changes history. Of course, to check for deleted records, you will need to fully load the staging table from the source every time!
@@ -93,8 +91,8 @@ select stage.dblink_disconnect('product');
 - For each foreign key, select the target table and some additional parameters like whether we want to create inferred records if the target record is missing, the column name to be populated with the known value for such cases, whether this column can be used as a "date_updated" column, whether this column should be indexed etc.
 ![Inferred columns screenshot](/assets/dwh-sql-codegen/tutorial-inferred.png)
 - Generate the DDL code for the target tables with Ctrl+D (Command+D on Mac), and generate the ETL SQL code with Ctrl+G (Command+G). The Code Generator will offer to save them as files named after the target table. Here is what the end results might look like.
-<details>
-  <summary>Target table DDL script (click to expand)</summary>
+
+Target table DDL script:
 
 ```sql
 -- Generating DDL for all required tables, only run if the tables don't exist yet
@@ -183,11 +181,9 @@ on dw.dim_customer_main_history using btree
 (email_key);
 ```
 
-</details>
 
 
-<details>
-  <summary>Target table Load script (click to expand)</summary>
+Target table Load script:
 
 ```sql
 
@@ -549,15 +545,13 @@ analyze dw.dim_customer_main;
 commit;
 ```
 
-</details>
 - The only this left to do is to add two scripts to the ETL process: loading the staging table with recent changes, and executing our auto-generated script to load the data into DWH, and set the dependency between them.
 
 Actually, the ETL script we generated doesn't care whether you load the full table or just the recent changes, it will only update the new or changed records anyway, but it will take more time with full loads (as mentioned above, to track deleted records, you have to do a full load every time).
 
 Since the configuration is stored in a SQLite file, whenever a source table is changed, you only have to add it in the staging table loading script, adapt for this change in the interface (typically, just add a new column) and re-save the generated files. And of course, manually update the structure of the existing tables respectively (for the staging table, main and history DWH tables). You can if course drop and re-create the target tables and reload then again, but then you'll lose the old changes history.
 
-<details>
-  <summary>Adding a new column to the existing tables (click to expand)</summary>
+Adding a new column to the existing tables:
 
 ```sql
 alter table stage.customer add column new_column varchar(255);
@@ -565,4 +559,3 @@ alter table dw.dim_customer_main add column new_column varchar(255);
 alter table dw.dim_customer_main_history add column new_column varchar(255);
 ```
 
-</details>
