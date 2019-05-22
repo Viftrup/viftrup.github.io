@@ -9,11 +9,11 @@ As we found out in the [previous article](/dwh-part-2-architecture/), to properl
 
 So we need some kind of configuration for each of the tables we want to generate ETL code for. We can, of course, prepare such configs in some text files, and run the code generator from a command line, but that would not be very user-friendly. Also, it would be nice to be able to have a UI to just select a staging table from a list, allow the tool to obtain the list of columns from it automatically, and then select the business key and foreign key columns by just clicking on them. And since we're obviously not going to write the configuration by hand, it would make sense to store it in a single location, for example SQLite database file.
 
-My "weapon of choice" for the code generator is Python, and after trying out several cross-platform UI libraries, I ended up choosing WxWidgets. The resulting tool is open-source, you can find the Git repository here: [https://github.com/dmytro-lytvyn/dwh-sql-codegen](https://github.com/dmytro-lytvyn/dwh-sql-codegen). The code itself is very hacky and not really reusable, because as soon as it started to work, it already fulfilled its purpose, and since it's only used once for every table we need to import, I can tolerate some small UI-related bugs. Ideally, it would be nice to separate the UI from the code generation completely, and also move out SQL code snippets into a separate configurable template storage, but I have more interesting things to work on in my spare time :) But if you're interested, please feel free to contribute.
+My "weapon of choice" for the code generator is Python, and after trying out several cross-platform UI libraries, I ended up choosing WxWidgets. The resulting tool is open-source, you can find the Git repository here: [https://github.com/dmytro-lytvyn/dwh-sql-codegen](https://github.com/dmytro-lytvyn/dwh-sql-codegen). The code itself is very hacky and not really reusable, because as soon as it started to work, it has already fulfilled its purpose, and since it's only used once for every table we need to import, I can tolerate some small UI-related bugs. Ideally, it would be nice to separate the UI from the code generation completely, and also move out SQL code snippets into a separate configurable template storage, but I have more interesting things to work on in my spare time :) But if you're interested, please feel free to contribute.
 
 You can find a tutorial on how to use the Code Generator in the README of [the repository](https://github.com/dmytro-lytvyn/dwh-sql-codegen). But if we look at the process from the start, the typical use-case scenario to import a new table into DWH is the following:
 
-- Create and run a DDL for a staging table with the same structure as the original in a source database (usually just by coping the table DDL from pgAdmin), but without any indexes.
+- Create and run a DDL for a staging table with the same structure as the original in a source database (usually just by copying the table DDL from pgAdmin), but without any indexes.
 Staging table DDL:
 
 ```sql
@@ -36,7 +36,7 @@ grant select on stage.customer to read_stage;
 grant all on stage.customer to write_stage;
 ```
 
-- Prepare the SQL to truncate the staging table and load into it either the last several days of changes, or the full source table (depending on a parameter substituted before the script execution by the ETL processes). The first load will obviously be a full load. Note that we specify the exact list of columns when selecting from a source table. This makes sure the ETL doesn't fail when the a column is added. We can always add missing new columns later and reload the data.
+- Prepare the SQL to truncate the staging table and load into it either the last several days of changes, or the full source table (depending on a parameter substituted before the script execution by the ETL processes). The first load will obviously be a full load. Note that we specify the exact list of columns when selecting from a source table. This makes sure the ETL doesn't fail when a column is added. We can always add missing new columns later and reload the data.
 Staging table Load script:
 
 ```sql
@@ -548,11 +548,11 @@ analyze dw.dim_customer_main;
 commit;
 ```
 
-- The only this left to do is to add two scripts to the ETL process: loading the staging table with recent changes, and executing our auto-generated script to load the data into DWH, and set the dependency between them.
+- The only thing left to do is to add two scripts to the ETL process: loading the staging table with recent changes, and executing our auto-generated script to load the data into DWH, and set the dependency between them.
 
 Actually, the ETL script we generated doesn't care whether you load the full table or just the recent changes, it will only update the new or changed records anyway, but it will take more time with full loads (as mentioned above, to track deleted records, you have to do a full load every time).
 
-Since the configuration is stored in a SQLite file, whenever a source table is changed, you only have to add it in the staging table loading script, adapt for this change in the interface (typically, just add a new column) and re-save the generated files. And of course, manually update the structure of the existing tables respectively (for the staging table, main and history DWH tables). You can if course drop and re-create the target tables and reload then again, but then you'll lose the old changes history.
+Since the configuration is stored in a SQLite file, whenever a source table is changed, you only have to add it in the staging table loading script, adapt for this change in the interface (typically, just add a new column) and re-save the generated files. And of course, manually update the structure of the existing tables respectively (for the staging table, main and history DWH tables). You can of course drop and re-create the target tables and reload then again, but then you'll lose the old changes history.
 
 Adding a new column to the existing tables:
 

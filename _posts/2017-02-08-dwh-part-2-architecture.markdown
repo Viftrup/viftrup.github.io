@@ -39,7 +39,7 @@ It will only work with the data that never changes, because you won't load a rec
 
 **Option #2**: load all records where date_created or record ID is bigger than the maximal date or ID you already have in your table.
 
-This, again, eliminates the possibility to load the changes, plus it requires you to either store the maximal date/ID per source table somewhere, or select it from DWH tables dynamically, and somehow link this information to the source systems. And joining data between separate systems is a bad idea from the performance point of view. 
+This, again, eliminates the possibility to load the changes, plus it requires you to either store the maximal date/ID per source table somewhere, or select it from DWH tables dynamically, and somehow link this information to the source systems. And joining data between separate systems is a bad idea from a performance point of view. 
 Moreover, nobody can guarantee that the newly created ID or even date_created is always bigger than previous values in the same table.
 
 **Option #3**: loading the most recent changes using date_updated column.
@@ -64,7 +64,7 @@ We made sure we're not missing any new or changed records now, but how to merge 
 
 This method will work, but there are two performance/usability concerns:
 
-- To find out whether you need to insert or to update a record, you need to scan the whole target table for every record in a staging table, to see if it already exists there. This becomes even harder if the table's Primary Key is composite (consists of two or more columns). SQL becomes clumsy:
+- To find out whether you need to insert or update a record, you need to scan the whole target table for every record in a staging table, to see if it already exists there. This becomes even harder if the table's Primary Key is composite (consists of two or more columns). SQL becomes clumsy:
 
 Syntax with NOT IN for multiple columns, working in Postgres/Oracle:
 
@@ -150,9 +150,9 @@ from staging_table s
 where t.pk_column1 = s.pk_column1
     and t.pk_column2 = s.pk_column2
     and (
-        colesce(t.text_column1, '<NULL>') != colesce(s.text_column1, '<NULL>')
-        or colesce(cast(t.int_column2 as varchar), '') != colesce(cast(s.int_column2 as varchar), '')
-        or colesce(to_char(t.date_column3, 'YYYY-MM-DD'), '') != colesce(to_char(s.date_column3, 'YYYY-MM-DD'), '')
+        coalesce(t.text_column1, '<NULL>') != coalesce(s.text_column1, '<NULL>')
+        or coalesce(cast(t.int_column2 as varchar), '') != coalesce(cast(s.int_column2 as varchar), '')
+        or coalesce(to_char(t.date_column3, 'YYYY-MM-DD'), '') != coalesce(to_char(s.date_column3, 'YYYY-MM-DD'), '')
     )
 );
 ```
@@ -161,7 +161,7 @@ Now imagine you need to write that for a table with 130 columns (i.e. Snowplow e
 
 #### Optimized approach
 
-Let's think how to optimize this from the performance point of view, and also whether we can make those SQLs more generic.
+Let's think how to optimize this from a performance point of view, and also whether we can make those SQLs more generic.
 
 ##### PK Lookup table
 
@@ -254,7 +254,7 @@ create table target_table_batch_info (
 
 This requirement will be easy to fulfill, because we already have defined a Business Key for every Entity we load, and even found an optimized approach as to how to figure out, whether the Business Key already exists in the target table or not.
 
-But we still haven't considered the case, when there are possible duplicates in the source table, or in the staging table we load from (for example, because of some issue with the ETL process). Of course, we need to load only one of such duplicated records, but the question is - which one? Preferrably, the one with the most recent data. This is where we also need date_updated column. We can assign the duplicated records the sequential numbers using the analytical function row_number(), and sort them by date_updated in descending order. But what if even the date_updated is the same for the duplicated records? If the records are completely equal, we don't care which one to take, but what if at least one field differs? Well, we still need to choose only one, but what is important, is that we always select the same one if we run the script twice, or load the same data on the different servers. Luckily, we already have an answer for comparing the differences in two records, which is the Hash field. It's (almost) guaranteed to be different for different records, so we can use it in the "order by" statement to always order the records in the same way.
+But we still haven't considered the case, when there are possible duplicates in the source table, or in the staging table we load from (for example, because of some issue with the ETL process). Of course, we need to load only one of such duplicated records, but the question is - which one? Preferably, the one with the most recent data. This is where we also need date_updated column. We can assign the duplicated records the sequential numbers using the analytical function row_number(), and sort them by date_updated in descending order. But what if even the date_updated is the same for the duplicated records? If the records are completely equal, we don't care which one to take, but what if at least one field differs? Well, we still need to choose only one, but what is important, is that we always select the same one if we run the script twice, or load the same data on the different servers. Luckily, we already have an answer for comparing the differences in two records, which is the Hash field. It's (almost) guaranteed to be different for different records, so we can use it in the "order by" statement to always order the records in the same way.
 
 As a result, we have the following calculation of the row number per Business Key and we will only load the records with row_number = 1:
 
@@ -276,7 +276,7 @@ Of course, changes can happen not only in Dimensions, but also in Facts, althoug
 
 ### Choosing the best approach
 
-If you have already read about the different types of Slowly Changing Dimensions, you might be surprised by some of them (Type 1 - "overwrite" and Type 3 - "add new attribute"), where we simply overwrite the previous values, or only store one previous value per attribute instead of the whole history. I think the explanation is simple: these approaches made sense decades ago, when every kilobyte of disk space was valuable. Nowadays, disk space is negligibly cheap and the data is significantly more valuable the disk space, so we can disregard those approaches.
+If you have already read about the different types of Slowly Changing Dimensions, you might be surprised by some of them (Type 1 - "overwrite" and Type 3 - "add new attribute"), where we simply overwrite the previous values, or only store one previous value per attribute instead of the whole history. I think the explanation is simple: these approaches made sense decades ago, when every kilobyte of disk space was valuable. Nowadays, disk space is negligibly cheap and the data is significantly more valuable than disk space, so we can disregard those approaches.
 
 Now we can choose, whether to use SCD Type 2 - "add new row", Type 4 - "add history table", or a so-called Type 6 - "hybrid" approach. From my point of view, we should not generate a new surrogate Entity Key for every change of the record, because then a) we'll have to make sure all facts referring this dimension are assigned a correct key, and b) it simply forces the users to always select the historical data, which might not be their intention. In fact, from my experience, we need to get the historical data significantly more rarely than just a simple current state, which is what people expect "by default".
 
@@ -297,9 +297,9 @@ Unfortunately, option 1 makes the normal data querying more complicated and erro
 
 With the second option, this issue is solved. When users need the current versions of data, they just select from the main table as usual, and when they need the history, they use the historical table instead, and apply a condition by date.
 
-However, that means that the current version of the record will have to be in two tables at once (which is not a big issue), but also that we'll have to update those current records not only in the main table, but also the history table, as soon as they become obsolete (to set them the ending date). And this is already a more serious problem, because if we want to achieve the best performance, we should avoid updating the records that were written to the DWH. Each update is essentially a combination of delete and insert operations, and it requires the database engine to perform vacuuming if the tables, etc.
+However, that means that the current version of the record will have to be in two tables at once (which is not a big issue), but also that we'll have to update those current records not only in the main table, but also the history table (potentially huge), as soon as they become obsolete (to set them the ending date). And this is already a more serious problem, because if we want to achieve the best performance, we should avoid updating the records that were written to the DWH. Each update is essentially a combination of delete and insert operations, and it requires the database engine to perform vacuuming if the tables, etc.
 
-An alternative to that is to simply not have the ending date for a historical record, and just have a starting date. If course, it means that every select of historical data requires users to write a window function, getting the next starting date per Entity Key (which would be the ending date), wrap it in a sub-query, and only then use it in the join or filter expression. The performance of such queries will be low and the complexity will be high.
+An alternative to that is to simply not have the ending date for a historical record, and just have a starting date. Of course, it means that every select of historical data requires users to write a window function, getting the next starting date per Entity Key (which would be the ending date), wrap it in a sub-query, and only then use it in the join or filter expression. The performance of such queries will be low and the complexity will be high.
 
 #### 3. Have a normal table with current values, plus a separate table with just the history
 
@@ -375,7 +375,7 @@ It can be joined as a subquery as usual, with additional condition:
 and some_event_date between batch_date and batch_date_new
 ```
 
-Inserting into such table is also quite straightforward - we simply insert there the data from both main target table and its "Batch Info" table, plus the information about the current batch, which caused the record to go to history.
+Inserting into such table is also quite straightforward - we simply insert the data from both main target table and its "Batch Info" table, plus the information about the current batch, which caused the record to go to history.
 
 After that, we can delete the old records from the main target table and insert the new and updated ones, and also update the records in "Batch Info" table with the new values.
 

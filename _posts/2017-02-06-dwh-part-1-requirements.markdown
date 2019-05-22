@@ -15,7 +15,7 @@ Good, it already gives us some basic information. The DWH is basically a storage
 
 From my experience, there are several types, or rather stages, of BI implementation in different companies:
 
-### 1. No separate BI system at all.
+## 1. No separate BI system at all.
 
 A lot of companies in the beginning simply use their operational systems for some basic reporting. Most reporting is done in Excel at this stage, by manually populating the numbers like monthly totals, and copying them from one spreadsheet to another.
 
@@ -25,7 +25,7 @@ The information from other third party systems needs to be analysed, like custom
 
 Thus, the company now requires a single storage for all these data, allowing to somehow link them together.
 
-### 2. BI system as a plain copy of one or more operational systems.
+## 2. BI system as a plain copy of one or more operational systems.
 
 At this point, we already can see the first requirement to our DWH.
 
@@ -37,11 +37,11 @@ This is not a strict requirement and there are approaches to DWH that heavily no
 
 Following the basic requirements, companies choose the simplest approach to data warehousing: simply copying all data from operational systems to a dedicated BI database as is, often not even incrementally, but the complete tables every day. Then, some transformations and aggregations are done, to prepare the data for the reports.
 
-Such approach might help to assemble data from different systems in one, and keeps the familiar tables structure of the operational systems, but does not provide any storage capabilities - if something is lost in Operational database, it's lost in DWH, too. If some data are broken in the operational system, they are broken in DWH too, and are useless for reporting.
+Such an approach might help to assemble data from different systems in one, and keeps the familiar tables structure of the operational systems, but does not provide any storage capabilities - if something is lost in Operational database, it's lost in DWH, too. If some data are broken in the operational system, they are broken in DWH too, and are useless for reporting.
 
 Additionally, as the company grows, the amount of data grows even faster, and "full daily reloads" very quickly start to take the whole night to finish.
 
-### 3. Fully-featured DWH system
+## 3. Fully-featured DWH system
 
 In order to optimize the loading times, we need to introduce the incremental data loads, i.e. only the recently changed data should be written to the DWH during the load. Unfortunately, when implementing the incremental data load "by hand", it's very easy to either miss some data, or load it twice (for example, when you try to delete and then reload the recently changed data by timestamp). DWH must "natively" support the incremental data loads, so that it never has duplicated data. This will also help with tracking the changes and storing the historical data.
 
@@ -61,9 +61,9 @@ As we have already discussed, one of the major requirements to the DWH is storin
 
 **Requirement to DWH #5**: when information is stored, it must not be lost. Therefore, all changes of the source data must be reflected in the history tables.
 
-If we now look at Oracle's [Introduction to Data Warehousing Concepts](https://docs.oracle.com/database/121/DWHSG/concept.htm), we'll see that Bill Inmon's DWH characteristics are very close to what we came up with: "Integrated" means of possibility to link diverse data and avoid inconsistencies, "Nonvolatile" and "Time Variant" refer to the requirement to keep all incoming information and track the history of changes. The only thing we deceded to avoid is the reorganization of data to be "Subject Oriented", because it contradicts the requirements #2 and #3 (keeping the existing data structures and best performance for both writing and reading the data).
+If we now look at Oracle's [Introduction to Data Warehousing Concepts](https://docs.oracle.com/database/121/DWHSG/concept.htm), we'll see that Bill Inmon's DWH characteristics are very close to what we came up with: "Integrated" means of possibility to link diverse data and avoid inconsistencies, "Nonvolatile" and "Time Variant" refer to the requirement to keep all incoming information and track the history of changes. The only thing we decided to avoid is the reorganization of data to be "Subject Oriented", because it contradicts the requirements #2 and #3 (keeping the existing data structures and best performance for both writing and reading the data).
 
-### Summary
+## 4. Summary
 
 Let's review the list requirements to the DWH we came up with:
 
