@@ -1,0 +1,17 @@
+Privacy Policy
+
+Below is some information on the types of personal information received and collected when you visit this website (data-for.me), what it's for and how it’s being collected.
+We never sell or give away any of the collected data to third parties.
+
+Cookies
+
+Cookies are used on this website to store information for analytical purposes. The only service that uses cookies on this website is a custom event tracker that sends event logs to a backend server. There are no additional tracking services like Google Analytics, Facebook or anything else on this website.
+
+Event Log
+
+As with most other websites you visit online, we collect event data contained in logs.
+The information in the event log files includes your IP (internet protocol) address, the browser you used to visit our website (such as Google Chrome or Firefox), the time you visited our website and which pages you visited throughout your visit.
+
+Event logs are used for analytical purposes (seeing how many people visit the website, what pages they read, where they came from etc.), and cookies simply allow to distinguish a new visitor from a recurring one.
+
+You can choose to disable or selectively turn off our cookies in your browser settings.
