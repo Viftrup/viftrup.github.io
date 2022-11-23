@@ -47,7 +47,7 @@ The Umbrella Root CA is not automaticlly trusted by computers and browsers, mean
 
 And since over 80% of todays web-servers enforce the HTTPS protocol, this would be a common senario. In order to make this efficent, it is highly recommended to push the "middle-man" (Umbrella certificate in this case) onto the company machines either through MDM-software or Group Policies in AD.
 
-For BYOD (Bring Your Own Device) senarios where you're not in charge of the systems, there unfourently isn't any possibility to have this block page shown efficently over a HTTPS connection.
+For BYOD (Bring Your Own Device) senarios where you're not in charge of the systems, there unfourently isn't any possibility to have this block page shown efficently over a HTTPS connection. Unless manually trusting the certificate or proceeding through the warning.
 
 <h2>Closing remarks</h2>
 This will be the senario no matter if you're using Cisco Umbrella or another 3rd part solution for this kind of DNS/block page protection.
