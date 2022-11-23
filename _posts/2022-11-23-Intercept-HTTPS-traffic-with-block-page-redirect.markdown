@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Intercepting HTTPS traffic and redirecting to custom blockpage for information"
+title: "Intercepting HTTPS traffic and redirecting to custom block page for explanation"
 author: Alexander Viftrup Andersen
 categories: [Umbrella, Security]
 ---
