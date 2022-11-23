@@ -37,7 +37,20 @@ This was pretty straight forward as the request wasn't sent with the HTTP<b>S</b
 
 If the employee were to enter by using http<b>s</b>://facebook.com and thereby requring validation and certificate exchange between the employee endpoint and the facebook.com webserver, the senario would be different.
 In such case the employee's webbrowser would expect to be presented by a certificate matching the CN (Common Name) of facebook.com - however due to the policy put in place, we don't want the employee to enter facebook.com but instead we want to present the Cisco Umbrella block-page.
-Due to the HTTPS protocol being used, Umbrella is forced to do a "man-in-the-middle attack" and in order to convince the endpoints browser, create a "fake" certificate issued by Umbrella matching the CN of facebook.com, and thereby convince the browser that Umbrella block-page is holding the "legit" facebook.com certificate and it should proceed.
+Due to the HTTPS protocol being used, Umbrella is forced to do a "man-in-the-middle attack" and in order to convince the endpoint browser, create a "fake" certificate issued by Umbrella sub-CA matching the CN of facebook.com, and thereby convince the browser that Umbrella block-page is providing the "legit" facebook.com certificate and it should proceed.
 
+-..... Block page Facebook.com certificate example .....-
 
+This however of course seems like a security issue, if things were this easy...
 
+The Umbrella Root CA is not automaticlly trusted by computers and browsers, meaning that without any certificates manually stored on the endpoint or pushed through MDM/GPOs the redirect of Umbrella would present the famous "Your connection is not secure/private" due to the certificate-chain not being trusted. And the company of course had security awareness training of employees learning that they should <b>never</b> bypass such warning.
+
+And since over 80% of todays web-servers enforce the HTTPS protocol, this would be a common senario. In order to make this efficent, it is highly recommended to push the "middle-man" (Umbrella certificate in this case) onto the company machines either through MDM-software or Group Policies in AD.
+
+For BYOD (Bring Your Own Device) senarios where you're not in charge of the systems, there unfourently isn't any possibility to have this block page shown efficently over a HTTPS connection.
+
+<h2>Closing remarks</h2>
+This will be the senario no matter if you're using Cisco Umbrella or another 3rd part solution for this kind of DNS/block page protection.
+Including the consumer-friendly Pi-Hole https://pi-hole.net/ solution.
+
+As frustating as it might seems, this is for the greater good and by the standard of the HTTPS protocol.
