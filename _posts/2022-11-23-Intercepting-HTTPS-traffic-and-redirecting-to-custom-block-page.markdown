@@ -29,7 +29,7 @@ Certificates is introduced in order to keep data secure, verify the actual owner
 With that in mind we continue to look at the redirect to a block page, in case of an employee entering Facebook.com and being blocked.
 
 If the employee were to enter <b>http</b>://facebook.com (and not being redirected to the HTTPS version) they would be blocked, and by ex. Cisco Umbrella be redirected for a customised block page hosted by Cisco Umbrella, which actually has nothing to do with Facebook.com
-![HTTP example.com block page](/assets/pictures/facebook-umbrella-certificate.png)
+![HTTP example.com block page](/assets/pictures/b62f9ed-block_page_example.jpeg.jpeg)
 <i>Picture shows "example.com" - this could be "facebook.com"</i>
 
 In other terms Umbrella actually did a kind of "man-in-the-middle" attack, meaning that it "hi-jacked" the request from the employee and by policy it told not to allow Facebook.com and thereby instead redirected the user to an Cisco Umbrella block-page, instead of the Facebook news feed.
@@ -40,7 +40,7 @@ If the employee were to enter by using http<b>s</b>://facebook.com and thereby r
 In such case the employee's webbrowser would expect to be presented by a certificate matching the CN (Common Name) of facebook.com - however due to the policy put in place, we don't want the employee to enter facebook.com but instead we want to present the Cisco Umbrella block-page.
 Due to the HTTPS protocol being used, Umbrella is forced to do a "man-in-the-middle attack" and in order to convince the endpoint browser, create a "fake" certificate issued by Umbrella sub-CA matching the CN of facebook.com, and thereby convince the browser that Umbrella block-page is providing the "legit" facebook.com certificate and it should proceed.
 
--..... Block page Facebook.com certificate example .....-
+![HTTPS Facebook.com Umbrella certificate](/assets/pictures/facebook-umbrella-certificate.png)
 
 This however of course seems like a security issue, if things were this easy...
 
