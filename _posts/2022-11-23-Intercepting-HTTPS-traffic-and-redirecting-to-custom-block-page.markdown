@@ -29,7 +29,8 @@ Certificates is introduced in order to keep data secure, verify the actual owner
 With that in mind we continue to look at the redirect to a block page, in case of an employee entering Facebook.com and being blocked.
 
 If the employee were to enter <b>http</b>://facebook.com (and not being redirected to the HTTPS version) they would be blocked, and by ex. Cisco Umbrella be redirected for a customised block page hosted by Cisco Umbrella, which actually has nothing to do with Facebook.com
--...... Block Page Example Picture ......-
+![HTTP example.com block page](/assets/pictures/facebook-umbrella-certificate.png)
+<i>Picture shows "example.com" - this could be "facebook.com"</i>
 
 In other terms Umbrella actually did a kind of "man-in-the-middle" attack, meaning that it "hi-jacked" the request from the employee and by policy it told not to allow Facebook.com and thereby instead redirected the user to an Cisco Umbrella block-page, instead of the Facebook news feed.
 
