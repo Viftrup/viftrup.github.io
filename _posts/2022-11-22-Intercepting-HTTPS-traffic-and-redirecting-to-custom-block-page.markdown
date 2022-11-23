@@ -15,7 +15,7 @@ Depending on the implementation done this might be frustrating for the employee 
 
 Imagine this being a big company, with several thounds of users trying to access Facebook.com from the cooperative network, this could mean a lot of calls or tickets being sent at the daily operations team stating that their endpoints can no longer surf the internet.
 
-Another solution to this could be by introducing a "Block page" which would basiclly redirect the end-user to a customised website created by the IT-department, stating that Facebook.com is blocked due to company policy and where to send complains if they disagree on the block.
+Another solution to this could be by introducing a "Block page" which would basiclly redirect the end-user to a customized website created by the IT-department, stating that Facebook.com is blocked due to company policy and where to send complains if they disagree on the block.
 By redirecting the end-user to this page, might reduce the amount of incoming calls and tickets for the operations team, as the user is informed this only relates to Facebook.com being blocked, and with a statement why this has been implemented.
 
 However... This can pose another technical issue in the modern days of security and network - intercepting HTTPS requests.
@@ -28,7 +28,7 @@ Certificates is introduced in order to keep data secure, verify the actual owner
 
 With that in mind we continue to look at the redirect to a block page, in case of an employee entering Facebook.com and being blocked.
 
-If the employee were to enter <b>http</b>://facebook.com (and not being redirected to the HTTPS version) they would be blocked, and by ex. Cisco Umbrella be redirected for a customised block page hosted by Cisco Umbrella, which actually has nothing to do with Facebook.com
+If the employee were to enter <b>http</b>://facebook.com (and not being redirected to the HTTPS version) they would be blocked, and by ex. Cisco Umbrella be redirected for a customized block page hosted by Cisco Umbrella, which actually has nothing to do with Facebook.com
 ![HTTP example.com block page](/assets/pictures/b62f9ed-block_page_example.jpeg)
 <i>Picture shows "example.com" - this could be "facebook.com"</i>
 
