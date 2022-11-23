@@ -10,23 +10,23 @@ exclude:
   - "/vendor/"
 
 # Site settings
-title: Dmytro Lytvyn's blog
-subtitle: A blog about Data Warehouse, Data Platform and other related things
+title: Viftrup
+subtitle: Random security stuff by a tech nerd
 email: 
-name: Dmytro Lytvyn
+name: Alexander Viftrup Andersen
 description: >
-  A blog about Data Warehouse, Data Platform and other related things
+  Random security stuff by a tech nerd
 # Base URL of site (i.e. /blog). It should always start with a slash,
 # and never end with a slash. Set it to a blank value if hosting at the
 # root of your server.
 baseurl: "" # the subpath of your site, e.g. /blog/
-url: "https://dmytro-lytvyn.github.io" # the base hostname & protocol for your site
-cover: "/assets/header_image.jpg"
-logo: "/assets/logo.png"
+url: "https://viftrup.github.io" # the base hostname & protocol for your site
+# cover: "/assets/header_image.jpg"
+# logo: "/assets/logo.png"
 
 # Build settings
 markdown: kramdown
-paginate: 5
+paginate: 20
 paginate_path: "/page_:num/"
 inter_post_navigation: false
 highlightjs_theme: "monokai-sublime"
@@ -80,15 +80,15 @@ permalink: /:title/
 social:
   - name: GitHub
     icon: github
-    username: dmytro-lytvyn
-    url: https://github.com/dmytro-lytvyn/
+    username: 
+    url: 
     desc: Fork me on GitHub
     share: false
 
   - name: LinkedIn
     icon: linkedin
-    username: Dmytro Lytvyn
-    url: https://www.linkedin.com/in/dmytrolytvyn
+    username: 
+    url: 
     desc: Connect with me on LinkedIn
     share: true
 
@@ -97,7 +97,7 @@ social:
     username:
     url:
     desc: Add me to your Circles
-    share: true
+    share: false
 
   - name: Twitter
     icon: twitter
