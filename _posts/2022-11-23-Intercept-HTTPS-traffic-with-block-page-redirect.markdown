@@ -18,8 +18,6 @@ Imagine this being a big company, with several thounds of users trying to access
 Another solution to this could be by introducing a "Block page" which would basiclly redirect the end-user to a customised website created by the IT-department, stating that Facebook.com is blocked due to company policy and where to send complains if they disagree on the block.
 By redirecting the end-user to this page, might reduce the amount of incoming calls and tickets for the operations team, as the user is informed this only relates to Facebook.com being blocked, and with a statement why this has been implemented.
 
--...... Block Page Example Picture ......-
-
 However... This can pose another technical issue in the modern days of security and network - intercepting HTTPS requests.
 
 <h2>Intercepting HTTPS requests and redirect to block page</h2>
@@ -27,6 +25,19 @@ Nowadays the most common internet-browsing protocol is known as HTTP and its suc
 HTTP was a great protocol back in the days, but as technology envolves and security is manatory the majority of browsing in 2022 has converted using the more secure HTTP<b>S</b> variant which introduces the use of certificates between endpoint and server.
 
 Certificates is introduced in order to keep data secure, verify the actual ownership of the website and to prevent attackers from creating fake/look-a-like websites and lure them into entering personal data on the attackers website, instead of your web-banking.
+
+With that in mind we continue to look at the redirect to a block page, in case of an employee entering Facebook.com and being blocked.
+
+If the employee were to enter <b>http</b>://facebook.com (and not being redirected to the HTTPS version) they would be blocked, and by ex. Cisco Umbrella be redirected for a customised block page hosted by Cisco Umbrella, which actually has nothing to do with Facebook.com
+-...... Block Page Example Picture ......-
+
+In other terms Umbrella actually did a kind of "man-in-the-middle" attack, meaning that it "hi-jacked" the request from the employee and by policy it told not to allow Facebook.com and thereby instead redirected the user to an Cisco Umbrella block-page, instead of the Facebook news feed.
+
+This was pretty straight forward as the request wasn't sent with the HTTP<b>S</b> protocol, meaning there was no certifcate validation if the employee actually communicated with the Facebook.com webserver or was (hi-jacked) redirected onto another page/webserver - ex. the Umbrella block-page.
+
+If the employee were to enter by using http<b>s</b>://facebook.com and thereby requring validation and certificate exchange between the employee endpoint and the facebook.com webserver, the senario would be different.
+In such case the employee's webbrowser would expect to be presented by a certificate matching the CN (Common Name) of facebook.com - however due to the policy put in place, we don't want the employee to enter facebook.com but instead we want to present the Cisco Umbrella block-page.
+Due to the HTTPS protocol being used, Umbrella is forced to do a "man-in-the-middle attack" and in order to convince the endpoints browser, create a "fake" certificate issued by Umbrella matching the CN of facebook.com, and thereby convince the browser that Umbrella block-page is holding the "legit" facebook.com certificate and it should proceed.
 
 
 
