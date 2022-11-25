@@ -7,7 +7,8 @@ categories: [Umbrella, Security]
 Blocking specific internet categories or malicious activity based on DNS is becoming more popular, and often requires very little effort by the IT-department to implement.
 It introduces an efficient protection/enforcement of security and policies, with relatively low “time-to-action”
 
-Especially Cisco Umbrella which offers a range of DNS protection mechanisms does this very well - however there is a lot of different vendors which provides this kind of protection. (NGFWs might also be able to do parts of this)(Cisco Umbrella is also known as OpenDNS, and private consumers can also leverage some of the functionalities using this link [OpenDNS Services](https://www.opendns.com/home-internet-security/))
+Especially Cisco Umbrella which offers a range of DNS protection mechanisms does this very well - however there is a lot of different vendors which provides this kind of protection. (NGFWs might also be able to do parts of this)
+(Cisco Umbrella is also known as OpenDNS, and private consumers can also leverage some of the functionalities using this link [OpenDNS Services](https://www.opendns.com/home-internet-security/))
 
 Often enforcing and blocking specific internet-categories (either being due to company policies, or in order to protect employees from entering malicious sites) introduces more incoming tickets for the IT/Network department, as employees might not be able to access sites which they previously had no issues browsing. An example could be in order to boost employee productivity, the company has decided to block all websites being classified as "Social Media" by policy, which means Facebook.com would be inaccessible. 
 
