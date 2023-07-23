@@ -5,9 +5,7 @@ author: Alexander Viftrup Andersen
 categories: [Secure Client, SecureX, Security]
 ---
 Last year Cisco re-branded their famous and most broadly known VPN product AnyConnect into the Cisco Secure Client (CSC). 
-
 While AnyConnect and its modules is still exactly the same, the new CSC improves the possibilities now and in the future.
-
 One of the great features of CSC is the possibility to deploy the new "Cloud Management" (CM) module, which allows deep integration within the Cisco SecureX portal.
 
 <h3>What is Cisco SecureX?</h3>
