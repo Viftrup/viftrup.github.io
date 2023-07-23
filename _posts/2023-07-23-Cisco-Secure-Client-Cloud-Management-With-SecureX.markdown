@@ -37,7 +37,7 @@ While SecureX and the Cloud Management-module can keep both profiles and package
 <h3>Brief look into the portal and configuration</h3>
 As previously mentioned it is possible to control all the regular profiles within the SecureX platform, just like if you were to create profile within an ASA, FTD or through the VPN Profile Editor.
 Its also possible to upload existing XML profiles directly into the portal and migrate into the SecureX platform instead. (Be advised that some sections still require manual upload or some interaction with another portal - ex. Umbrella for getting the OrgInfo.json - rumours states it will be integrated directly into SecureX at some point, like Secure Endpoint feeds and links directly)
-<a href="assets/pictures/vpn-profile-deployment.png" data-lightbox="vpn-profile-large" data-title="My caption">Image #1</a>
+<a href="//blog.viftrup.eu/assets/pictures/vpn-profile-deployment.png" data-lightbox="vpn-profile-large" data-title="My caption">Image #1</a>
 <a href="//blog.viftrup.eu/assets/pictures/vpn-profile-deployment.png" data-lightbox="vpn-profile-large" data-title="VPN Profile Deployment"> <img src="//blog.viftrup.eu/assets/pictures/vpn-profile-deployment.png" title="Check out the Falcon 9 from SpaceX"> </a>
 ![VPN Profile Picture](/assets/pictures/vpn-profile-deployment.png)
 
