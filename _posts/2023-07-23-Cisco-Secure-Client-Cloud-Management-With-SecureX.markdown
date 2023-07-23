@@ -4,6 +4,16 @@ title: "Using SecureX to maintain versions, profiles and modules within Secure C
 author: Alexander Viftrup Andersen
 categories: [Secure Client, SecureX, Security]
 ---
+Last year Cisco re-branded their famous and most broadly known VPN product AnyConnect into the Cisco Secure Client (CSC). While AnyConnect and its modules is still exactly the same, the new CSC improves the possibilities now and in the future.
+One of the great features of CSC is the possibility to deploy the new "Cloud Management" (CM) module, which allows deep integration within the Cisco SecureX portal.
+
+<h3>What is Cisco SecureX?</h3>
+SecureX was launched in 2020 but is still unknown for a lot of IT professionals, even though it provides lots of capabilities and as a bonus - **it is free** if you're already an user of Cisco Secure products (Secure Firewall, Endpoint, Email, Umrbella and more)
+In short terms SecureX is a unified-experience between your suite of Cisco Secure products, by being able to integrate your products (Cisco Secure and selected 3rd parts) into one unified dashboard, gaining insights and easy cross-reference between your security suite.
+On top of that the integration of SecureX Orchestration enables your SecOps and NetOps to work closely together and enables both visibility and automation for both teams - being across network, endpoints or cloud.
+
+
+
 Blocking specific internet categories or malicious activity based on DNS is becoming more popular, and often requires very little effort by the IT-department to implement.
 It introduces an efficient protection/enforcement of security and policies, with relatively low “time-to-action”
 
