@@ -31,11 +31,27 @@ While SecureX and the Cloud Management-module can keep both profiles and package
      - Possibility to use Full or Network Installer when deploying new agents
 
   2. Cloud Registraion without Package Management
-     - CM would be registered and data feed into SecureX Device Insights
-     - Packages and profiles will still need to be maintained through SecureX, ASA, FTD, ISE etc.
+     - CM would be registered and data feed into SecureX Device Insights and en-rollment for ZTNA (Exicting Secure Access feature coming)
+     - Packages and profiles will still need to be maintained through SCCM, ASA, FTD, ISE etc.
 
+<h3>Brief look into the portal and configuration</h3>
+As previously mentioned it is possible to control all the regular profiles within the SecureX platform, just like if you were to create profile within an ASA, FTD or through the VPN Profile Editor.
+Its also possible to upload existing XML profiles directly into the portal and migrate into the SecureX platform instead. (Be advised that some sections still require manual upload or some interaction with another portal - ex. Umbrella for getting the OrgInfo.json - rumours states it will be integrated directly into SecureX at some point, like Secure Endpoint feeds and links directly)
+<Insert VPN Deployment Picture>
 
-  
+The important profile section regardless of the deployment method is the Cloud Management Profile, this profile is used to enable and change settings specific for the CM module.
+Current check-in interval cannot be lower than 2 hours (rumours states this will be possible to decrease in the future - however do not expect it to go under 30 minutes)
+In the far buttom there's the possibility to schedule windows for updating the client, modules and profiles.
+<Insert CM Profile Picture>
+
+Once all nessesary profiles has been created the last step is to setup a deployment which will utilize the modules and created profiles depending on the deployment function. (This is kind of similiar to creating group-policy and defining the needed modules and profiles to be included)
+Like with AnyConnect all modules rely on the same version to be running as AnyConnect, hence you'll not be able to select specific versions per module - expect for the CM and Secure Endpoint modules. Secure Endpoint integrates directly into the SecureX platform from Secure Endpoint portal, so you can select your instance and desired group directly in the SecureX platform.
+<Insert Small Deployment with dropdown picture>
+For versions the following is possible and notable:
+  - **Latest:** This is the latest version available on the Cisco Support site.
+  - **Recommended:** This is the current recommended/suggested version available on the Cisco Support site.
+  - **Version specific:** Hardcore the desired version to be running on this deployment.
+Keep in mind, if you change versions within an deployment which has been rolled out for users, it'll affect the clients once the CM module check-in timer hits.
 
 
 
