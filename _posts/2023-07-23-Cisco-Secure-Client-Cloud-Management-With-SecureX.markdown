@@ -9,7 +9,8 @@ While AnyConnect and its modules is still exactly the same, the new CSC improves
 One of the great features of CSC is the possibility to deploy the new "Cloud Management" (CM) module, which allows deep integration within the Cisco SecureX portal.
 
 <h3>What is Cisco SecureX?</h3>
-SecureX was launched in 2020 but is still unknown for a lot of IT professionals, even though it provides lots of capabilities and as a bonus - **it is free** if you're already an user of Cisco Secure products (Secure Firewall, Endpoint, Email, Umrbella and more)
+SecureX was launched in 2020 but is still unknown for a lot of IT professionals, even though it provides great capabilities and as a bonus - **it is free** if you're already an user of Cisco Secure products (Secure Firewall, Endpoint, Email, Umrbella and more)
+
 In short terms SecureX is a unified-experience between your suite of Cisco Secure products, by being able to integrate your products (Cisco Secure and selected 3rd parts) into one unified dashboard, gaining insights and easy cross-reference between your security suite.
 On top of that the integration of SecureX Orchestration enables your SecOps and NetOps to work closely together and enables both visibility and automation for both teams - being across network, endpoints or cloud.
 
