@@ -43,12 +43,12 @@ Its also possible to upload existing XML profiles directly into the portal and m
 The important profile section regardless of the deployment method is the Cloud Management Profile, this profile is used to enable and change settings specific for the CM module.
 Current check-in interval cannot be lower than 2 hours (rumours states this will be possible to decrease in the future - however do not expect it to go under 30 minutes)
 In the far buttom there's the possibility to schedule windows for updating the client, modules and profiles.
-<a href="//blog.viftrup.eu/assets/pictures/cloud-management-profile.png" data-lightbox="cloud-management-profile" data-title="Cloud Management Profile"> <img src="//blog.viftrup.eu/assets/pictures/vpn-profile-deployment.png" title="Click to enlarge - Cloud Management Profile"> </a>
+<a href="//blog.viftrup.eu/assets/pictures/cloud-management-profile.png" data-lightbox="cloud-management-profile" data-title="Cloud Management Profile"> <img src="//blog.viftrup.eu/assets/pictures/cloud-management-profile.png" title="Click to enlarge - Cloud Management Profile"> </a>
 
 
 Once all nessesary profiles has been created the last step is to setup a deployment which will utilize the modules and created profiles depending on the deployment function. (This is kind of similiar to creating group-policy and defining the needed modules and profiles to be included)
 Like with AnyConnect all modules rely on the same version to be running as AnyConnect, hence you'll not be able to select specific versions per module - expect for the CM and Secure Endpoint modules. Secure Endpoint integrates directly into the SecureX platform from Secure Endpoint portal, so you can select your instance and desired group directly in the SecureX platform.
-<a href="//blog.viftrup.eu/assets/pictures/small-deployment-dropdown.png" data-lightbox="small-deployment-dropdown" data-title="Deployment"> <img src="//blog.viftrup.eu/assets/pictures/vpn-profile-deployment.png" title="Click to enlarge - Deployment"> </a>
+<a href="//blog.viftrup.eu/assets/pictures/small-deployment-dropdown.png" data-lightbox="small-deployment-dropdown" data-title="Deployment"> <img src="//blog.viftrup.eu/assets/pictures/small-deployment-dropdown.png" title="Click to enlarge - Deployment"> </a>
 
 
 For versions the following is possible and notable:
