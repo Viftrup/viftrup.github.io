@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "Intercepting HTTPS traffic and redirecting to custom block page"
+title: "Using SecureX and Secure Client together with CM to maintain modules and profiles"
 author: Alexander Viftrup Andersen
-categories: [Umbrella, Security]
+categories: [Secure Client, SecureX, Security]
 ---
 Blocking specific internet categories or malicious activity based on DNS is becoming more popular, and often requires very little effort by the IT-department to implement.
 It introduces an efficient protection/enforcement of security and policies, with relatively low “time-to-action”
