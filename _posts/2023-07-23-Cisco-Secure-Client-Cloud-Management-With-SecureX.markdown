@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Using SecureX and Secure Client together with CM to maintain modules and profiles"
+title: "Using SecureX to maintain versions, profiles and modules within Secure Client installations"
 author: Alexander Viftrup Andersen
 categories: [Secure Client, SecureX, Security]
 ---
