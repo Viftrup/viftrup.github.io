@@ -51,9 +51,7 @@ Like with AnyConnect all modules rely on the same version to be running as AnyCo
 <Insert Small Deployment with dropdown picture>
 
 For versions the following is possible and notable:
-     - Control all profile configuration and module management in the cloud through SecureX portal
-     - Possibility to use Full or Network Installer when deploying new agents
-- **Latest:** This is the latest version available on the Cisco Support site.
+<li>- **Latest:** This is the latest version available on the Cisco Support site.</li>
 **Latest:** This is the latest version available on the Cisco Support site.
     - **Recommended:** This is the current recommended/suggested version available on the Cisco Support site.
     - **Version specific:** Hardcore the desired version to be running on this deployment.
