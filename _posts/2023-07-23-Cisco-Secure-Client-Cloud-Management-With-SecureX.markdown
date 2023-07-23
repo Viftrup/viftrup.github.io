@@ -62,20 +62,4 @@ For versions the following is possible and notable:
 
 
 
-<hr></hr>
-
-![HTTPS Facebook.com Umbrella certificate](/assets/pictures/facebook-umbrella-certificate.png)
-
-If all webservers were allowed to do a “man-in-the-middle” attack such as this, we would be facing a major problem. It would potentially allow any webserver to pose as your bank’s webserver for example. To mitigate this your web browser must trust the issuing certificate server. 
-
-The Umbrella Root CA is not automatically trusted by computers and browsers (that is the issuer of the certificate), meaning that without any certificates manually stored on the endpoint or pushed through MDM/GPOs the redirect of Umbrella would present the famous "Your connection is not secure/private" due to the certificate-chain not being trusted. And the company of course had security awareness training of employees learning that they should <b>never</b> bypass such warning.
-
-And since over 80% of today’s webservers enforce the HTTPS protocol, this would be a common scenario. In order to make this efficient, it is highly recommended to push the "middle-man" (Umbrella certificate in this case) onto the company machines either through MDM-software or Group Policies in AD.
-
-For BYOD (Bring Your Own Device) scenarios where you're not in charge of the systems, there unfortunately isn't any possibility to have this block page shown efficiently over a HTTPS connection. Unless manually trusting the certificate or proceeding through the warning.
-
-<h2>Closing remarks</h2>
-This will be the scenario no matter if you're using Cisco Umbrella or another 3rd part solution for this kind of DNS/block page protection.
-Including the consumer-friendly [Pi-Hole](https://pi-hole.net/) solution.
-
-As frustrating as it might seems, this is for the greater good and by the standard of the HTTPS protocol.
+<hr>
