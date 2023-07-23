@@ -50,10 +50,12 @@ Once all nessesary profiles has been created the last step is to setup a deploym
 Like with AnyConnect all modules rely on the same version to be running as AnyConnect, hence you'll not be able to select specific versions per module - expect for the CM and Secure Endpoint modules. Secure Endpoint integrates directly into the SecureX platform from Secure Endpoint portal, so you can select your instance and desired group directly in the SecureX platform.
 <Insert Small Deployment with dropdown picture>
 
+
 For versions the following is possible and notable:
-    <li><b>Latest:</b>This is the latest version available on the Cisco Support site.</li>
+    <li><b>Latest:</b> This is the latest version available on the Cisco Support site.</li>
     <li><b>Recommended:</b> This is the current recommended/suggested version available on the Cisco Support site.</li>
     <li> <b>Version specific:</b> Hardcore the desired version to be running on this deployment.</li>
+    
 Keep in mind, if you change versions within an deployment which has been rolled out for users, it'll affect the clients once the CM module check-in timer hits.
 
 
