@@ -15,8 +15,27 @@ SecureX was launched in 2020 but is still unknown for a lot of IT professionals,
 In short terms SecureX is a unified-experience between your suite of Cisco Secure products, by being able to integrate your products (Cisco Secure and selected 3rd party) into one unified dashboard, gaining insights and easy cross-reference between your security suite.
 On top of that the integration of SecureX Orchestration enables your SecOps and NetOps to work closely together and enables both visibility and automation for both teams - being across network, endpoints or cloud.
 
+<h3>Keep Secure Client versions and profiles up-to-date through SecureX</h3>
+<h5>_Keep in mind this only works on endpoints running CSC - this is not possible with any Cisco AnyConnect versions_</h5>
+
+Anyone which has been configuring and maintaining AnyConnect deployments, that being profiles or versions knows it can be an uphill battle to keep systems and profiles up to date at times.
+That either being packet deployment from SCCM or through ASA, FTD or ISE for XML-profiles and packages updated.
+
+This is still doable, however with the SecureX, CSC and combined with a new module "Cloud Management" (CM) it is now possible to keep all this administration (or subset of) within the SecureX cloud.
+Together with this module we're able to pull certain data about the endpoints as well, and feed this into SecureX Device Insights.
+
+While SecureX and the Cloud Management-module can keep both profiles and packages up to date there is two kind of deployment methods which is possible.
+  1. Full Cloud Management
+     - CM handles all package management
+     - Control all profile configuration and module management in the cloud through SecureX portal
+     - Possibility to use Full or Network Installer when deploying new agents
+
+  2. Cloud Registraion without Package Management
+     - CM would be registered and data feed into SecureX Device Insights
+     - Packages and profiles will still need to be maintained through SecureX, ASA, FTD, ISE etc.
 
 
+  
 
 
 
