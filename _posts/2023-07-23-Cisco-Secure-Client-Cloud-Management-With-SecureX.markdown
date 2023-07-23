@@ -51,8 +51,8 @@ Like with AnyConnect all modules rely on the same version to be running as AnyCo
 <Insert Small Deployment with dropdown picture>
 
 For versions the following is possible and notable:
-  - **Latest:** This is the latest version available on the Cisco Support site.
-  - **Recommended:** This is the current recommended/suggested version available on the Cisco Support site.
+    <li><b>Latest:</b>This is the latest version available on the Cisco Support site.</li>
+    <li><b>Recommended:</b> This is the current recommended/suggested version available on the Cisco Support site.</li>
     <li> <b>Version specific:</b> Hardcore the desired version to be running on this deployment.</li>
 Keep in mind, if you change versions within an deployment which has been rolled out for users, it'll affect the clients once the CM module check-in timer hits.
 
