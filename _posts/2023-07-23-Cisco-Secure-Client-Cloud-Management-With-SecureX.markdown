@@ -37,17 +37,20 @@ While SecureX and the Cloud Management-module can keep both profiles and package
 <h3>Brief look into the portal and configuration</h3>
 As previously mentioned it is possible to control all the regular profiles within the SecureX platform, just like if you were to create profile within an ASA, FTD or through the VPN Profile Editor.
 Its also possible to upload existing XML profiles directly into the portal and migrate into the SecureX platform instead. (Be advised that some sections still require manual upload or some interaction with another portal - ex. Umbrella for getting the OrgInfo.json - rumours states it will be integrated directly into SecureX at some point, like Secure Endpoint feeds and links directly)
+![VPN Profile Picture](/assets/pictures/vpn-profile-deployment.png)
 <Insert VPN Deployment Picture>
 
 
 The important profile section regardless of the deployment method is the Cloud Management Profile, this profile is used to enable and change settings specific for the CM module.
 Current check-in interval cannot be lower than 2 hours (rumours states this will be possible to decrease in the future - however do not expect it to go under 30 minutes)
 In the far buttom there's the possibility to schedule windows for updating the client, modules and profiles.
+![CM Profile Picture](/assets/pictures/cloud-management-profile.png)
 <Insert CM Profile Picture>
 
 
 Once all nessesary profiles has been created the last step is to setup a deployment which will utilize the modules and created profiles depending on the deployment function. (This is kind of similiar to creating group-policy and defining the needed modules and profiles to be included)
 Like with AnyConnect all modules rely on the same version to be running as AnyConnect, hence you'll not be able to select specific versions per module - expect for the CM and Secure Endpoint modules. Secure Endpoint integrates directly into the SecureX platform from Secure Endpoint portal, so you can select your instance and desired group directly in the SecureX platform.
+![CM Profile Picture](/assets/pictures/small-deployment-dropdown.png)
 <Insert Small Deployment with dropdown picture>
 
 
