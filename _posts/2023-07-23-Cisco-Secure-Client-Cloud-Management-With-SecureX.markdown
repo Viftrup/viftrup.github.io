@@ -70,7 +70,7 @@ At this tab it is also possible on the fly, to change the deployment which is pr
 
 No more manual connecting into new VPN profiles or the need of pushing/reconfiguring new GPOs to the endpoints anymore for changing settings!
 
-
+This is only a brief summary of what SecureX and CSC together can do - I highly recommend the Cisco Live presentation below for a deep dive into the possibilites. Even if you're not in for a deep dive, give it a glance anyways, the speaker Aaron is hilarious and talks directly from his personal opinion.
 
 
 <b>Recommended resources:<b>
