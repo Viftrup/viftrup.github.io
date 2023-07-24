@@ -72,10 +72,10 @@ On this deployment page, you can either download the "Full Installer" or "Networ
 Once an endpoint has registered to SecureX through the CM module, it will be feeding data into the Device Insights tab about that specific endpoint and CSC attributes.
 <a href="//viftrup.github.io/assets/pictures/securex-device-inventory.png" data-lightbox="securex-device-inventory" data-title="Device Inventory"> <img src="//viftrup.github.io/assets/pictures/securex-device-inventory.png" title="Click to enlarge - Device Inventory"> </a>
 In this tab, it is also possible, on the fly, to change the deployment that is present on the endpoint. For example, change our current deployment from "IT Deployment" to "IT Beta - Deployment" - this will change modules and profiles once the CM check-in timer has been reached and re-configure our CSC as desired by the selected deployment policy.
-<a href="//viftrup.github.io/assets/pictures/securex-move-deployment.png" data-lightbox="securex-move-deployment" data-title="Device Deployment Move"> <img src="//viftrup.github.io/assets/pictures/securex-device-inventory.png" title="Click to enlarge - Move Device Deployment"> </a>
+<a href="//viftrup.github.io/assets/pictures/securex-move-deployment.png" data-lightbox="securex-move-deployment" data-title="Device Deployment Move"> <img src="//viftrup.github.io/assets/pictures/securex-move-deployment.png" title="Click to enlarge - Move Device Deployment"> </a>
 No more manual connecting into new VPN profiles or the need for pushing/reconfiguring new GPOs to the endpoints anymore for changing settings!
 
-<a href="//viftrup.github.io/assets/pictures/securex-move-deployment.png" data-lightbox="securex-move-deployment" data-title="Device Deployment Move"> <img src="//viftrup.github.io/assets/pictures/securex-device-inventory.png" title="Click to enlarge - Move Device Deployment"> </a>
+<a href="//viftrup.github.io/assets/pictures/securex-device-details.png" data-lightbox="securex-device-details" data-title="Device Details"> <img src="//viftrup.github.io/assets/pictures/securex-device-details.png" title="Click to enlarge - Device Details"> </a>
 Each registered device with CM feeds certain data into the SecureX portal, including basic device information along with CSC information (Other feeds like InTune, Jamf, and more can also be integrated but go beyond this article).
 
 This is only a brief summary of what SecureX and CSC together can do - I highly recommend the Cisco Live presentation below for a deep dive into the possibilities.<br>
