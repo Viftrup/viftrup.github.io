@@ -42,18 +42,18 @@ Be advised if you're already using other means of web-headends for maintaining p
 As previously mentioned it is possible to control all the regular profiles within the SecureX platform, just like if you were to create profile within an ASA, FTD or through the VPN Profile Editor.
 Its also possible to upload existing XML profiles directly into the portal and migrate into the SecureX platform instead. (Be advised that some sections still require manual upload or some interaction with another portal - ex. Umbrella for getting the OrgInfo.json - rumours states it will be integrated directly into SecureX at some point, like Secure Endpoint feeds and links directly)
 
-<a href="//blog.viftrup.eu/assets/pictures/vpn-profile-deployment.png" data-lightbox="vpn-profile-large" data-title="VPN Profile Deployment"> <img src="//blog.viftrup.eu/assets/pictures/vpn-profile-deployment.png" title="Click to enlarge - VPN Profile Deployment"> </a>
+<a href="//viftrup.github.io/assets/pictures/vpn-profile-deployment.png" data-lightbox="vpn-profile-large" data-title="VPN Profile Deployment"> <img src="//viftrup.github.io/assets/pictures/vpn-profile-deployment.png" title="Click to enlarge - VPN Profile Deployment"> </a>
 
 
 The important profile section regardless of the deployment method is the Cloud Management Profile, this profile is used to enable and change settings specific for the CM module.
 Current check-in interval cannot be lower than 2 hours (rumours states this will be possible to decrease in the future - however do not expect it to go under 30 minutes)
 In the far buttom there's the possibility to schedule windows for updating the client, modules and profiles.
-<a href="//blog.viftrup.eu/assets/pictures/cloud-management-profile.png" data-lightbox="cloud-management-profile" data-title="Cloud Management Profile"> <img src="//blog.viftrup.eu/assets/pictures/cloud-management-profile.png" title="Click to enlarge - Cloud Management Profile"> </a>
+<a href="//viftrup.github.io/assets/pictures/cloud-management-profile.png" data-lightbox="cloud-management-profile" data-title="Cloud Management Profile"> <img src="//viftrup.github.io/assets/pictures/cloud-management-profile.png" title="Click to enlarge - Cloud Management Profile"> </a>
 
 
 Once all nessesary profiles has been created the last step is to setup a deployment which will utilize the modules and created profiles depending on the deployment function. (This is kind of similiar to creating group-policy and defining the needed modules and profiles to be included)
 Like with AnyConnect all modules rely on the same version to be running as AnyConnect, hence you'll not be able to select specific versions per module - expect for the CM and Secure Endpoint modules. Secure Endpoint integrates directly into the SecureX platform from Secure Endpoint portal, so you can select your instance and desired group directly in the SecureX platform.
-<a href="//blog.viftrup.eu/assets/pictures/small-deployment-dropdown.png" data-lightbox="small-deployment-dropdown" data-title="Deployment"> <img src="//blog.viftrup.eu/assets/pictures/small-deployment-dropdown.png" title="Click to enlarge - Deployment"> </a>
+<a href="//viftrup.github.io/assets/pictures/small-deployment-dropdown.png" data-lightbox="small-deployment-dropdown" data-title="Deployment"> <img src="//viftrup.github.io/assets/pictures/small-deployment-dropdown.png" title="Click to enlarge - Deployment"> </a>
 
 
 For versions the following is possible and notable:
@@ -69,9 +69,9 @@ On this deployment page you either download the "Full Installer" or "Network Ins
 
 <h3>Device Insights and changing deployment profiles on the fly</h3>
 Once an endpoint has registered to SecureX through the CM module, it will be feeding data into the Device Insights tab about that specific endpoint and CSC attributes.
-<a href="//blog.viftrup.eu/assets/pictures/securex-device-inventory.png" data-lightbox="securex-device-inventory" data-title="Device Inventory"> <img src="//blog.viftrup.eu/assets/pictures/securex-device-inventory.png" title="Click to enlarge - Device Inventory"> </a>
+<a href="/viftrup.github.io/assets/pictures/securex-device-inventory.png" data-lightbox="securex-device-inventory" data-title="Device Inventory"> <img src="//viftrup.github.io/assets/pictures/securex-device-inventory.png" title="Click to enlarge - Device Inventory"> </a>
 At this tab it is also possible on the fly, to change the deployment which is present on the endpoint. An example would be to change our current deployment from "IT Deployment" to "IT Beta - Deployment" - this will change modules and profiles once the CM check-in timer has been reached and re-configure our CSC as desired by the selected deployment policy.
-<a href="//blog.viftrup.eu/assets/pictures/securex-move-deployment.png" data-lightbox="securex-move-deployment" data-title="Device Deployment Move"> <img src="//blog.viftrup.eu/assets/pictures/securex-device-inventory.png" title="Click to enlarge - Move Device Deployment"> </a>
+<a href="//viftrup.github.io/assets/pictures/securex-move-deployment.png" data-lightbox="securex-move-deployment" data-title="Device Deployment Move"> <img src="//viftrup.github.io/assets/pictures/securex-device-inventory.png" title="Click to enlarge - Move Device Deployment"> </a>
 No more manual connecting into new VPN profiles or the need of pushing/reconfiguring new GPOs to the endpoints anymore for changing settings!
 
 This is only a brief summary of what SecureX and CSC together can do - I highly recommend the Cisco Live presentation below for a deep dive into the possibilites. Even if you're not in for a deep dive, give it a glance anyways, the speaker Aaron is hilarious and talks directly from his personal opinion.
