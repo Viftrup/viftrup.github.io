@@ -61,7 +61,6 @@ For versions the following is possible and notable:
 
 
 <b>Addtional recommended resources:<b>
-
 <a href="https://www.w3schools.com](https://www.ciscolive.com/on-demand/on-demand-details.html?#/session/1686177803567001VAM7">BRKSEC-2834 - Cisco's Unified Agent: Cisco Secure Client. Bringing AMP, AnyConnect, Orbital & Umbrella together </a>
 
 
