@@ -74,6 +74,9 @@ At this tab it is also possible on the fly, to change the deployment which is pr
 <a href="//viftrup.github.io/assets/pictures/securex-move-deployment.png" data-lightbox="securex-move-deployment" data-title="Device Deployment Move"> <img src="//viftrup.github.io/assets/pictures/securex-device-inventory.png" title="Click to enlarge - Move Device Deployment"> </a>
 No more manual connecting into new VPN profiles or the need of pushing/reconfiguring new GPOs to the endpoints anymore for changing settings!
 
+<a href="//viftrup.github.io/assets/pictures/securex-move-deployment.png" data-lightbox="securex-move-deployment" data-title="Device Deployment Move"> <img src="//viftrup.github.io/assets/pictures/securex-device-inventory.png" title="Click to enlarge - Move Device Deployment"> </a>
+Each registered devices with CM feeds certain data into the SecureX portal including basic device information along with CSC information (Other feeds like InTune, Jamf and more can also be integrated, but goes beyond this article)
+
 This is only a brief summary of what SecureX and CSC together can do - I highly recommend the Cisco Live presentation below for a deep dive into the possibilites. Even if you're not in for a deep dive, give it a glance anyways, the speaker Aaron is hilarious and talks directly from his personal opinion.
 
 
