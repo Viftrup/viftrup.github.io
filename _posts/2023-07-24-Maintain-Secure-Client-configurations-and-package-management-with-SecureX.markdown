@@ -77,7 +77,7 @@ In this tab, it is also possible, on the fly, to change the deployment that is p
 No more manual connecting into new VPN profiles or the need for pushing/reconfiguring new GPOs to the endpoints anymore for changing settings!
 
 <a href="//viftrup.github.io/assets/pictures/securex-device-details.png" data-lightbox="securex-device-details" data-title="Device Details"> <img src="//viftrup.github.io/assets/pictures/securex-device-details.png" title="Click to enlarge - Device Details"> </a>
-Each registered device with CM feeds certain data into the SecureX portal, including basic device information along with CSC information (Other feeds like InTune, Jamf, and more can also be integrated but go beyond this article).
+Each registered device with CM feeds certain data into the SecureX portal, including basic device information along with CSC information (Other feeds like InTune, Jamf, and more can also be integrated but goes beyond this article).
 
 This is only a brief summary of what SecureX and CSC together can do - I highly recommend the Cisco Live presentation below for a deep dive into the possibilities.<br>
 Even if you're not in for a deep dive, give it a glance anyway; the speaker Aaron is hilarious and talks directly from his personal opinion.
