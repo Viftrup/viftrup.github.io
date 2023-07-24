@@ -69,7 +69,7 @@ On this deployment page you either download the "Full Installer" or "Network Ins
 
 <h3>Device Insights and changing deployment profiles on the fly</h3>
 Once an endpoint has registered to SecureX through the CM module, it will be feeding data into the Device Insights tab about that specific endpoint and CSC attributes.
-<a href="/viftrup.github.io/assets/pictures/securex-device-inventory.png" data-lightbox="securex-device-inventory" data-title="Device Inventory"> <img src="//viftrup.github.io/assets/pictures/securex-device-inventory.png" title="Click to enlarge - Device Inventory"> </a>
+<a href="//viftrup.github.io/assets/pictures/securex-device-inventory.png" data-lightbox="securex-device-inventory" data-title="Device Inventory"> <img src="//viftrup.github.io/assets/pictures/securex-device-inventory.png" title="Click to enlarge - Device Inventory"> </a>
 At this tab it is also possible on the fly, to change the deployment which is present on the endpoint. An example would be to change our current deployment from "IT Deployment" to "IT Beta - Deployment" - this will change modules and profiles once the CM check-in timer has been reached and re-configure our CSC as desired by the selected deployment policy.
 <a href="//viftrup.github.io/assets/pictures/securex-move-deployment.png" data-lightbox="securex-move-deployment" data-title="Device Deployment Move"> <img src="//viftrup.github.io/assets/pictures/securex-device-inventory.png" title="Click to enlarge - Move Device Deployment"> </a>
 No more manual connecting into new VPN profiles or the need of pushing/reconfiguring new GPOs to the endpoints anymore for changing settings!
