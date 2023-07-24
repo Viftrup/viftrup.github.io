@@ -3,6 +3,7 @@ layout: post
 title: "Maintain Secure Client configurations and package management with SecureX"
 author: Alexander Viftrup Andersen
 categories: [Secure Client, SecureX, Security]
+cover: /assets/pictures/SecureX-CSC-Cloud-TRIMMED.png"
 image: "/assets/pictures/SecureX-CSC-Cloud-big.png"
 ---
 Last year, Cisco rebranded their famous and widely known VPN product, AnyConnect, into the Cisco Secure Client (CSC).
