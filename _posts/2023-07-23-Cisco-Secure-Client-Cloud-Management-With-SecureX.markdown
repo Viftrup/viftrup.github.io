@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Maintain Secure Client configurations and package management through SecureX"
+title: "Maintain Secure Client configurations and package management with SecureX"
 author: Alexander Viftrup Andersen
 categories: [Secure Client, SecureX, Security]
 cover: "/assets/pictures/SecureX-CSC-Cloud.png"
