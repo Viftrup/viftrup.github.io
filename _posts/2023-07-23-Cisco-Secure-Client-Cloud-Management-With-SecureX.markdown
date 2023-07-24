@@ -59,6 +59,10 @@ For versions the following is possible and notable:
     
 <i>Keep in mind, if you change versions within an deployment which has been rolled out for users, it'll affect the clients once the CM module check-in timer hits.</i>
 
+On this deployment page you either download the "Full Installer" or "Network Installer"
+- <b>Full Installer:</b> This includes all profiles and modules required by the specific deployment - this will be larger in size than Network Installer.
+- <b>Network Installer:</b> This is an lightweight installer which only contains the Cloud Management module and registration to the SecureX portal. Once installed it requests mainfest from SecureX about profiles and modules needed for the specific deployment.
+
 
 <b>Recommended resources:<b>
 
