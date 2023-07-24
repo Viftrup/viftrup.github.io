@@ -62,4 +62,5 @@ For versions the following is possible and notable:
 
 <b>Recommended resources:<b>
 
-<a href="https://www.w3schools.com](https://www.ciscolive.com/on-demand/on-demand-details.html?#/session/1686177803567001VAM7">BRKSEC-2834 - Cisco's Unified Agent: Cisco Secure Client. Bringing AMP, AnyConnect, Orbital & Umbrella together </a>
+<a href="https://www.ciscolive.com/on-demand/on-demand-details.html?#/session/1686177803567001VAM7">BRKSEC-2834 - Cisco's Unified Agent: Cisco Secure Client. Bringing AMP, AnyConnect, Orbital & Umbrella together </a>
+<a href="https://docs.securex.security.cisco.com/SecureX-Help/Content/introduction.html">Cisco SecureX - Getting Started</a>
