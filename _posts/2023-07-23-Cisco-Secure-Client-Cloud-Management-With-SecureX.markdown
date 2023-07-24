@@ -20,7 +20,7 @@ On top of that, the integration of SecureX Orchestration enables your SecOps and
 _Keep in mind this only works on endpoints running CSC - this is not possible with any Cisco AnyConnect versions_
 
 Anyone who has been configuring and maintaining AnyConnect deployments, whether profiles or versions, knows it can be an uphill battle to keep systems and profiles up to date at times.
-That can either be packet deployment from SCCM or through ASA, FTD, or ISE for XML profiles and packages updated.
+That can either be package deployment from SCCM or through ASA, FTD, or ISE for XML profiles and packages updated.
 
 This is still doable; however, with the SecureX + CSC, and combined with a new module "Cloud Management" (CM), it is now possible to keep all this administration (or a subset of it) within the SecureX cloud.
 Together with this module, we're able to pull certain data about the endpoints as well and feed this into SecureX Device Insights.
