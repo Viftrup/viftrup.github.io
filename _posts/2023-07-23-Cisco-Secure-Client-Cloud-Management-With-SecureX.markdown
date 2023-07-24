@@ -26,7 +26,7 @@ This is still doable; however, with the SecureX + CSC, and combined with a new m
 Together with this module, we're able to pull certain data about the endpoints as well and feed this into SecureX Device Insights.
 
 While SecureX and the Cloud Management-module can keep both profiles and packages up to date, there are two kinds of deployment methods:
-  **1. Full Cloud Management**
+  **1. Full Cloud Management** 
      - CM handles all package management
      - Control all profile configuration and module management in the cloud through SecureX portal
      - Possibility to use Full or Network Installer when deploying new agents
