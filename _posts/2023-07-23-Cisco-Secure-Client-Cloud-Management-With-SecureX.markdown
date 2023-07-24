@@ -25,9 +25,10 @@ That can either be packet deployment from SCCM or through ASA, FTD, or ISE for X
 This is still doable; however, with the SecureX + CSC, and combined with a new module "Cloud Management" (CM), it is now possible to keep all this administration (or a subset of it) within the SecureX cloud.
 Together with this module, we're able to pull certain data about the endpoints as well and feed this into SecureX Device Insights.
 
-While SecureX and the Cloud Management-module can keep both profiles and packages up to date, there are two kinds of deployment methods:
-  **1. Full Cloud Management** 
+While SecureX and the Cloud Management-module can keep both profiles and packages up to date, there are two kinds of deployment methods: 
+  **1. Full Cloud Management**
      - CM handles all package management
+     - 
      - Control all profile configuration and module management in the cloud through SecureX portal
      - Possibility to use Full or Network Installer when deploying new agents
 
