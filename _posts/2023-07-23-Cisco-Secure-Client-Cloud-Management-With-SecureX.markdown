@@ -60,7 +60,8 @@ For versions the following is possible and notable:
 <i>Keep in mind, if you change versions within an deployment which has been rolled out for users, it'll affect the clients once the CM module check-in timer hits.</i>
 
 
-Addtional recommended resources:
+<b>Addtional recommended resources:<b>
+
 <a href="https://www.w3schools.com](https://www.ciscolive.com/on-demand/on-demand-details.html?#/session/1686177803567001VAM7">BRKSEC-2834 - Cisco's Unified Agent: Cisco Secure Client. Bringing AMP, AnyConnect, Orbital & Umbrella together </a>
 
 
