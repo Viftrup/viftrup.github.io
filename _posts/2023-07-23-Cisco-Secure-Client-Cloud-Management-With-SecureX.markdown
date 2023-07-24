@@ -6,6 +6,7 @@ categories: [Secure Client, SecureX, Security]
 cover: "/assets/pictures/SecureX-CSC-Cloud.png"
 thumbnail: "/assets/pictures/SecureX-CSC-Cloud.png"
 ---
+<a href="//viftrup.github.io/assets/pictures/SecureX-CSC-Cloud.png" data-lightbox="securex-csc" data-title="secure-csc"> <img src="//viftrup.github.io/assets/pictures/vpn-profile-deployment.png" title="Click to enlarge - VPN Profile Deployment" hidden> </a>
 Last year, Cisco rebranded their famous and widely known VPN product, AnyConnect, into the Cisco Secure Client (CSC).
 
 While AnyConnect and its modules are still exactly the same, the new CSC improves the possibilities now and in the future.
