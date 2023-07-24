@@ -37,7 +37,7 @@ While SecureX and the Cloud Management-module can keep both profiles and package
   - Packages and profiles will still need to be maintained through SCCM, ASA, FTD, ISE, etc.
 
 
-Be advised if you're already using other means of web-headends for maintaining profiles, it can override your configurations set by SecureX - the rule of thumb is you should only have <b>one</b> system controlling the profile configurations.
+Be advised if you're already using other means of web-headends for maintaining profiles, it can override your configurations set by SecureX - the rule of thumb is you should only have <b>one</b> system controlling the profile configurations or be sure to keep all systems updated with changes.
 
 <h3>A brief look into the portal and configuration</h3>
 As previously mentioned, it is possible to control all the regular profiles within the SecureX platform, just like if you were to create a profile within an ASA, FTD, or through the VPN Profile Editor.
