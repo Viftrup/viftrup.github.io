@@ -63,6 +63,15 @@ On this deployment page you either download the "Full Installer" or "Network Ins
 - <b>Full Installer:</b> This includes all profiles and modules required by the specific deployment - this will be larger in size than Network Installer.
 - <b>Network Installer:</b> This is an lightweight installer which only contains the Cloud Management module and registration to the SecureX portal. Once installed it requests mainfest from SecureX about profiles and modules needed for the specific deployment.
 
+<h3>Device Insights and changing deployment profiles on the fly</h3>
+Once an endpoint has registered to SecureX through the CM module, it will be feeding data into the Device Insights tab about that specific endpoint and CSC attributes.
+
+At this place is also possible on the fly, to change the deployment which is present on the endpoint. An example would be to change our current deployment from "IT Deployment" to "IT Beta - Deployment" - this will change modules and profiles once the CM check-in timer has been reached and re-configure our CSC as desired by the selected deployment policy.
+
+No more manual connecting into new VPN profiles or the need of pushing/reconfiguring new GPOs to the endpoints anymore for changing settings!
+
+
+
 
 <b>Recommended resources:<b>
 
