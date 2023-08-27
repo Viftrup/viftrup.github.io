@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "What is nlp_int_tap and why is it important for LINA operations within ASA and FTD?"
+title: "What is nlp_int_tap and why should I care?"
 author: Alexander Viftrup Andersen
 categories: [Secure Firewall, Security]
 cover: /assets/pictures/SecureX-CSC-Cloud.png"
