@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "What is nlp_int_tap and why should I care?"
+title: "What is nlp_int_tap and why should you care?"
 author: Alexander Viftrup Andersen
 categories: [Secure Firewall, Security]
 cover: /assets/pictures/SecureX-CSC-Cloud.png"
