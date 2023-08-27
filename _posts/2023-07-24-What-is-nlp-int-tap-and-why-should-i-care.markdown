@@ -7,7 +7,7 @@ cover: /assets/pictures/SecureX-CSC-Cloud.png"
 image: "/assets/pictures/SecureX-CSC-Cloud-big.png"
 ---
 Do you actually know what all the interfaces present on your Cisco ASA or FTD installation is doing behind the scenes?
-I'm sure you've seen some of them, or atleast you've stumpled accross the specific interface <b><i>"nlp_int_tap"</b></i> in recent times during trobleshooting or debugging.
+I'm sure you've seen some of them, or atleast you've stumpled accross the specific interface **<i>"nlp_int_tap"</i>** in recent times during trobleshooting or debugging.
 
 If you've been doing packet captures or debugging installed NAT-statements, the chances for seeing this very specific interface is almost garanteed (otherwise, go have a look!)
 But do you actually know what it does, and why it might be a useful tool during debugging? Especially SNMP debug senarios.
