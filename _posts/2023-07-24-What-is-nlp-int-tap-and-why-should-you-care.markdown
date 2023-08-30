@@ -11,9 +11,18 @@ Do you actually know what all the interfaces present on your Cisco ASA or FTD in
 
 I'm sure you've seen some of them, or atleast you've stumpled accross the specific interface **<i>"nlp_int_tap" or "Internal-Data0/1</i>** in recent times during trobleshooting or debugging.
 
-You might have noticed other interfaces like "Internal-Control0/X / Internal-Data0/X" as well, these is not covered in this post but you shouldn't care much about these. Some are used for internal communication  and others between ASA and SFR-modules (that is on Cisco ASA-X appliances), however they're also present and active on FTD installations.
+(You might also have noticed other interfaces like Internal-Control and other Internal-Data interfaces. These aren't covered in this post, but they mainly relate to internal interfacing for high-availibility and clustering functionailites)
+
+I bet you at some point in time have been doing troubleshooting via packet captures and seen the nlp_int_tap being available for captures - but do you know what it is? And why it might be beneficial to capture on this interfaces in certain situtations?
+
+<h3>What is the nlp_int_tap interface?</h3>
+Non-LINA Process or NLP is in reaility "just" an internal/backplace interfacing used for certain operations outside the scope of LINA functionalities.
+
+It has tons of functions, and is not really documented anywhere as normally you shouldn't care about it. However there might be situtations where it will help you in troubleshooting, knowing when to use it as capture interface during debug sessions.
 
 
+
+(If you're unfamiliar with the name "LINA" it is the codename for the Cisco ASA software, which is the basic fundament in handling all L1-L4 operations within ASA or FTD software)
 
 If you've been doing packet captures or debugging installed NAT-statements, the chances for seeing nlp_int_tap interface is almost garanteed (otherwise, go have a look!)
 But do you actually know what it does, and why it might be a useful tool during debugging? Especially SNMP debug senarios.
