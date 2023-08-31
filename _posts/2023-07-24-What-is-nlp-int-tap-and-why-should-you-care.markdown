@@ -309,6 +309,7 @@ In the coming example we'll be looking into capturing and troubleshooting proble
 If we're encountering issues in getting connectivity between ASA and an NMS it might be worthwhile looking into capturing packets on the ASA. There are several ways in doing so, one of them would be to perform packet capture on the nlp_int_tap interface, as we know this interface is the internal backplane used between the non-LINA process snmpd and towards ASA/egress interface to the NMS.
 
 When we do ingress capture on the nlp_int_tap interface we'll see the raw packets coming from the snmpd, which also means it will be sourced directly from the internal IP we discovered earlier (169.254.1.2) - if we're not seeing any packets on this interface/capture it means no SNMP traffic at all is flowing between the LINA-engine and the underlay snmpd process. 
+
 Depending on the direction, it might be internal problems within the appliance or simply due to firewall(s) or misconfiguration on either end. Any SNMP traffic flowing at all, will at all times tverese this interface and capture.
 
 In the example below I have setup a simple packet capture with nlp_int_tap being the ingress interface and my egress interface towards my endpoint running snmpwalk.
