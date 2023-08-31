@@ -303,8 +303,7 @@ As seen in the previous section the nlp_int_tap is a huge part of the functionai
 
 Now we can use this information for troubleshooting some of these processes, if we encounter issues which is being transmitted on this internal backplane between processes and the LINA.
 
-
-In the coming two examples we'll be looking into capturing and troubleshooting problems in regards to SNMP (ASA) and sftunnel (FTD)
+In the coming example we'll be looking into capturing and troubleshooting problems in regards to SNMP (ASA) - this would be the same procedure if you were to do capture on FTD ex. for sftunnel tshoot, however FTD has other built-in capture capabilities as well (capture-traffic for one)
 
 <h4>Troubleshooting SNMP packets with nlp_int_tap on ASA</h4>
 If we're encountering issues in getting connectivity between ASA and an NMS it might be worthwhile looking into capturing packets on the ASA. There are several ways in doing so, one of them would be to perform packet capture on the nlp_int_tap interface, as we know this interface is the internal backplane used between the non-LINA process snmpd and towards ASA/egress interface to the NMS.
@@ -339,8 +338,6 @@ SNMPv2-MIB::sysDescr.0 = STRING: Cisco Adaptive Security Appliance Version 9.16(
 ```
 
 As seen we can by utilizing the nlp_int_tap interface get a bit deeper into the troubleshooting and packets happening, and also another way to verify what happens to the SNMP packets if you were to do test directly from the ASA. These captures can help in future investigation and even to engage Cisco TAC if problem should persist and seems to be on the ASA side.
-
-<h4>Troubleshooting SNMP packets with nlp_int_tap on ASA</h4>
 
 (If you're unfamiliar with the name "LINA" it is the codename for the Cisco ASA software, which is the fundament in handling all L1-L4 operations within ASA or FTD software)
 
