@@ -32,6 +32,8 @@ code {
 	display: inline-block;
 	border-radius: 3px;
 	padding: 0 3px;
+	overflow-x: scroll;
+	overflow-y: scroll;
 }
 
 pre code.hljs {
