@@ -5,7 +5,7 @@ author: Alexander Viftrup Andersen
 categories: [Secure Firewall, Security]
 cover: /assets/pictures/SecureX-CSC-Cloud.png"
 image: "/assets/pictures/SecureX-CSC-Cloud-big.png"
-published: false
+published: true
 ---
 Do you actually know what all the interfaces present on your Cisco ASA or FTD installation is doing behind the scenes?
 
@@ -339,7 +339,4 @@ SNMPv2-MIB::sysDescr.0 = STRING: Cisco Adaptive Security Appliance Version 9.16(
 
 As seen we can by utilizing the nlp_int_tap interface get a bit deeper into the troubleshooting and packets happening, and also another way to verify what happens to the SNMP packets if you were to do test directly from the ASA. These captures can help in future investigation and even to engage Cisco TAC if problem should persist and seems to be on the ASA side.
 
-(If you're unfamiliar with the name "LINA" it is the codename for the Cisco ASA software, which is the fundament in handling all L1-L4 operations within ASA or FTD software)
-
-If you've been doing packet captures or debugging installed NAT-statements, the chances for seeing nlp_int_tap interface is almost garanteed (otherwise, go have a look!)
-But do you actually know what it does, and why it might be a useful tool during debugging? Especially SNMP debug senarios.
+Normally you would be able to identify firewall configuration problems during simple captures, however in certain situtations and senarios you might want to try capture directly on the nlp_int_tap for full flow visibility.
