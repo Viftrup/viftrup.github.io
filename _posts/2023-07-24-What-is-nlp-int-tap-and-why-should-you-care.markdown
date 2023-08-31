@@ -9,16 +9,21 @@ published: false
 ---
 Do you actually know what all the interfaces present on your Cisco ASA or FTD installation is doing behind the scenes?
 
-I'm sure you've seen some of them, or atleast you've stumpled accross the specific interface **<i>"nlp_int_tap" or "Internal-Data0/1</i>** in recent times during trobleshooting or debugging.
+I'm sure you've seen some of them, or atleast you've stumpled accross the specific interface **<i>"nlp_int_tap" or "Internal-Data0/1</i>"** in recent times during trobleshooting or debugging.
 
-(You might also have noticed other interfaces like Internal-Control and other Internal-Data interfaces. These aren't covered in this post, but they mainly relate to internal interfacing for high-availibility and clustering functionailites)
+(You have might noticed other interfaces like Internal-Control and other Internal-Data interfaces. These aren't covered in this post, but they mainly relate to internal interfacing for high-availibility and clustering functionailites)
 
-I bet you at some point in time have been doing troubleshooting via packet captures and seen the nlp_int_tap being available for captures - but do you know what it is? And why it might be beneficial to capture on this interfaces in certain situtations?
+I bet you at some point in time have been doing troubleshooting via packet captures and seen the nlp_int_tap being available for captures - but do you know what it is? And why it might be beneficial to capture on this interface in certain situtations?
 
 <h3>What is the nlp_int_tap interface?</h3>
-Non-LINA Process or NLP is in reaility "just" an internal/backplace interfacing used for certain operations outside the scope of LINA functionalities.
+Non-LINA Process or NLP is in reaility "just" an internal/backplace interfacing used for certain operations outside the scope of LINA functionalities. 
 
 It has tons of functions, and is not really documented anywhere as normally you shouldn't care about it. However there might be situtations where it will help you in troubleshooting, knowing when to use it as capture interface during debug sessions.
+
+The NLP is basiclly covering every process/daemon which is not run within the LINA process (FTD and SNORT is a different story), this is not limited to but include linux processes like snmpd for SNMP polling and traps alerting, and sftunnel for secure communications between FMC and FTD devices.
+The interface is a transport mechanism between these processes and the LINA process in order to operate with each other.
+Actually the NLP interface acts kind of like a regular routed interface, it does have a static configured IP address which is used for communications between the respective process and the LINA-engine.
+
 
 
 
