@@ -26,7 +26,7 @@ Actually the NLP interface acts kind of like a regular routed interface, it does
 
 By executing the following command, you'll be able to dig into certain kernel details including proccesses and ifconfig of these internal interfaces and nlp_int_tap.
 
-```
+```python
 show capture asdm_cap_ingress 
 
 34 packets captured
