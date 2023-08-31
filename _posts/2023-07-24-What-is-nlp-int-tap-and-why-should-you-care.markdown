@@ -323,7 +323,7 @@ ViftrupLAB01# show capture nlp_cap_ingress
 ```
 Notice that as we're capturing on the nlp_int_tap interface the traffic is hitting the internal backplane 169.254.1.2 address.
 
-If we look on the egress part (traffic has now been transmitted from nlp_int_tap backplane into the ASA / LINA-engine)
+If we look on the egress part (traffic has now been transmitted from nlp_int_tap backplane into the ASA / LINA-engine and vice versa)
 ```
 ViftrupLAB01# show capture nlp_cap_egress  
 
