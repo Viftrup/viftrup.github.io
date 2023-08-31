@@ -36,6 +36,9 @@ code {
 
 pre code.hljs {
 	font-size: modular-scale(-1);
+	word-wrap: normal;
+	overflow-x: auto;
+	white-space: pre;
 }
 
 .page-divider {
