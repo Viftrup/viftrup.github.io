@@ -25,6 +25,26 @@ The NLP is basiclly covering every process which is not run within the LINA proc
 The interface is a transport mechanism between these processes and the LINA process in order to operate with each other.
 Actually the NLP interface acts "kind of" like a regular routed interface, it does have a static configured IP address which is used for communications between the respective processes and the LINA-engine.
 
+Beware as of ASA/LINA version 9.16+ Cisco introduced some changes to the so called NAT Section 0 - which includes mandatory NAT statements for NLP operations to function properly. NAT Section 0 takes first priority of any NAT statement and cannot be overwritten. However if you do changes to NLP processes it might automaticly change NAT statements as needed. Example would be NAT statement 1 which is an automatic created NAT rule towards my snmpwalk/NMS - this was created since I have a snmp server configured within the ASA configuration. (sftunnel would also be present here, if you're using data-interface manager and/or remote-branch for tcp/8305)
+This also gives administrators the possibility to look into these auto-created NLP rules.
+
+```
+ViftrupLAB01# show nat
+Manual NAT Policies Implicit (Section 0)
+1 (nlp_int_tap) to (management) source static nlp_server__snmp_10.1.100.10_intf4 interface  destination static 0_192.168.118.156_7 0_10.1.100.10_7 service udp snmp snmp 
+    translate_hits = 3, untranslate_hits = 6
+2 (nlp_int_tap) to (outside) source dynamic nlp_client_0_0.0.0.0_17proto53_intf3 interface  destination static nlp_client_0_ipv4_6 nlp_client_0_ipv4_6 service nlp_client_0_17svc53_5 nlp_client_0_17svc53_5
+    translate_hits = 0, untranslate_hits = 0
+3 (nlp_int_tap) to (management) source dynamic nlp_client_0_0.0.0.0_17proto53_intf4 interface  destination static nlp_client_0_ipv4_2 nlp_client_0_ipv4_2 service nlp_client_0_17svc53_1 nlp_client_0_17svc53_1
+    translate_hits = 0, untranslate_hits = 0
+4 (nlp_int_tap) to (management) source dynamic nlp_client_0_192.168.118.156_17proto162_intf4 interface  destination static nlp_client_0_ipv4_22 nlp_client_0_ipv4_22 service nlp_client_0_17svc162_21 nlp_client_0_17svc162_21
+    translate_hits = 0, untranslate_hits = 0
+5 (nlp_int_tap) to (outside) source dynamic nlp_client_0_ipv6_::_17proto53_intf3 interface ipv6  destination static nlp_client_0_ipv6_8 nlp_client_0_ipv6_8 service nlp_client_0_17svc53_7 nlp_client_0_17svc53_7
+    translate_hits = 0, untranslate_hits = 0
+6 (nlp_int_tap) to (management) source dynamic nlp_client_0_ipv6_::_17proto53_intf4 interface ipv6  destination static nlp_client_0_ipv6_4 nlp_client_0_ipv6_4 service nlp_client_0_17svc53_3 nlp_client_0_17svc53_3
+    translate_hits = 0, untranslate_hits = 0
+```
+
 By executing the following command, you'll be able to dig into certain kernel details including proccesses and ifconfig of these internal interfaces and nlp_int_tap.
 (Ultimately it is showing the ifconfig and all the processes running on the underlaying linux system - ex. going into expert mode on FTD-software and using the "<i>top</i>" or "<i>ifconfig</i>" command)
 
@@ -283,6 +303,7 @@ As seen in the previous section the nlp_int_tap is a huge part of the functionai
 
 Now we can use this information for troubleshooting some of these processes, if we encounter issues which is being transmitted on this internal backplane between processes and the LINA.
 
+
 In the coming two examples we'll be looking into capturing and troubleshooting problems in regards to SNMP (ASA) and sftunnel (FTD)
 
 <h4>Troubleshooting SNMP packets with nlp_int_tap on ASA</h4>
@@ -295,10 +316,10 @@ In the example below I have setup a simple packet capture with nlp_int_tap being
 ```
 ViftrupLAB01# show capture nlp_cap_ingress 
 
-   1: 16:16:38.802845       10.1.100.10.65281 > 169.254.1.2.161:  udp 40 
-   2: 16:16:38.805378       169.254.1.2.161 > 10.1.100.10.65281:  udp 94 
-   3: 16:16:38.884170       10.1.100.10.65281 > 169.254.1.2.161:  udp 43 
-   4: 16:16:38.938611       169.254.1.2.161 > 10.1.100.10.65281:  udp 52 
+   1: 13:07:39.652111       10.1.100.10.62685 > 169.254.1.2.161:  udp 40 
+   2: 13:07:39.653637       169.254.1.2.161 > 10.1.100.10.62685:  udp 94 
+   3: 13:07:39.745673       10.1.100.10.62685 > 169.254.1.2.161:  udp 43 
+   4: 13:07:39.773839       169.254.1.2.161 > 10.1.100.10.62685:  udp 52 
 ```
 Notice that as we're capturing on the nlp_int_tap interface the traffic is hitting the internal backplane 169.254.1.2 address.
 
@@ -306,12 +327,20 @@ If we look on the egress part (traffic has now been transmitted from nlp_int_tap
 ```
 ViftrupLAB01# show capture nlp_cap_egress  
 
-   1: 16:18:32.178243       10.1.0.1.443 > 10.1.100.10.53301: P 4255353964:4255354035(71) ack 3754416793 win 32768 <nop,nop,timestamp 1221386 0> 
-   2: 16:18:32.178243       10.1.100.10.52918 > 10.1.0.1.443: . ack 3776491961 win 65535 <nop,nop,timestamp 153262201 1221356> 
-   3: 16:18:32.178259       10.1.100.10.53302 > 10.1.0.1.443: P 225045489:225045520(31) ack 1243124597 win 65535 <nop,nop,timestamp 1912955716 1221356> 
-   4: 16:18:32.178259       10.1.0.1.443 > 10.1.100.10.53302: R 1243124597:1243124597(0) win 32768 <nop,nop,timestamp 1221386 0>
+   1: 13:07:39.651806       10.1.100.10.62685 > 10.1.0.1.161:  udp 40 
+   2: 13:07:39.653667       10.1.0.1.161 > 10.1.100.10.62685:  udp 94 
+   3: 13:07:39.745505       10.1.100.10.62685 > 10.1.0.1.161:  udp 43 
+   4: 13:07:39.773885       10.1.0.1.161 > 10.1.100.10.62685:  udp 52 
 ```
-The address 10.1.0.1
+The address 10.1.0.1 is the ASA management interface which we're doing the snmpwalk towards. This also confirms data is being transmitted from the LINA-engine and onto my endpoint. Which confirms we're having successful SNMP operations.
+
+```
+SNMPv2-MIB::sysDescr.0 = STRING: Cisco Adaptive Security Appliance Version 9.16(3)23
+```
+
+As seen we can by utilizing the nlp_int_tap interface get a bit deeper into the troubleshooting and packets happening, and also another way to verify what happens to the SNMP packets if you were to do test directly from the ASA. These captures can help in future investigation and even to engage Cisco TAC if problem should persist and seems to be on the ASA side.
+
+
 
 (If you're unfamiliar with the name "LINA" it is the codename for the Cisco ASA software, which is the fundament in handling all L1-L4 operations within ASA or FTD software)
 
