@@ -332,7 +332,7 @@ ViftrupLAB01# show capture nlp_cap_egress
    3: 13:07:39.745505       10.1.100.10.62685 > 10.1.0.1.161:  udp 43 
    4: 13:07:39.773885       10.1.0.1.161 > 10.1.100.10.62685:  udp 52 
 ```
-The address 10.1.0.1 is the ASA management interface which we're doing the snmpwalk towards. This also confirms data is being transmitted from the LINA-engine and onto my endpoint. Which confirms we're having successful SNMP operations.
+The address 10.1.0.1 is the ASA management interface which I'm doing the snmpwalk towards. This also confirms data is being transmitted from the LINA-engine and onto my endpoint. Which confirms we're having successful SNMP operations.
 
 ```
 SNMPv2-MIB::sysDescr.0 = STRING: Cisco Adaptive Security Appliance Version 9.16(3)23
