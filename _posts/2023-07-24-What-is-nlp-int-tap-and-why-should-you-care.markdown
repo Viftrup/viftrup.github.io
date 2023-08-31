@@ -9,7 +9,7 @@ published: false
 ---
 Do you actually know what all the interfaces present on your Cisco ASA or FTD installation is doing behind the scenes?
 
-I'm sure you've seen some of them, or atleast you've stumpled accross the specific interface **<i>"nlp_int_tap" or "Internal-Data0/1</i>"** in recent times during trobleshooting or debugging.
+I'm sure you've seen some of them, or atleast you've stumpled accross the interface **<i>"nlp_int_tap" or "Internal-Data0/1</i>"** in recent times during troubleshooting or debugging.
 
 (You have might noticed other interfaces like Internal-Control and other Internal-Data interfaces. These aren't covered in this post, but they mainly relate to internal interfacing for high-availibility and clustering functionailites)
 
@@ -18,7 +18,7 @@ I bet you at some point in time have been doing troubleshooting via packet captu
 <h3>What is the nlp_int_tap interface?</h3>
 Non-LINA Process or NLP is in reaility "just" an internal backplace interfacing used for certain operations outside the scope of LINA functionalities. 
 
-It has tons of functions, and is not really documented anywhere as normally you shouldn't care about it. However there might be situtations it will be nice in troubleshooting to use it as capture interface during debug sessions.
+It has tons of functions, and is not really documented anywhere as normally you shouldn't care about it. However there might be situtations which it will provide good information to use it as capture interface during debug sessions.
 
 The NLP is basiclly covering every process/daemon which is not run within the LINA process (FTD and SNORT acts a bit different, but still relies on the LINA-engine), this is not limited to but include linux processes like snmpd for SNMP polling and traps alerting, and sftunnel for secure communications between FMC and FTD devices.
 The interface is a transport mechanism between these processes and the LINA process in order to operate with each other.
@@ -27,14 +27,19 @@ Actually the NLP interface acts kind of like a regular routed interface, it does
 By executing the following command, you'll be able to dig into certain kernel details including proccesses and ifconfig of these internal interfaces and nlp_int_tap.
 
 ```
-show capture asdm_cap_ingress
+show kernel ifconfig
 
-34 packets captured
-   1: 16:16:38.802845       192.168.118.130.65281 > 169.254.1.2.161:  udp 40 
-   2: 16:16:38.805378       169.254.1.2.161 > 192.168.118.130.65281:  udp 94
 
 ```
 
+Pay attention to the IP address assigned for the nlp_int_tap interface, we'll be getting back to this address as it will show up during our captures.
+
+Also as mentioned earlier we're able to identifiy other kernel processes running on the system, if they communicate with the LINA-engine, they'll utilize the nlp_int_tap interface.
+Through proccesses you can also identify if the snmpd (SNMP Daemon used for SNMP functions) is active and running, if the process isn't present on the list below, it either means no SNMP has been configured within LINA (snmpd isn't started if no SNMP configuration is present) or there might be other SNMP process problems - if thats the case, a Cisco TAC case is highly suggested.
+
+```
+show kernel proccesses
+```
 
 
 
