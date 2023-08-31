@@ -276,7 +276,42 @@ ViftrupLAB01# show kernel process
 17218 17208  20   0    94416896     3488                    0    S        0        0        0 ConvergedCliCli
 20719 17208  20   0    94416896     3488                    0    c        0        0        0 kworker/0:2-events_power_effi
 ```
+It is clear due to the big technology stack within the FTD it is utilizing a lot of proccesses on the side, inorder to ensure stability and feature-set.
 
+<h3>When to use the nlp_int_tap for captures?</h3>
+As seen in the previous section the nlp_int_tap is a huge part of the functionaility both on the ASA and FTD platform.
+
+Now we can use this information for troubleshooting some of these processes, if we encounter issues which is being transmitted on this internal backplane between processes and the LINA.
+
+In the coming two examples we'll be looking into capturing and troubleshooting problems in regards to SNMP (ASA) and sftunnel (FTD)
+
+<h4>Troubleshooting SNMP packets with nlp_int_tap on ASA</h4>
+If we're encountering issues in getting connectivity between ASA and an NMS it might be worthwhile looking into capturing packets on the ASA. There are several ways in doing so, one of them would be to perform packet capture on the nlp_int_tap interface, as we know this interface is the internal backplane used between the non-LINA process snmpd and towards ASA/egress interface to the NMS.
+
+When we do ingress capture on the nlp_int_tap interface we'll see the raw packets coming from the snmpd, which also means it will be sourced directly from the internal IP we discovered earlier (169.254.1.2) - if we're not seeing any packets on this interface/capture it means no SNMP traffic is flowing, either due to firewall(s), misconfiguration or other issues. At all times SNMP traffic should be seen on this interface.
+
+In the example below I have setup a simple packet capture with nlp_int_tap being the ingress interface and my egress interface towards my endpoint running snmpwalk.
+
+```
+ViftrupLAB01# show capture nlp_cap_ingress 
+
+   1: 16:16:38.802845       10.1.100.10.65281 > 169.254.1.2.161:  udp 40 
+   2: 16:16:38.805378       169.254.1.2.161 > 10.1.100.10.65281:  udp 94 
+   3: 16:16:38.884170       10.1.100.10.65281 > 169.254.1.2.161:  udp 43 
+   4: 16:16:38.938611       169.254.1.2.161 > 10.1.100.10.65281:  udp 52 
+```
+Notice that as we're capturing on the nlp_int_tap interface the traffic is hitting the internal backplane 169.254.1.2 address.
+
+If we look on the egress part (traffic has now been transmitted from nlp_int_tap backplane into the ASA / LINA-engine)
+```
+ViftrupLAB01# show capture nlp_cap_egress  
+
+   1: 16:18:32.178243       10.1.0.1.443 > 10.1.100.10.53301: P 4255353964:4255354035(71) ack 3754416793 win 32768 <nop,nop,timestamp 1221386 0> 
+   2: 16:18:32.178243       10.1.100.10.52918 > 10.1.0.1.443: . ack 3776491961 win 65535 <nop,nop,timestamp 153262201 1221356> 
+   3: 16:18:32.178259       10.1.100.10.53302 > 10.1.0.1.443: P 225045489:225045520(31) ack 1243124597 win 65535 <nop,nop,timestamp 1912955716 1221356> 
+   4: 16:18:32.178259       10.1.0.1.443 > 10.1.100.10.53302: R 1243124597:1243124597(0) win 32768 <nop,nop,timestamp 1221386 0>
+```
+The address 10.1.0.1
 
 (If you're unfamiliar with the name "LINA" it is the codename for the Cisco ASA software, which is the fundament in handling all L1-L4 operations within ASA or FTD software)
 
