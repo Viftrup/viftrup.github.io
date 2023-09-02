@@ -50,7 +50,6 @@ By executing the following command, you'll be able to dig into certain kernel de
 
 ```
 ViftrupLAB01# show kernel ifconfig
-
 <--- Output Omitted --->
   tap_nlp   Link encap:Ethernet  HWaddr 3a:30:28:9b:b3:91  
           inet6 addr: fe80::3830:28ff:fe9b:b391/64 Scope:Link
@@ -75,7 +74,6 @@ Through proccesses you can also identify if the snmpd (SNMP Daemon used for SNMP
 <b>ASA</b>
 ```
 ViftrupLAB01# show kernel process
-
  PID PPID PRI  NI       VSIZE      RSS                WCHAN STAT  RUNTIME    GTIME   CGTIME COMMAND
    1    0  20   0     2347008      748                    1    S      424        0        0 init
    2    0  20   0           0        0                    1    S        0        0        0 kthreadd
@@ -316,7 +314,6 @@ In the example below I have setup a simple packet capture with nlp_int_tap being
 
 ```
 ViftrupLAB01# show capture nlp_cap_ingress 
-
    1: 13:07:39.652111       10.1.100.10.62685 > 169.254.1.2.161:  udp 40 
    2: 13:07:39.653637       169.254.1.2.161 > 10.1.100.10.62685:  udp 94 
    3: 13:07:39.745673       10.1.100.10.62685 > 169.254.1.2.161:  udp 43 
@@ -327,7 +324,6 @@ Notice that as we're capturing on the nlp_int_tap interface the traffic is hitti
 If we look on the egress part (traffic has now been transmitted from nlp_int_tap backplane into the ASA / LINA-engine and vice versa)
 ```
 ViftrupLAB01# show capture nlp_cap_egress  
-
    1: 13:07:39.651806       10.1.100.10.62685 > 10.1.0.1.161:  udp 40 
    2: 13:07:39.653667       10.1.0.1.161 > 10.1.100.10.62685:  udp 94 
    3: 13:07:39.745505       10.1.100.10.62685 > 10.1.0.1.161:  udp 43 
