@@ -3,9 +3,9 @@ layout: post
 title: "What is the nlp_int_tap interface and its functionality"
 author: Alexander Viftrup Andersen
 categories: [Secure Firewall, Security]
-cover: /assets/pictures/SecureX-CSC-Cloud.png"
-image: "/assets/pictures/SecureX-CSC-Cloud-big.png"
-published: false
+cover: /assets/pictures/nlp_int_tap_without_text.jpg"
+image: "/assets/pictures/nlp_int_tap_without_text.jpg"
+published: true
 ---
 Do you actually know what all the interfaces present on your Cisco ASA or FTD installation are doing behind the scenes?
 
