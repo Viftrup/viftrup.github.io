@@ -19,7 +19,7 @@ I bet you at some point in time have been doing troubleshooting via packet captu
 Non-LINA Process or NLP is in reaility "just" an internal backplace interfacing used for certain operations outside the scope of LINA functionalities. 
 (If you're unfamiliar with the name "LINA" it is the codename for the Cisco ASA software, which is the fundament in handling all L1-L4 operations within ASA or FTD software)
 
-Its the glue between many sub-processes, and is not highly documented anywhere as normally you shouldn't care about it. However there might be situtations which it will provide good information when using it as a capture interface during debug sessions.
+Its the glue between many sub-processes, and is not highly documented anywhere as normally you shouldn't care about it. However there might be situtations which it will provide good information when using it as a capture interface during trobuleshooting sessions.
 
 The NLP is basiclly covering every process which is not run within the LINA process (FTD and SNORT acts a bit different, but still relies on the LINA-engine), this is not limited to but include linux processes like snmpd for SNMP polling and traps alerting, sftunnel for secure communications between FMC and FTD devices, sshd for secure shell, SFDataCollector, SNORT and many more.
 The interface is a transport mechanism between these processes and the LINA process in order to operate with each other.
