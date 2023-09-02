@@ -7,26 +7,26 @@ cover: /assets/pictures/SecureX-CSC-Cloud.png"
 image: "/assets/pictures/SecureX-CSC-Cloud-big.png"
 published: false
 ---
-Do you actually know what all the interfaces present on your Cisco ASA or FTD installation is doing behind the scenes?
+Do you actually know what all the interfaces present on your Cisco ASA or FTD installation are doing behind the scenes?
 
-I'm sure you've seen some of them, or atleast you've stumpled accross the interface **<i>"nlp_int_tap" or "Internal-Data0/1</i>"** in recent times during troubleshooting or debugging.
+I'm sure you've seen some of them, or atleast you've stumbled accross the interfaces **<i>"nlp_int_tap" or "Internal-Data0/1</i>"** recently during troubleshooting or debugging.
 
-(You might have noticed other interfaces like Internal-Control and other Internal-Data interfaces. These aren't covered in this post, but they mainly relate to internal interfacing for high-availibility and clustering functionailites)
+(You might have noticed other interfaces like Internal-Control and other Internal-Data interfaces. These aren't covered in this post, but they mainly relate to internal interfacing for high-availability and clustering functionalities)
 
-I bet you at some point in time have been doing troubleshooting via packet captures and seen the nlp_int_tap being available for captures - but do you know what it is? And why it might be beneficial to capture on this interface in certain situtations?
+I bet that at some point in time, you've been troubleshooting via packet captures and seen that nlp_int_tap is available for captures. But do you know what it is and why it might be beneficial to capture on this interface in certain situations?"
 
 <h3>What is the nlp_int_tap interface?</h3>
-Non-LINA Process or NLP is in reaility "just" an internal backplace interfacing used for certain operations outside the scope of LINA functionalities. 
-(If you're unfamiliar with the name "LINA" it is the codename for the Cisco ASA software, which is the fundament in handling all L1-L4 operations within ASA or FTD software)
+The Non-LINA Process, or NLP, is, in reality, just an internal backplane interface used for certain operations outside the scope of LINA functionalities.
+(If you're unfamiliar with the name "LINA," it is the codename for the Cisco ASA software, which is fundamental in handling all L1-L4 operations within ASA or FTD software)
 
-Its the glue between many sub-processes, and is not highly documented anywhere as normally you shouldn't care about it. However there might be situtations which it will provide good information when using it as a capture interface during trobuleshooting sessions.
+It serves as the glue between many sub-processes and is not highly documented anywhere because, normally, you shouldn't need to care about it. However, there might be situations where it can provide valuable information when used as a capture interface during troubleshooting sessions.
 
-The NLP is basiclly covering every process which is not run within the LINA process (FTD and SNORT acts a bit different, but still relies on the LINA-engine), this is not limited to but include linux processes like snmpd for SNMP polling and traps alerting, sftunnel for secure communications between FMC and FTD devices, sshd for secure shell, SFDataCollector, SNORT and many more.
-The interface is a transport mechanism between these processes and the LINA process in order to operate with each other.
-Actually the NLP interface acts "kind of" like a regular routed interface, it does have a static configured IP address which is used for communications between the respective processes and the LINA-engine.
+NLP essentially covers every process that does not run within the LINA process (FTD and SNORT behave a bit differently but still rely on the LINA engine). This includes Linux processes like snmpd for SNMP polling and traps alerting, sftunnel for secure communications between FMC and FTD devices, sshd for secure shell, SFDataCollector, SNORT, and many more.
+The interface acts as a transport mechanism between these processes and the LINA process to facilitate their operation.
+In fact, the NLP interface functions somewhat like a regular routed interface, with a statically configured IP address used for communications between the respective processes and the LINA engine.
 
-Beware as of ASA/LINA version 9.16+ Cisco introduced some changes to the so called NAT Section 0 - which includes system-defined NAT rules for NLP operations to function properly. NAT Section 0 takes priority over any NAT statement and cannot be overwritten. However if you do changes to NLP processes it might automaticly change NAT statements as needed, the rules cannot be modified or deleted manually. Example would be NAT statement 1 which is an automatic created NAT rule towards my snmpwalk/NMS - this was created since I have a snmp server configured within the ASA configuration. (sftunnel would also be present here, if you're using data-interface manager and/or remote-branch for tcp/8305)
-This also gives administrators the possibility to look into these auto-created NLP rules.
+Beware that as of ASA/LINA version 9.16+, Cisco introduced some changes to the so-called NAT Section 0, which includes system-defined NAT rules for NLP operations to function properly. NAT Section 0 takes priority over any NAT statement and cannot be overwritten. However, if you make changes to NLP processes, it might automatically modify NAT statements as needed. The rules cannot be manually modified or deleted. For example, NAT statement 1 is automatically created for SNMP operations when an SNMP server is configured within the ASA (sftunnel would also be present here if you're using data-interface manager and/or remote-branch for tcp/8305). 
+This also provides administrators with the possibility to inspect these auto-created NLP rules."
 
 ```
 ViftrupLAB01# show nat
@@ -45,8 +45,8 @@ Manual NAT Policies Implicit (Section 0)
     translate_hits = 0, untranslate_hits = 0
 ```
 
-By executing the following command, you'll be able to dig into certain kernel details including proccesses and ifconfig of these internal interfaces and nlp_int_tap.
-(Ultimately it is showing the ifconfig and all the processes running on the underlaying linux system - ex. going into expert mode on FTD-software and using the "<i>top</i>" or "<i>ifconfig</i>" command)
+By executing the following command, you'll be able to dig into certain kernel details, including processes and 'ifconfig' output for these internal interfaces and nlp_int_tap.
+(This command essentially provides access to the 'ifconfig' output and lists all the processes running on the underlying Linux system. For example, you can achieve similar results by entering <i>"top"</i> or "<i>"ifconfig"</i> commands when in expert mode on FTD software)
 
 ```
 ViftrupLAB01# show kernel ifconfig
@@ -66,10 +66,10 @@ tap_nlp:1 Link encap:Ethernet  HWaddr 3a:30:28:9b:b3:91
 <--- Output Omitted --->
 ```
 
-Pay attention to the IP address assigned for the nlp_int_tap interface (169.254.1.2), we'll be getting back to this address as it will show up during our captures.
+Pay attention to the IP address assigned for the 'nlp_int_tap' interface (169.254.1.2). We'll revisit this address as it will appear during our captures.
 
-Also as mentioned earlier we're able to identifiy other kernel processes running on the system, if they communicate with the LINA-engine, they'll utilize the nlp_int_tap interface.
-Through proccesses you can also identify if the snmpd (SNMP Daemon used for SNMP functions) is active and running, if the process isn't present on the list below, it either means no SNMP has been configured within LINA (snmpd isn't started if no SNMP configuration is present) or there might be other SNMP process problems - if thats the case, a Cisco TAC case is highly suggested.
+As mentioned earlier, we can identify other kernel processes running on the system. If they communicate with the LINA engine, they will utilize the 'nlp_int_tap' interface.
+Through processes, you can also determine if "snmpd" (SNMP Daemon used for SNMP functions) is active and running. If the process isn't present on the list below, it either means no SNMP has been configured within LINA (as "snmpd" isn't started if no SNMP configuration is present) or there might be other SNMP process problems. In the latter case, it is highly recommended to open a Cisco TAC case."
 
 <b>ASA</b>
 ```
@@ -294,23 +294,22 @@ ViftrupLAB01# show kernel process
 17218 17208  20   0    94416896     3488                    0    S        0        0        0 ConvergedCliCli
 20719 17208  20   0    94416896     3488                    0    c        0        0        0 kworker/0:2-events_power_effi
 ```
-It is clear due to the big technology stack within the FTD it is utilizing a lot of proccesses on the side, inorder to ensure stability and feature-set.
+It's evident that due to the extensive technology stack within the FTD, it utilizes numerous processes to ensure stability and provide a comprehensive feature set.
 
 <h3>When to use the nlp_int_tap for captures?</h3>
-As seen in the previous section the nlp_int_tap is a huge part of the functionaility both on the ASA and FTD platform.
+As demonstrated in the previous section, "nlp_int_tap" plays a significant role in the functionality of both the ASA and FTD platforms.
 
-Now we can use this information for troubleshooting some of these processes, if we encounter issues which is being transmitted on this internal backplane between processes and the LINA.
+Now, armed with this information, we can utilize it for troubleshooting certain processes in cases where issues are being transmitted on this internal backplane between processes and the LINA.
 
-In the coming example we'll be looking into capturing and troubleshooting problems in regards to SNMP (ASA) - this would be the same procedure if you were to do capture on FTD ex. for sftunnel tshoot, however FTD has other built-in capture capabilities as well (capture-traffic for one)
+In the following example, we will dive into capturing and troubleshooting problems related to SNMP on ASA. This procedure is applicable in a similar manner if you were to perform captures on FTD, for instance, when troubleshooting issues with  snmp or "sftunnel" It's worth noting that FTD also offers other built-in capture capabilities, such as "capture-traffic," for various troubleshooting needs.
 
 <h4>Troubleshooting SNMP packets with nlp_int_tap on ASA</h4>
-If we're encountering issues in getting connectivity between ASA and an NMS it might be worthwhile looking into capturing packets on the ASA. There are several ways in doing so, one of them would be to perform packet capture on the nlp_int_tap interface, as we know this interface is the internal backplane used between the non-LINA process snmpd and towards ASA/egress interface to the NMS.
+If you encounter connectivity issues between ASA and an NMS, it's worth considering packet capture on the ASA. There are several methods available for packet capture, and one of them is capturing packets on the "nlp_int_tap" interface. This interface serves as the internal backplane between the non-LINA process "snmpd" and the ASA egress interface leading to the NMS.
 
-When we do ingress capture on the nlp_int_tap interface we'll see the raw packets coming from the snmpd, which also means it will be sourced directly from the internal IP we discovered earlier (169.254.1.2) - if we're not seeing any packets on this interface/capture it means no SNMP traffic at all is flowing between the LINA-engine and the underlay snmpd process. 
-
+When performing an ingress capture on the "nlp_int_tap" interface, you will observe raw packets originating from "snmpd." These packets are sourced directly from the internal IP we discovered earlier (169.254.1.2). If you don't see any packets on this interface during the capture, it indicates that no SNMP traffic is flowing between the LINA engine and the underlying "snmpd" process.
 Depending on the direction, it might be internal problems within the appliance or simply due to firewall(s) or misconfiguration on either end. Any SNMP traffic flowing at all, will at all times tverese this interface and capture.
 
-In the example below I have setup a simple packet capture with nlp_int_tap being the ingress interface and my egress interface towards my endpoint running snmpwalk.
+In the following example, I've configured a basic packet capture using "nlp_int_tap" as the ingress interface and the egress interface leading to my endpoint running snmpwalk.
 
 ```
 ViftrupLAB01# show capture nlp_cap_ingress 
@@ -319,9 +318,9 @@ ViftrupLAB01# show capture nlp_cap_ingress
    3: 13:07:39.745673       10.1.100.10.62685 > 169.254.1.2.161:  udp 43 
    4: 13:07:39.773839       169.254.1.2.161 > 10.1.100.10.62685:  udp 52 
 ```
-Notice that as we're capturing on the nlp_int_tap interface the traffic is hitting the internal backplane 169.254.1.2 address.
+Notice that while capturing on the "nlp_int_tap" interface, the traffic is directed toward the internal backplane at the address 169.254.1.2
 
-If we look on the egress part (traffic has now been transmitted from nlp_int_tap backplane into the ASA / LINA-engine and vice versa)
+Now, let's examine the egress part where the traffic has been transmitted from the "nlp_int_tap" backplane into the ASA/LINA-engine and vice versa
 ```
 ViftrupLAB01# show capture nlp_cap_egress  
    1: 13:07:39.651806       10.1.100.10.62685 > 10.1.0.1.161:  udp 40 
@@ -329,12 +328,12 @@ ViftrupLAB01# show capture nlp_cap_egress
    3: 13:07:39.745505       10.1.100.10.62685 > 10.1.0.1.161:  udp 43 
    4: 13:07:39.773885       10.1.0.1.161 > 10.1.100.10.62685:  udp 52 
 ```
-The address 10.1.0.1 is the ASA management interface which I'm doing the snmpwalk towards. This also confirms data is being transmitted from the LINA-engine and onto my endpoint. Which confirms we're having successful SNMP operations.
+The address 10.1.0.1 represents the ASA management interface to which I'm performing the snmpwalk. This confirmation verifies that data is indeed being transmitted from the LINA-engine to my endpoint, indicating successful SNMP operations.
 
 ```
 SNMPv2-MIB::sysDescr.0 = STRING: Cisco Adaptive Security Appliance Version 9.16(3)23
 ```
 
-As seen we can by utilizing the nlp_int_tap interface get a bit deeper into the troubleshooting and packets happening, and also another way to verify what happens to the SNMP packets if you were to do test directly from the ASA. These captures can help in future investigation and even to engage Cisco TAC if problem should persist and seems to be on the ASA side.
+By utilizing the "nlp_int_tap" interface, we can dive deeper into troubleshooting and packet analysis. This method also offers an alternative way to verify SNMP packet behavior when testing directly from the ASA. These captures serve as valuable resources for future investigations and can be instrumental in engaging Cisco TAC support if issues persist on the ASA side.
 
-Normally you would be able to identify firewall configuration problems during simple captures, however in certain situtations and senarios you might want to try capture directly on the nlp_int_tap for full flow visibility.
+While simple captures often identify firewall configuration problems, in certain situations, capturing directly on "nlp_int_tap" provides full flow visibility, which can be invaluable.
