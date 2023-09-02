@@ -5,7 +5,7 @@ author: Alexander Viftrup Andersen
 categories: [Secure Firewall, Security]
 cover: /assets/pictures/SecureX-CSC-Cloud.png"
 image: "/assets/pictures/SecureX-CSC-Cloud-big.png"
-published: true
+published: false
 ---
 Do you actually know what all the interfaces present on your Cisco ASA or FTD installation are doing behind the scenes?
 
