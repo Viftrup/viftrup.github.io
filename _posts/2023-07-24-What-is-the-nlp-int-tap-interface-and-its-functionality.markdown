@@ -3,7 +3,7 @@ layout: post
 title: "What is the nlp_int_tap interface and its functionality"
 author: Alexander Viftrup Andersen
 categories: [Secure Firewall, Security]
-cover: /assets/pictures/nlp_int_tap_without_text.jpg"
+cover: "/assets/pictures/nlp_int_tap_without_text.jpg"
 image: "/assets/pictures/nlp_int_tap_without_text.jpg"
 published: true
 ---
