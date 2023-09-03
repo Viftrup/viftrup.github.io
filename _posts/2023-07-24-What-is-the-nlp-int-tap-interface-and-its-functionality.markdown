@@ -5,7 +5,7 @@ author: Alexander Viftrup Andersen
 categories: [Secure Firewall, Security]
 cover: "/assets/pictures/nlp_int_tap_without_text.jpg"
 image: "/assets/pictures/nlp_int_tap_without_text.jpg"
-published: false
+published: true
 ---
 Do you actually know what all the interfaces present on your Cisco ASA or FTD installation are doing behind the scenes?
 
