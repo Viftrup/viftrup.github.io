@@ -34,7 +34,7 @@ Under the <b>External Authentication</b> tab the previous mentioned external aut
   <img src="//blog.viftrup.eu/assets/pictures/platform-settings-external-auth.png" title="Click to enlarge - Platform Settings"> 
 </a>
 
-Once deployment is successful, you should be able to SSH into your FTD and use your credentials from the external authentication provider configured. <br><i>(If this is unsuccessful, go back into the external authentication page and perform an authencation test on the very buttom of the page to ensure your credentials is correct and mapped to the desired filtering for CLI acess)</i>
+Once deployment is successful, you should be able to SSH into your FTD and use your credentials from the external authentication provider configured. <br><i>(If this is unsuccessful, go back into the external authentication page and perform an authentication test on the very buttom of the page to ensure your credentials is correct and mapped to the desired filtering for CLI access)</i>
 
 
 <h1>Resetting the admin password</h1>
