@@ -20,7 +20,7 @@ First of all, there is multiple ways to perform such password recovery/reset for
 
 This specific method however doesn't require any physical interaction with the appliance, downtime on the system or knowledge of the current password for the admin user.
 
-<h1>Procedure</h1>
+<h1>Initial procedure - Configuration of external authentication</h1>
 
 Navigate into the FMC which holds the manager role for the specific FTD(s) you want to perform the recovery on.
 
@@ -33,3 +33,10 @@ Under the <b>External Authentication</b> tab the previous mentioned external aut
 .... Insert image showcase ....
 
 Once deployment is successful, you should be able to SSH into your FTD and use your credentials from the external authentication provider configured. <br><i>(If this is unsuccesful, go back into the external authentication page and perform an authencation test on the very buttom of the page to ensure your credentials is correct and mapped to the desired filtering for CLI acess)</i>
+
+
+<h1>Resetting the admin password</h1>
+
+Once logged in through external authentication, the actual magic can be performed in order to reset the password for the admin user.
+
+First we need to access the linux shell and elevate our access rights, this is done by typing <b>expert</b> and elevate through <b>sudo -i</b> followed by your <b>external authentication password</b> - in other words, the same password you used in order to access the SSH itself.
