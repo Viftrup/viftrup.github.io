@@ -3,8 +3,8 @@ layout: post
 title: "Fieldsets 123"
 author: Alexander Viftrup Andersen
 categories: [Password recovery, Secure Firewall, Security]
-cover: ""
-image: ""
+cover: "/assets/pictures/secure-firewall-locked.png"
+image: "/assets/pictures/secure-firewall-locked.png"
 published: true
 ---
 <fieldset style="background-color:#FFFFCC;">
