@@ -20,4 +20,16 @@ First of all, there is multiple ways to perform such password recovery/reset for
 
 This specific method however doesn't require any physical interaction with the appliance, downtime on the system or knowledge of the current password for the admin user.
 
-Normally for a recovery to be initiated, one would be required to be physically present at the appliance and in some cases even downtime would be needed, as ROMMON needs to be initalized for the recovery process to start.
+<h1>Procedure</h1>
+
+Navigate into the FMC which holds the manager role for the specific FTD(s) you want to perform the action on.
+
+Under <b>System -> Users -> External Authentication</b> make sure you have created either an LDAP or RADIUS object with working configuration, desired filtering for CLI access and your user has suffient and correct privileges for SSH/CLI.
+
+Next step is either to create a new platform setting policy, or alter the platform setting currently applied to the desired FTD(s).
+
+Under the <b>External Authentication</b> tab the previous mentioned external authentication object should be present, make sure to enable it and deploy the change to the FTD(s).
+
+.... Insert image showcase ....
+
+Once deployment is successful, you should be able to SSH into your FTD and use your credentials from the external authentication provider configured. (If this is unsuccesful, go back into the external authentication page and perform an authencation test on the very buttom of the page to ensure your credentials is correct and mapped to the desired filtering for CLI acess)
