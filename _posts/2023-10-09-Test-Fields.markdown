@@ -11,8 +11,13 @@ published: true
   <h4>Please note:</h4>
   <p>This is only related to FTD and expert-shell, this will not be related to ex. the Chassis Manager.
 
+
     
   It is required that you're able to push platform setting policies to the device(s) and possibility for external SSH authentication either through LDAP or RADIUS in order to perform this kind of recovery</p>
 </fieldset>
+
+First of all, there is multiple ways to perform such password recovery/reset for the static admin user, this is just one of many methods to do so.
+
+This specific method however doesn't require any physical interaction with the appliance or downtime on the system.
 
 Normally for a recovery to be initiated, one would be required to be physically present at the appliance and in some cases even downtime would be needed, as ROMMON needs to be initalized for the recovery process to start.
