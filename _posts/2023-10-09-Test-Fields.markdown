@@ -2,7 +2,7 @@
 layout: post
 title: "Fieldsets 123"
 author: Alexander Viftrup Andersen
-categories: [Secure Firewall, Security]
+categories: [Password recovery, Secure Firewall, Security]
 cover: ""
 image: ""
 published: true
@@ -49,12 +49,12 @@ Next you'll be prompted for the new desired password, type in the password you w
 ```
 > expert
 ava-ftd01:~$ pwd    
-/ngfw/Volume/home/bob-admin
+/ngfw/Volume/home/bob-admin <--- Verify I am logged in as external user
 ava-ftd01:~$ sudo -i
-Password: 
+Password: <Password-of-bob-admin-ext-user>
 root@ava-ftd01:~# passwd admin
-New password: 
-Retype new password: 
+New password: <New-admin-password>
+Retype new password: <New-admin-password>
 passwd: password updated successfully
 root@ava-ftd01:~#
 ```
@@ -64,7 +64,7 @@ Once this has been done you've successfully recovered/reset the admin password, 
 ```
 > expert
 admin@ava-ftd01:~$ pwd
-/home/admin
+/home/admin <--- Verify I am logged in as admin user
 ```
 
 
