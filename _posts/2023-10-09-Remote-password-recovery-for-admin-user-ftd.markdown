@@ -4,7 +4,7 @@ title: "Remote password recovery for admin user on Secure Firewall Threat Defens
 author: Alexander Viftrup Andersen
 categories: [Password recovery, Secure Firewall, Security]
 cover: "/assets/pictures/secure-firewall-locked.png"
-image: "/assets/pictures/secure-firewall-locked-linkedin.png"
+image: "/assets/pictures/secure-firewall-locked-linkedin-size.png"
 published: true
 ---
 <fieldset style="background-color:#FFFFCC;">
