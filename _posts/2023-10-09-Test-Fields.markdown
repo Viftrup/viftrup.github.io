@@ -30,7 +30,7 @@ Next step is either to create a new platform setting policy, or alter the platfo
 
 Under the <b>External Authentication</b> tab the previous mentioned external authentication object should be present, make sure to enable it and deploy the change to the FTD(s).
 
-.... Insert image showcase ....
+.... <a href="//assets/pictures/platform-settings-external-auth.png" data-lightbox="platform-settings-large" data-title="Platform settings"> <img src="//assets/pictures/platform-settings-external-auth.png" title="Click to enlarge - Platform Settings"> </a> ....
 
 Once deployment is successful, you should be able to SSH into your FTD and use your credentials from the external authentication provider configured. <br><i>(If this is unsuccessful, go back into the external authentication page and perform an authencation test on the very buttom of the page to ensure your credentials is correct and mapped to the desired filtering for CLI acess)</i>
 
