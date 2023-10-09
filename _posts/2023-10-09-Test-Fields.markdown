@@ -18,6 +18,6 @@ published: true
 
 First of all, there is multiple ways to perform such password recovery/reset for the static admin user, this is just one of many methods to do so.
 
-This specific method however doesn't require any physical interaction with the appliance or downtime on the system.
+This specific method however doesn't require any physical interaction with the appliance, downtime on the system or knowledge of the current password for the admin user.
 
 Normally for a recovery to be initiated, one would be required to be physically present at the appliance and in some cases even downtime would be needed, as ROMMON needs to be initalized for the recovery process to start.
