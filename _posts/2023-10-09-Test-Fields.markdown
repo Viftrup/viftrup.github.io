@@ -9,7 +9,7 @@ published: true
 ---
 <fieldset style="background-color:#FFFFCC;">
   <h4>Please note:</h4>
-  <p>This is only related to FTD and expert-shell, this will not be related to ex. the Chassis Manager.
+  <p>This is only related to FTD and expert-shell, this will not be related to ex. the Chassis Manager on 4100/9300-series.
 
 
     
