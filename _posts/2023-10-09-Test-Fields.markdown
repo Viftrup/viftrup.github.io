@@ -46,6 +46,19 @@ Once we've elevated our privileges the fun can begin, and we can reset the admin
 Type ```passwd admin``` <br>
 Next you'll be prompted for the new desired password, type in the password you want going forward - a confirmation prompt will follow in order to ensure the passwords match.
 
+```
+> expert
+ava-ftd01:~$ pwd    
+/ngfw/Volume/home/bob-admin
+ava-ftd01:~$ sudo -i
+Password: 
+root@ava-ftd01:~# passwd admin
+New password: 
+Retype new password: 
+passwd: password updated successfully
+root@ava-ftd01:~#
+```
+
 Once this has been done you've successfully recovered/reset the admin password, and you should be able to initiate another SSH session to the FTD and able to login as "admin" with your new password.
 
 I highly suggest keeping the external authentication enabled as this makes onboarding and off-boarding of new employees a lot easier and also the audting part will be much easier. Just make sure you've limited the access for CLI to a specific security group / OU within your environment.
