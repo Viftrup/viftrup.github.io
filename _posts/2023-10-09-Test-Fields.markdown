@@ -40,3 +40,12 @@ Once deployment is successful, you should be able to SSH into your FTD and use y
 Once logged in through external authentication, the actual magic can be performed in order to reset the password for the admin user.
 
 First we need to access the linux shell and elevate our access rights, this is done by typing <b>expert</b> and elevate through <b>sudo -i</b> followed by your <b>external authentication password</b> - in other words, the same password you used in order to access the SSH itself.
+
+Once we've elevated our privileges the fun can begin, and we can reset the admin password.
+
+Type <b>passwd admin</b> <br>
+Next you'll be prompted for the new desired password, type in the password you want going forward - a confirmation prompt will follow in order to ensure the passwords match.
+
+Once this has been done you've successfully recovered/reset the admin password, and you should be able to initiate another SSH session to the FTD and able to login as "admin" with your new password.
+
+I highly suggest keeping the external authentication enabled as this makes onboarding and off-boarding of new employees a lot easier and also the audting part will be much easier. Just make sure you've limited the access for CLI to a specific security group / OU within your environment.
