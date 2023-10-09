@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Password recovery for admin user on Secure Firewall Threat Defense"
+title: "Remote password recovery for admin user on Secure Firewall Threat Defense"
 author: Alexander Viftrup Andersen
 categories: [Password recovery, Secure Firewall, Security]
 cover: "/assets/pictures/secure-firewall-locked.png"
