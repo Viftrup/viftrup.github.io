@@ -7,7 +7,7 @@ cover: ""
 image: ""
 published: true
 ---
-<fieldset>
+<fieldset style="background-color:red;">
   <p>This is only related to FTD and expert-shell, this will not be related to FXOS/FX Chassis Manager.</p>
   <p>It is required that you can push platform settings policies to the device(s) and possibility for external SSH authentication either through LDAP or RADIUS</>
 </fieldset>
