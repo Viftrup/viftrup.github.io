@@ -22,7 +22,7 @@ This specific method however doesn't require any physical interaction with the a
 
 <h1>Procedure</h1>
 
-Navigate into the FMC which holds the manager role for the specific FTD(s) you want to perform the action on.
+Navigate into the FMC which holds the manager role for the specific FTD(s) you want to perform the recovery on.
 
 Under <b>System -> Users -> External Authentication</b> make sure you have created either an LDAP or RADIUS object with working configuration, desired filtering for CLI access and your user has suffient and correct privileges for SSH/CLI.
 
@@ -32,4 +32,4 @@ Under the <b>External Authentication</b> tab the previous mentioned external aut
 
 .... Insert image showcase ....
 
-Once deployment is successful, you should be able to SSH into your FTD and use your credentials from the external authentication provider configured. (If this is unsuccesful, go back into the external authentication page and perform an authencation test on the very buttom of the page to ensure your credentials is correct and mapped to the desired filtering for CLI acess)
+Once deployment is successful, you should be able to SSH into your FTD and use your credentials from the external authentication provider configured. <br><i>(If this is unsuccesful, go back into the external authentication page and perform an authencation test on the very buttom of the page to ensure your credentials is correct and mapped to the desired filtering for CLI acess)</i>
