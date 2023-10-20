@@ -89,8 +89,8 @@ social:
   - name: LinkedIn
     icon: linkedin
     username: 
-    url: 
-    desc: Connect with me on LinkedIn
+    url: https://www.linkedin.com/in/ava5270/
+    desc: Follow me on LinkedIn
     share: true
 
   - name: Google+
@@ -105,14 +105,14 @@ social:
     username:
     url:
     desc: Follow me on Twitter
-    share: true
+    share: false
 
   - name: Facebook
     icon: facebook
     username:
     url:
     desc: Friend me on Facebook
-    share: true
+    share: false
 
   - name: YouTube
     icon: youtube
@@ -133,7 +133,7 @@ social:
     username:
     url:
     desc: Follow me on Pinterest
-    share: true
+    share: false
 
   - name: SoundCloud
     icon: soundcloud
