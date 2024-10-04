@@ -1,4 +1,4 @@
-  ---
+---
 layout: post
 title: "Deploying branches with Cisco FTD and device templates"
 author: Alexander Viftrup Andersen
