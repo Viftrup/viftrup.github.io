@@ -8,12 +8,9 @@ image: "/assets/pictures/secure-firewall-locked-linkedin-size.png"
 published: false
 ---
 <fieldset style="background-color:#FFFFCC;">
-  <h4>Please note:</h4>
-  <p>Note: As of the time of writing, this feature is only supported on FMC 7.6+, FTD 7.4+, and on physical appliances 1000-, 1200-, and 3100-series (clustering, multi-instances, and failover configurations not supported).
+  <p><b>Note:</b> As of the time of writing, this feature is only supported on FMC 7.6+, FTD 7.4+, and on physical appliances 1000-, 1200-, and 3100-series (clustering, multi-instances, and failover configurations not supported).
 <br>
-
-    
-  It is required that you're able to push platform setting policies to the device(s) and possibility for external SSH authentication either through LDAP or RADIUS in order to perform this kind of recovery</p>
+</p>
 </fieldset>
 
 First of all, there is multiple ways to perform such password recovery/reset for the static admin user, this is just one of many methods to do so.
