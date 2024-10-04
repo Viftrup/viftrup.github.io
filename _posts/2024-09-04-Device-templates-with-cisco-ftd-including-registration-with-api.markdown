@@ -36,11 +36,12 @@ There are three different ways of getting started with the first template, as fo
 I will mainly be focusing on the first approach, which is from scratch, and explain how to export and import this at a later stage. 
 However, generating the template from an existing device might require looking into some configuration guides, as it is not done within the Template Management section, but instead at the Device Management section.
 
-Device Management -> Desired Device -> Click the three dots -> Select “Generate Template from Device”
+<b>Device Management -> Desired Device -> Click the three dots -> Select “Generate Template from Device”</b>
 
 <h1>Creating a New Template from Scratch</h1>
 
-The new Template Management section is to be found under the Devices tab. When creating a template, a desired name is required along with the ACP which will be attached to the template. 
+The new Template Management section is to be found under the Devices tab. 
+When creating a template, a desired name is required along with the ACP which will be attached to the template. 
 Note that you’re not redirected into the template configuration right away, and the creation will spawn a job within the FMC – this usually takes a few seconds and afterwards you’re able to navigate into the template settings.
 
 
@@ -52,7 +53,9 @@ Note that you’re not redirected into the template configuration right away, an
 
 
 
-
+----------------
+------------
+--------
 
 First of all, there is multiple ways to perform such password recovery/reset for the static admin user, this is just one of many methods to do so.
 
