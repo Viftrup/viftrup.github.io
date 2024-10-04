@@ -28,7 +28,7 @@ Adding on top of that, we’re now able to register devices via hardware serial 
 </p>
 </fieldset>
 
-<h1>Getting Started with Template Management/h1>
+<h1>Getting Started with Template Management</h1>
 
 I am not going into every single configuration item but instead provide the fundamentals and basic understanding of how this can be utilized and scaled for larger deployments.
 
