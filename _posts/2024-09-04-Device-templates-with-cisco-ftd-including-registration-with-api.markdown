@@ -48,14 +48,16 @@ Beware that you’re not redirected into the template configuration right away, 
 
 <h2>Interfaces and Variables</h2>
 Once the template has been created, the first section will display the “Interfaces” configuration, and by default with a very limited set of physical interfaces. 
-By selecting the <i>“Add Physical Interfaces”</i> we can add additional interfaces into our configuration by selecting the slot and port index (I believe in future releases we’ll get the possibility to select other slots for additional NetMods).
+By selecting the <i>“Add Physical Interfaces”</i> we can add additional interfaces into the template configuration by selecting the slot and port index.
+(I believe in future releases we’ll get the possibility to select other slots for additional NetMods).
 
 As usual when operating with Secure Firewall Threat Defense, we’re also able to select <i>“Add Interface”</i> which displays a dropdown menu with extra interface features such as; Sub-Interface, Etherchannel, VLAN, VTI, and Loopbacks.
 
 Interface configuration looks exactly like we’re used to, however, there is a change within the IPv4 and IPv6 sections when assigning “static” values – the first set of variables comes to life here.
-This means instead of assigning an actual IP within my template, I can instead use a variable which I will be required to fill out during registration of a new device with this exact template.
+This means instead of assigning an actual IP within the template, I can instead use a variable which I will be required to fill out during registration of a new device with this exact template.
 
 To create this variable, you must click on the “+”-sign next to the IP address. The name you specify will be the name of our variable, so for ease of use make it self-explanatory, e.g., inside_ip.
+
 <i>(Every time you see the variable sign (X), this means we can create variables for this function).</i>
 
 If you’re unfamiliar with variables in general, a variable is often referred to by a “dollar-sign” aka $.
@@ -72,8 +74,58 @@ In my template, I am keeping it old school by doing static routing, however, if 
 
 If you’re deploying Cisco FTD SD-WAN, this would also be the section to configure Policy-Based Routing within your template.
 
+<h2>Understanding the Override Feature</h2>
+Before we continue, it’s important to understand how objects – especially the override feature works. In essence, the object override feature allows you to define an alternative value for an object, for one or more devices.
 
+For example, the original network-object might have the host value of 172.28.1.100. 
 
+With override, we can specify for this specific device the value should instead be 172.28.2.100. 
+The object and naming remain the same, but the value (in this case the host IP) is different depending on the device it is used on.
+
+Summarizing, if you’re using objects of any kind during templates, be sure you’ve ticked the <i>“Allow Overrides”</i> under the object settings.
+
+A very simple example shown below, I have created a very simple route through my inside interface towards <i>DK-SplunkCollector</i> (pay attention to the value, 192.168.0.100 I will override this during the deployment with the override feature) via Next-hop <i>DK-SplunkCollector-GW</i> on which object I also override its IP during deployment.
+
+<h2>Configuration of DHCP Pools</h2>
+I am not going into deep detail about this section, but as shown in the picture below I have configured two DHCP pools, one pool for my inside and one for the IoT. 
+
+Again, by utilizing variables during creation, I will be prompted about these values when deploying a new device with the template.
+
+Be sure when configuring new DHCP pools that they are enabled. (They aren’t by default).
+
+<h2>Setting Up VPN Connection (Not Covered in This Post)</h2>
+In this post, I will not be utilizing this section, perhaps at a later stage or in another post with a deeper dive on this subject. 
+
+However, this would be the section you set up for instance FTD SD-WAN in a Hub-and-Spoke topology for easy and rapid deployment during new branches.
+
+<h2>Template Settings</h2>
+This section contains a lot of information and important tabs which ultimately bind everything together in the end.
+
+<h3>General</h3>
+The most important sections to pay attention to here are the <i>License”</i>“ and <i>“Applied Policies”</i> boxes. (Arguably also the <i>“Deployment Settings”</i> for automatic rollback).
+
+Ideally, it is just a matter of assigning the correct licenses matching your template, and attaching the different kinds of policies you want (ACP, Prefilter, NAT, Platform, etc.).
+
+<h3>Template Parameters</h3>
+Right away you will (hopefully) notice why we kept this section until the end of our template creation. 
+
+This section shows all the different variables we created in the previous sections.
+
+The bottom section shows the <i>“Network Object Overrides”</i> which I went over earlier in depth. However, I will have to add the objects I want to override with custom values manually here. (DK-SplunkCollector-GW and DK-SplunkCollector in my examples).
+
+This is done by pressing the <i>“Add or Remove Network Object Overrides”</i> and making sure my objects are on the far right in <i>Selected Networks</i>.
+
+<h3>Model Mapping</h3>
+The end is almost near, just one final thing and we’re done with the template itself. 
+
+This section is all about mapping the template interfaces to the desired physical appliances and their interfaces. 
+
+Under normal circumstances, this would be a 1:1 mapping, Ethernet 1/1 -> Ethernet 1/1, but we have the possibility to change this, including model-specific configurations. 
+
+I will be using an FPR1010 in this example.
+
+<h2>Deployment Time with Our Newly Created Template</h2>
+Now let’s bring this template to use and watch the FMC and FTD do their magic. We just need to provide the wizard some site-specific data and a single command on the FTD.
 
 
 ----------------
