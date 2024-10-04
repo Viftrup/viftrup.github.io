@@ -8,8 +8,7 @@ image: "/assets/pictures/secure-firewall-locked-linkedin-size.png"
 published: true
 ---
 <fieldset style="background-color:#FFFFCC;">
-  <p><b>Note:</b> As of the time of writing, this feature is only supported on FMC 7.6+, FTD 7.4+, and on physical appliances 1000-, 1200-, and 3100-series (clustering, multi-instances, and failover configurations not supported).
-</p>
+  <p><b>Note:</b> As of the time of writing, this feature is only supported on FMC 7.6+, FTD 7.4+, and on physical appliances 1000-, 1200-, and 3100-series (clustering, multi-instances, and failover configurations not supported). </p>
 </fieldset>
 
 Imagine if you could do (almost) zero-touch deployments of your branches with Cisco FTDs, even combined with the possibility to include FTD SD-WAN setup. 
@@ -22,8 +21,7 @@ Ideally, this means doing branch deployments with FTDs has never been easier.
 Adding on top of that, we’re now able to register devices via hardware serial numbers as well (not covered in this post, yet) - YES, even for on-prem if a connection to Cisco Security Cloud has been established – this does <b>NOT</b> require you to be fully cloud deployed.
 
 <fieldset style="background-color:#FFFFCC;">
-  <p><b>Note:</b> Cisco Security Cloud Integration is formerly known as the SecureX integration. As SecureX has been deprecated, this was replaced. Security Cloud has a larger suite of features and products, but most people would know this as CDO for instance. In the coming months, CDO will be rebranded as Security Cloud Control (SCC) with an AI-First approach including several other feature enhancements and integrations to other Cisco products.
-</p>
+  <p><b>Note:</b> Cisco Security Cloud Integration is formerly known as the SecureX integration. As SecureX has been deprecated, this was replaced. Security Cloud has a larger suite of features and products, but most people would know this as CDO for instance. In the coming months, CDO will be rebranded as Security Cloud Control (SCC) with an AI-First approach including several other feature enhancements and integrations to other Cisco products. </p>
 </fieldset>
 
 <h1>Getting Started with Template Management</h1>
