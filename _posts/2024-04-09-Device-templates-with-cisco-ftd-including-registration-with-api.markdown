@@ -5,7 +5,7 @@ author: Alexander Viftrup Andersen
 categories: [Secure Firewall, Security, API]
 cover: "/assets/pictures/secure-firewall-locked.png"
 image: "/assets/pictures/secure-firewall-locked-linkedin-size.png"
-published: true
+published: false
 ---
 <fieldset style="background-color:#FFFFCC;">
   <h4>Please note:</h4>
