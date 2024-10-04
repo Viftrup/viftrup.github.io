@@ -5,7 +5,7 @@ author: Alexander Viftrup Andersen
 categories: [Secure Firewall, Security, API]
 cover: "/assets/pictures/secure-firewall-locked.png"
 image: "/assets/pictures/secure-firewall-locked-linkedin-size.png"
-published: true
+published: false
 ---
 <fieldset style="background-color:#FFFFCC;">
   <p><b>Note:</b> As of the time of writing, this feature is only supported on FMC 7.6+, FTD 7.4+, and on physical appliances 1000-, 1200-, and 3100-series (clustering, multi-instances, and failover configurations not supported). </p>
