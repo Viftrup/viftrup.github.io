@@ -44,10 +44,31 @@ The new Template Management section is to be found under the Devices tab.
 When creating a template, a desired name is required along with the ACP which will be attached to the template. 
 Note that you’re not redirected into the template configuration right away, and the creation will spawn a job within the FMC – this usually takes a few seconds and afterwards you’re able to navigate into the template settings.
 
+<h2>Interfaces and Variables</h2>
+Once the template has been created, the first section will display the “Interfaces” configuration, and by default with a very limited set of physical interfaces. 
+By selecting the <i>“Add Physical Interfaces”</i> we can add additional interfaces into our configuration by selecting the slot and port index (I believe in future releases we’ll get the possibility to select other slots for additional NetMods).
 
+As usual when operating with Secure Firewall Threat Defense, we’re also able to select <i>“Add Interface”</i> which displays a dropdown menu with extra interface features such as; Sub-Interface, Etherchannel, VLAN, VTI, and Loopbacks.
 
+Interface configuration looks exactly like we’re used to, however, there is a change within the IPv4 and IPv6 sections when assigning “static” values – the first set of variables comes to life here.
+This means instead of assigning an actual IP within my template, I can instead use a variable which I will be required to fill out during registration of a new device with this exact template.
 
+To create this variable, you must click on the “+”-sign next to the IP address. The name you specify will be the name of our variable, so for ease of use make it self-explanatory, e.g., inside_ip.
+<i>(Every time you see the variable sign (X), this means we can create variables for this function).</i>
 
+If you’re unfamiliar with variables in general, a variable is often referred to by a “dollar-sign” aka $.
+
+Make sure to do this for all the interfaces you intend to create for your template, including etherchannels and sub-interfaces if you need such. By utilizing the variables feature, your deployments will be a breeze and easy to use.
+
+<i>Important: In order to minimize the manual intervention during deployment and future support, be sure your outside interface(s) is enabled for Manager Access. Even if your appliances have a separate management interface, it is required to use a data-interface for FMC connectivity.</i>
+
+<h2>Routing and Use of Variables with Network-Objects and Overrides</h2>
+Now that you’ve created your interfaces and you’re familiar with the benefits of variables, let’s continue onto the routing sections. 
+Especially in this section, variables come in handy once again, this time for routing and network-objects used in my template.
+
+In my template, I am keeping it old school by doing static routing, however, if you are using BGP many things within the BGP settings are also configurable via variables, e.g., ASN and Router ID.
+
+If you’re deploying Cisco FTD SD-WAN, this would also be the section to configure Policy-Based Routing within your template.
 
 
 
