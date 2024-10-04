@@ -1,11 +1,11 @@
----
+  ---
 layout: post
 title: "Deploying branches with Cisco FTD and device templates"
 author: Alexander Viftrup Andersen
 categories: [Secure Firewall, Security, API]
 cover: "/assets/pictures/secure-firewall-locked.png"
 image: "/assets/pictures/secure-firewall-locked-linkedin-size.png"
-published: false
+published: true
 ---
 <fieldset style="background-color:#FFFFCC;">
   <p><b>Note:</b> As of the time of writing, this feature is only supported on FMC 7.6+, FTD 7.4+, and on physical appliances 1000-, 1200-, and 3100-series (clustering, multi-instances, and failover configurations not supported).
@@ -19,10 +19,33 @@ And on top of this, imagine if you could streamline the FTD registration on the 
 
 As Cisco recently released the Secure Firewall Threat Defense version 7.6, this is now a reality, with a native feature set for Device Templates within the FMC and with APIs supporting registration of FTDs combined with templates, including custom variables and network overrides.
 
+Ideally, this means doing branch deployments with FTDs has never been easier. 
+Adding on top of that, we’re now able to register devices via hardware serial numbers as well (not covered in this post, yet) - YES, even for on-prem if a connection to Cisco Security Cloud has been established – this does <b>NOT</b> require you to be fully cloud deployed.
 
+<fieldset style="background-color:#FFFFCC;">
+  <p><b>Note:</b> Cisco Security Cloud Integration is formerly known as the SecureX integration. As SecureX has been deprecated, this was replaced. Security Cloud has a larger suite of features and products, but most people would know this as CDO for instance. In the coming months, CDO will be rebranded as Security Cloud Control (SCC) with an AI-First approach including several other feature enhancements and integrations to other Cisco products.
+<br>
+</p>
+</fieldset>
 
+<h1>Getting Started with Template Management/h1>
 
+I am not going into every single configuration item but instead provide the fundamentals and basic understanding of how this can be utilized and scaled for larger deployments.
 
+There are three different ways of getting started with the first template, as follows:
+1.	Create a new template from scratch
+2.	Generate a template from an existing device
+3.	Export the SFO template from an existing environment
+
+I will mainly be focusing on the first approach, which is from scratch, and explain how to export and import this at a later stage. 
+However, generating the template from an existing device might require looking into some configuration guides, as it is not done within the Template Management section, but instead at the Device Management section.
+
+Device Management -> Desired Device -> Click the three dots -> Select “Generate Template from Device”
+
+<h1>Creating a New Template from Scratch</h1>
+
+The new Template Management section is to be found under the Devices tab. When creating a template, a desired name is required along with the ACP which will be attached to the template. 
+Note that you’re not redirected into the template configuration right away, and the creation will spawn a job within the FMC – this usually takes a few seconds and afterwards you’re able to navigate into the template settings.
 
 
 
