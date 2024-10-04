@@ -13,6 +13,20 @@ published: false
 </p>
 </fieldset>
 
+Imagine if you could do (almost) zero-touch deployments of your branches with Cisco FTDs, even combined with the possibility to include FTD SD-WAN setup. 
+And on top of this, imagine if you could streamline the FTD registration on the FMC with templates and custom variables through API.
+
+
+As Cisco recently released the Secure Firewall Threat Defense version 7.6, this is now a reality, with a native feature set for Device Templates within the FMC and with APIs supporting registration of FTDs combined with templates, including custom variables and network overrides.
+
+
+
+
+
+
+
+
+
 First of all, there is multiple ways to perform such password recovery/reset for the static admin user, this is just one of many methods to do so.
 
 This specific method however doesn't require any physical interaction with the appliance, downtime on the system or knowledge of the current password for the admin user.
