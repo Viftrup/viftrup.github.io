@@ -9,7 +9,6 @@ published: true
 ---
 <fieldset style="background-color:#FFFFCC;">
   <p><b>Note:</b> As of the time of writing, this feature is only supported on FMC 7.6+, FTD 7.4+, and on physical appliances 1000-, 1200-, and 3100-series (clustering, multi-instances, and failover configurations not supported).
-<br>
 </p>
 </fieldset>
 
@@ -24,7 +23,6 @@ Adding on top of that, we’re now able to register devices via hardware serial 
 
 <fieldset style="background-color:#FFFFCC;">
   <p><b>Note:</b> Cisco Security Cloud Integration is formerly known as the SecureX integration. As SecureX has been deprecated, this was replaced. Security Cloud has a larger suite of features and products, but most people would know this as CDO for instance. In the coming months, CDO will be rebranded as Security Cloud Control (SCC) with an AI-First approach including several other feature enhancements and integrations to other Cisco products.
-<br>
 </p>
 </fieldset>
 
@@ -46,6 +44,14 @@ Device Management -> Desired Device -> Click the three dots -> Select “Generat
 
 The new Template Management section is to be found under the Devices tab. When creating a template, a desired name is required along with the ACP which will be attached to the template. 
 Note that you’re not redirected into the template configuration right away, and the creation will spawn a job within the FMC – this usually takes a few seconds and afterwards you’re able to navigate into the template settings.
+
+
+
+
+
+
+
+
 
 
 
