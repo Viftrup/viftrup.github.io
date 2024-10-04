@@ -40,9 +40,11 @@ However, generating the template from an existing device might require looking i
 
 <h1>Creating a New Template from Scratch</h1>
 
-The new Template Management section is to be found under the Devices tab. 
+The new Template Management section is to be found under the <i>Devices</i> tab. 
+
 When creating a template, a desired name is required along with the ACP which will be attached to the template. 
-Note that you’re not redirected into the template configuration right away, and the creation will spawn a job within the FMC – this usually takes a few seconds and afterwards you’re able to navigate into the template settings.
+
+Beware that you’re not redirected into the template configuration right away, and the creation will spawn a job within the FMC – this usually takes a few seconds and afterwards you’re able to navigate into the template settings.
 
 <h2>Interfaces and Variables</h2>
 Once the template has been created, the first section will display the “Interfaces” configuration, and by default with a very limited set of physical interfaces. 
