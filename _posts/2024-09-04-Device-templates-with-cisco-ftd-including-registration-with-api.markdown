@@ -71,7 +71,7 @@ To create this variable, you must click on the “+”-sign next to the IP addre
 
 <i>(Every time you see the variable sign (X), this means we can create variables for this function).</i>
 <a href="//blog.viftrup.eu/assets/pictures/template-management/ipv4-settings.png" data-lightbox="ipv4-settings-large" data-title="IPv4 settings"> 
-  <img src="//blog.viftrup.eu/assets/pictures/template-management/ipv4-settings.png" title="Click to enlarge - IPv4 settings" style="width: 400px"> 
+  <img src="//blog.viftrup.eu/assets/pictures/template-management/ipv4-settings.png" title="Click to enlarge - IPv4 settings"> 
 </a>
 <a href="//blog.viftrup.eu/assets/pictures/template-management/ipv4-variable.png" data-lightbox="ipv4-variable-large" data-title="IPv4 variable"> 
   <img src="//blog.viftrup.eu/assets/pictures/template-management/ipv4-variable.png" title="Click to enlarge - IPv4 variable" style="width: 400px"> 
@@ -103,7 +103,7 @@ Summarizing, if you’re using objects of any kind during templates, be sure you
 A very simple example shown below, I have created a very simple route through my inside interface towards <i>DK-SplunkCollector</i> (pay attention to the value, 192.168.0.100 I will override this during the deployment with the override feature) via Next-hop <i>DK-SplunkCollector-GW</i> on which object I also override its IP during deployment.
 
 <a href="//blog.viftrup.eu/assets/pictures/template-management/static-route.png" data-lightbox="static-route-large" data-title="Static route"> 
-  <img src="//blog.viftrup.eu/assets/pictures/template-management/static-route.png" title="Click to enlarge - Static route" style="width: 400px"> 
+  <img src="//blog.viftrup.eu/assets/pictures/template-management/static-route.png" title="Click to enlarge - Static route"> 
 </a>
 
 <h2>Configuration of DHCP Pools</h2>
@@ -112,7 +112,7 @@ I am not going into deep detail about this section, but as shown in the picture 
 Again, by utilizing variables during creation, I will be prompted about these values when deploying a new device with the template.
 
 <a href="//blog.viftrup.eu/assets/pictures/template-management/dhcp-pools.png" data-lightbox="dhcp-pools-large" data-title="DHCP Pools"> 
-  <img src="//blog.viftrup.eu/assets/pictures/template-management/dhcp-pools.png" title="Click to enlarge - DHCP Pools" style="width: 400px"> 
+  <img src="//blog.viftrup.eu/assets/pictures/template-management/dhcp-pools.png" title="Click to enlarge - DHCP Pools"> 
 </a>
 
 Be sure when configuring new DHCP pools that they are enabled. (They aren’t by default).
@@ -140,11 +140,11 @@ The bottom section shows the <i>“Network Object Overrides”</i> which I went 
 This is done by pressing the <i>“Add or Remove Network Object Overrides”</i> and making sure my objects are on the far right in <i>Selected Networks</i>.
 
 <a href="//blog.viftrup.eu/assets/pictures/template-management/template-parameters.png" data-lightbox="template-parameters-large" data-title="Template Parameters"> 
-  <img src="//blog.viftrup.eu/assets/pictures/template-management/template-parameters.png" title="Click to enlarge - Template Parameters" style="width: 400px"> 
+  <img src="//blog.viftrup.eu/assets/pictures/template-management/template-parameters.png" title="Click to enlarge - Template Parameters"> 
 </a>
 
 <a href="//blog.viftrup.eu/assets/pictures/template-management/template-parameters-selected.png" data-lightbox="template-parameters-large" data-title="Template Parameters"> 
-  <img src="//blog.viftrup.eu/assets/pictures/template-management/template-parameters-selected.png" title="Click to enlarge - Template Parameters" style="width: 400px"> 
+  <img src="//blog.viftrup.eu/assets/pictures/template-management/template-parameters-selected.png" title="Click to enlarge - Template Parameters"> 
 </a>
 
 <h3>Model Mapping</h3>
@@ -156,7 +156,7 @@ Under normal circumstances, this would be a 1:1 mapping, Ethernet 1/1 -> Etherne
 
 I will be using an FPR1010 in this example.
 <a href="//blog.viftrup.eu/assets/pictures/template-management/model-mapping.png" data-lightbox="model-mapping-large" data-title="Model Mapping"> 
-  <img src="//blog.viftrup.eu/assets/pictures/template-management/model-mapping.png" title="Click to enlarge - Model Mapping" style="width: 400px"> 
+  <img src="//blog.viftrup.eu/assets/pictures/template-management/model-mapping.png" title="Click to enlarge - Model Mapping"> 
 </a>
 
 <h2>Deployment time with my newly ceated template</h2>
@@ -186,7 +186,7 @@ The top section is the “normal” variables, and the bottom is our object over
 <i>Due to the nature of my personal setup, I am using the NAT ID section – I trust you know the basics of FTD registration and therefore I will not go into details as to why).</b>
 
 <a href="//blog.viftrup.eu/assets/pictures/template-management/device-wizard.png" data-lightbox="device-wizard-large" data-title="Device Wizard"> 
-  <img src="//blog.viftrup.eu/assets/pictures/template-management/device-wizard.png" title="Click to enlarge - Device Wizard" style="width: 400px"> 
+  <img src="//blog.viftrup.eu/assets/pictures/template-management/device-wizard.png" title="Click to enlarge - Device Wizard"> 
 </a>
 
 Hopefully, if everything goes well, the registration process should slowly proceed and start discovering the FTD and applying the attached template right away. This might take several minutes before completion.
