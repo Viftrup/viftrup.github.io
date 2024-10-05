@@ -24,7 +24,7 @@ Adding on top of that, we’re now able to register devices via hardware serial 
   <p><b>Note:</b> Cisco Security Cloud Integration is formerly known as the SecureX integration. As SecureX has been deprecated, this was replaced. Security Cloud has a larger suite of features and products, but most people would know this as CDO for instance. In the coming months, CDO will be rebranded as Security Cloud Control (SCC) with an AI-First approach including several other feature enhancements and integrations to other Cisco products. </p>
 </fieldset>
 
-<h1>Getting Started with Template Management</h1>
+<h1>Getting started with Template Management</h1>
 
 I am not going into every single configuration item but instead provide the fundamentals and basic understanding of how this can be utilized and scaled for larger deployments.
 
@@ -41,7 +41,7 @@ However, generating the template from an existing device might require looking i
   <img src="//blog.viftrup.eu/assets/pictures/template-management/template-from-device.png" title="Click to enlarge - template from device"> 
 </a>
 
-<h1>Creating a New Template from Scratch</h1>
+<h1>Creating a new template from scratch</h1>
 
 The new Template Management section is to be found under the <i>Devices</i> tab. 
 
@@ -53,7 +53,7 @@ Beware that you’re not redirected into the template configuration right away, 
   <img src="//blog.viftrup.eu/assets/pictures/template-management/create-template.png" title="Click to enlarge - create template" style="width: 400px"> 
 </a>
 
-<h2>Interfaces and Variables</h2>
+<h2>Interfaces and variables</h2>
 Once the template has been created, the first section will display the “Interfaces” configuration, and by default with a very limited set of physical interfaces. 
 By selecting the <i>“Add Physical Interfaces”</i> we can add additional interfaces into the template configuration by selecting the slot and port index.
 (I believe in future releases we’ll get the possibility to select other slots for additional NetMods).
@@ -82,7 +82,7 @@ Make sure to do this for all the interfaces you intend to create for your templa
 
 <i>Important: In order to minimize the manual intervention during deployment and future support, be sure your outside interface(s) is enabled for Manager Access. Even if your appliances have a separate management interface, it is required to use a data-interface for FMC connectivity.</i>
 
-<h2>Routing and Use of Variables with Network-Objects and Overrides</h2>
+<h2>Routing and the use of variables with network-objects and overrides</h2>
 Now that you’ve created your interfaces and you’re familiar with the benefits of variables, let’s continue onto the routing sections. 
 Especially in this section, variables come in handy once again, this time for routing and network-objects used in my template.
 
@@ -90,7 +90,7 @@ In my template, I am keeping it old school by doing static routing, however, if 
 
 If you’re deploying Cisco FTD SD-WAN, this would also be the section to configure Policy-Based Routing within your template.
 
-<h2>Understanding the Override Feature</h2>
+<h2>Understanding the override feature</h2>
 Before we continue, it’s important to understand how objects – especially the override feature works. In essence, the object override feature allows you to define an alternative value for an object, for one or more devices.
 
 For example, the original network-object might have the host value of 172.28.1.100. 
@@ -117,7 +117,7 @@ Again, by utilizing variables during creation, I will be prompted about these va
 
 Be sure when configuring new DHCP pools that they are enabled. (They aren’t by default).
 
-<h2>Setting Up VPN Connection (Not Covered in This Post)</h2>
+<h2>Setting up VPN connection (Not covered in this post)</h2>
 In this post, I will not be utilizing this section, perhaps at a later stage or in another post with a deeper dive on this subject. 
 
 However, this would be the section you set up for instance FTD SD-WAN in a Hub-and-Spoke topology for easy and rapid deployment during new branches.
@@ -159,7 +159,7 @@ I will be using an FPR1010 in this example.
   <img src="//blog.viftrup.eu/assets/pictures/template-management/model-mapping.png" title="Click to enlarge - Model Mapping" style="width: 500px"> 
 </a>
 
-<h2>Deployment time with my newly ceated template</h2>
+<h2>Deployment time with my newly created template</h2>
 Now let’s bring this template to use and watch the FMC and FTD do their magic. We just need to provide the wizard some site-specific data and a single command on the FTD.
 
 <h3>Configure manager on FTD</h3>
@@ -247,7 +247,7 @@ Aaaaand just to showcase the actual configuration output from the FTD, we see al
   <img src="//blog.viftrup.eu/assets/pictures/template-management/cli-proof.png" title="Click to enlarge - CLI proof from device"> 
 </a>
 
-My examples were very simple and I could have got into way more complex template creation, however I hope this has been informative and gives you an idea how to implement this into your environment for effective and scable deployments.
+My examples were very simple and I could have gotten into way more complex template creation, however I hope this has been informative and gives you an idea how to implement this into your environment for effective and scable deployments.
 
 <h2>Appendix - Payload used to register FTD and apply template in one go with API</h2>
 
@@ -308,64 +308,9 @@ My examples were very simple and I could have got into way more complex template
 }
 ```
 
-
+<b>Addtional materials:</b>
+<a href="https://www.cisco.com/c/en/us/td/docs/security/secure-firewall/management-center/device-config/760/management-center-device-config-76/get-started-device-templates.html">Cisco documentation - Device Management Using Device Templates</a> 
 
 ----------------
 ------------
 --------
-
-First of all, there is multiple ways to perform such password recovery/reset for the static admin user, this is just one of many methods to do so.
-
-This specific method however doesn't require any physical interaction with the appliance, downtime on the system or knowledge of the current password for the admin user.
-
-<h1>Initial procedure - Configuration of external authentication</h1>
-
-Navigate into the FMC which holds the manager role for the specific FTD(s) you want to perform the recovery on.
-
-Under <b>System -> Users -> External Authentication</b> make sure you have created either an LDAP or RADIUS object with working configuration, desired filtering for CLI access and your user has suffient and correct privileges for SSH/CLI.
-
-Next step is either to create a new platform setting policy, or alter the platform setting currently applied to the desired FTD(s).
-
-Under the <b>External Authentication</b> tab the previous mentioned external authentication object should be present, make sure to enable it and deploy the change to the FTD(s).
-
-<a href="//blog.viftrup.eu/assets/pictures/platform-settings-external-auth.png" data-lightbox="platform-settings-large" data-title="Platform settings"> 
-  <img src="//blog.viftrup.eu/assets/pictures/platform-settings-external-auth.png" title="Click to enlarge - Platform Settings"> 
-</a>
-
-Once deployment is successful, you should be able to SSH into your FTD and use your credentials from the external authentication provider configured. <br><i>(If this is unsuccessful, go back into the external authentication page and perform an authentication test on the very buttom of the page to ensure your credentials is correct and mapped to the desired filtering for CLI access)</i>
-
-
-<h1>Resetting the admin password</h1>
-
-Once logged in through external authentication, the actual magic can be performed in order to reset the password for the admin user.
-
-First we need to access the linux shell and elevate our access rights, this is done by typing ```expert``` and elevate through ```sudo -i``` followed by your <b>external authentication password</b> - in other words, the same password you used in order to access the SSH itself.
-
-Once we've elevated our privileges the fun can begin, and we can reset the admin password.
-
-Type ```passwd admin``` <br>
-Next you'll be prompted for the new desired password, type in the password you want going forward - a confirmation prompt will follow in order to ensure the passwords match.
-
-```
-> expert
-ava-ftd01:~$ pwd    
-/ngfw/Volume/home/bob-admin <--- Verify I am logged in as external user
-ava-ftd01:~$ sudo -i
-Password: <Password-of-bob-admin-ext-user>
-root@ava-ftd01:~# passwd admin
-New password: <New-admin-password>
-Retype new password: <New-admin-password>
-passwd: password updated successfully
-root@ava-ftd01:~#
-```
-
-Once this has been done you've successfully recovered/reset the admin password, and you should be able to initiate another SSH session to the FTD and able to login as "admin" with your new password.
-
-```
-> expert
-admin@ava-ftd01:~$ pwd
-/home/admin <--- Verify I am logged in as admin user
-```
-
-
-I highly suggest keeping the external authentication enabled as this makes onboarding and off-boarding of new employees a lot easier and also the audting part will be much easier. Just make sure you've limited the access for CLI to a specific security group / OU within your environment.
