@@ -4,7 +4,7 @@ title: "Branch deployment using templates on Cisco FTD - including API registrat
 author: Alexander Viftrup Andersen
 categories: [Secure Firewall, Security, API]
 cover: "/assets/pictures/secure-firewall-locked.png"
-image: "/assets/pictures/secure-firewall-locked-linkedin-size.png"
+image: "/assets/pictures/branch-deployment-linkedin.png"
 published: true
 ---
 <fieldset style="background-color:#FFFFCC;">
