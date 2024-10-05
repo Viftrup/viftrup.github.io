@@ -156,7 +156,7 @@ Under normal circumstances, this would be a 1:1 mapping, Ethernet 1/1 -> Etherne
 
 I will be using an FPR1010 in this example.
 <a href="//blog.viftrup.eu/assets/pictures/template-management/model-mapping.png" data-lightbox="model-mapping-large" data-title="Model Mapping"> 
-  <img src="//blog.viftrup.eu/assets/pictures/template-management/model-mapping.png" title="Click to enlarge - Model Mapping"> 
+  <img src="//blog.viftrup.eu/assets/pictures/template-management/model-mapping.png" title="Click to enlarge - Model Mapping" style="width: 500px"> 
 </a>
 
 <h2>Deployment time with my newly ceated template</h2>
