@@ -5,7 +5,7 @@ author: Alexander Viftrup Andersen
 categories: [Secure Firewall, Security, API]
 cover: "/assets/pictures/secure-firewall-locked.png"
 image: "/assets/pictures/secure-firewall-locked-linkedin-size.png"
-published: false
+published: true
 ---
 <fieldset style="background-color:#FFFFCC;">
   <p><b>Note:</b> As of the time of writing, this feature is only supported on FMC 7.6+, FTD 7.4+, and on physical appliances 1000-, 1200-, and 3100-series (clustering, multi-instances, and failover configurations not supported). </p>
@@ -124,8 +124,121 @@ Under normal circumstances, this would be a 1:1 mapping, Ethernet 1/1 -> Etherne
 
 I will be using an FPR1010 in this example.
 
-<h2>Deployment Time with Our Newly Created Template</h2>
+<h2>Deployment time with my newly ceated template</h2>
 Now let’s bring this template to use and watch the FMC and FTD do their magic. We just need to provide the wizard some site-specific data and a single command on the FTD.
+
+<h3>Configure manager on FTD</h3>
+This is the one thing that makes this a low-touch deployment rather than a true zero-touch deployment, as we do still need to at least configure the manager settings for which FMC to contact. 
+<i>(Depending on your uplink environment, be sure the device has/is configured to access FMC through a data-interface).</i>
+
+No real fuzz to this step, I will “just” be running the usual configure manager command to match my setup.
+```
+Configure manager add <IP or DONTRESOLVE> cisco123 cisconat123 AVA-FMC01
+```
+Next up, I will be configuring the FMC to establish and start the registration process. However, I will be presenting the "manual" way followed by a way to do this through the FMC API.
+
+<h3>Configure FTD + Template on FMC including branch-specific values (manual through GUI)</h3>
+<b>Step 1:</b> Navigate to the usual Device Management section and press the <i>Add -> Device (Wizard)</i>. It’s important to select the wizard option; otherwise, it’ll be a regular registration and not with a template.
+
+In this post, I’ll only be covering the traditional method using a registration key (I’ll go over the serial number option with CDO in a later post), so we select <i>Registration Key.</i>
+
+<b>Step 2:</b> I will select my newly created template. At this stage, I see which ACP I’ve applied, including which models the template supports. (If you forgot or didn’t do the Model Mapping described earlier, you will notice the device models don’t show up as supported).
+
+<b>Step 3:</b> This is the device details section, which is also known from the traditional registration process. 
+
+At the far bottom, however, we’re greeted with required fields which correspond to the variables we created earlier in the template. 
+The top section is the “normal” variables, and the bottom is our object overrides for device-specific values.
+<i>Due to the nature of my personal setup, I am using the NAT ID section – I trust you know the basics of FTD registration and therefore I will not go into details as to why).</b>
+
+Hopefully, if everything goes well, the registration process should slowly proceed and start discovering the FTD and applying the attached template right away. This might take several minutes before completion.
+
+<h3>Configure FTD + template on FMC including branch-specific values (The more scalable way through API)</h3>
+So, in the previous section, I was doing this manually through the FMC GUI, which is fine for one or two deployments. 
+
+However, this doesn’t scale well in the end. If a task is repetitive, it should be automated or at least scripted! So of course, I should be including the payload example to do such.
+
+At the far end of this post is a sample using cURL, including my customized payload with the exact same values and end-goal as in the previous section through the GUI. 
+
+This can easily be adopted into a Python script or the programming language of your choice – even integrating this into a larger set of onboarding processes or programs.
+
+<h2>The FTD and FMC do their magic and the process within</h2>
+Once I have started the registration on both ends, the FMC will start to discover the FTD and establish the sftunnel for continuous communication and deployment.
+
+
+As the FTD is properly registered, it goes right into deploying the template and configuration as specified earlier. We can also follow that process.
+
+There are multiple ways to follow the deployment of the template. One would be through the traditional notifications tab as usual. 
+However, by navigating to the Template Management section, you will notice that my newly created template now states it has <i>“1 Associated Device.”</i>
+
+Clicking on the Associated Devices hyperlink will bring us directly into the process and status between FTD configuration state and the template state – in sync means the current version of the template is applied and present on my device.
+
+The <i>“Reapply Template”</i> button brings up a similar dialog as seen following the device wizard.
+If I, for some reason, need to change some values within my specific devices without starting all over again, I would be able to alter these and reapply the template right away; meaning only a re-deployment is necessary, but not a complete re-registration.
+
+Besides this button, we can hover over the <i>“(X)”</i> aka variables symbol to get a quick overview of which values were provided with the template for this device.
+
+The next icon generates a very simple report summarizing which values, mappings, etc., were applied to this specific device, including timestamps for begin and finish.
+
+
+<h2>Appendix - Payload used to register FTD and apply template in one go with API</h2>
+
+```
+{
+    "name": "AVA-DK-BRANCH01",
+    "hostName": "IP",
+    "natID": "cisconat123",
+    "regKey": "cisco123",
+    "type": "Device",
+    "performanceTier": "Legacy",
+    "actions": [
+      {
+        "actionType": "APPLY_TEMPLATE",
+        "actionInfo": {
+          "postApplyAction": "DEPLOY",
+          "template": {
+            "id": "865c1fd8-7ff0-11ef-94a7-d514d2b4c65f",
+            "type": "DEVICE_TEMPLATE"
+          },
+          "variableValues": [
+            {
+                "key": "inside_dhcp_pool",
+                "value": "192.168.100.100-192.168.100.200"
+            },
+            {
+                "key": "inside_ip",
+                "value": "192.168.100.1/24"
+            },
+            {
+                "key": "iot_dhcp_pool",
+                "value": "172.28.200.100-172.28.200.200"
+            },
+            {
+                "key": "iot_ip",
+                "value": "172.28.200.1/24"
+            }
+        ],
+        "overriddenValues": {
+            "hosts": [
+                {
+                    "type": "Host",
+                    "value": "192.168.100.2",
+                    "overridable": true,
+                    "name": "DK-SplunkCollector-GW"
+                },
+                {
+                    "type": "Host",
+                    "value": "192.168.100.10",
+                    "overridable": true,
+                    "name": "DK-SplunkCollector"
+                }
+          ]
+        }
+      }
+    }
+  ]
+}'
+```
+
 
 
 ----------------
