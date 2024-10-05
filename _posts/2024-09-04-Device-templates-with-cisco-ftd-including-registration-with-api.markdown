@@ -38,7 +38,7 @@ However, generating the template from an existing device might require looking i
 
 <b>Device Management -> Desired Device -> Click the three dots -> Select “Generate Template from Device”</b>
 <a href="//blog.viftrup.eu/assets/pictures/template-management/template-from-device.png" data-lightbox="template-from-device-large" data-title="Generate template from device"> 
-  <img src="//blog.viftrup.eu/assets/pictures/template-management/template-from-device.png" title="Click to enlarge - template from device"> 
+  <img src="//blog.viftrup.eu/assets/pictures/template-management/template-from-device.png" title="Click to enlarge - template from device" style="width: 400px"> 
 </a>
 
 <h1>Creating a New Template from Scratch</h1>
@@ -57,6 +57,10 @@ Beware that you’re not redirected into the template configuration right away, 
 Once the template has been created, the first section will display the “Interfaces” configuration, and by default with a very limited set of physical interfaces. 
 By selecting the <i>“Add Physical Interfaces”</i> we can add additional interfaces into the template configuration by selecting the slot and port index.
 (I believe in future releases we’ll get the possibility to select other slots for additional NetMods).
+<a href="//blog.viftrup.eu/assets/pictures/template-management/create-physical-interface.png" data-lightbox="create-physical-interface-large" data-title="Create physical interface"> 
+  <img src="//blog.viftrup.eu/assets/pictures/template-management/create-physical-interface.png" title="Click to enlarge - create physical interface" style="width: 400px"> 
+</a>
+
 
 As usual when operating with Secure Firewall Threat Defense, we’re also able to select <i>“Add Interface”</i> which displays a dropdown menu with extra interface features such as; Sub-Interface, Etherchannel, VLAN, VTI, and Loopbacks.
 
