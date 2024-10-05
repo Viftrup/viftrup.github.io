@@ -73,7 +73,7 @@ To create this variable, you must click on the “+”-sign next to the IP addre
 <a href="//blog.viftrup.eu/assets/pictures/template-management/ipv4-settings.png" data-lightbox="ipv4-settings-large" data-title="IPv4 settings"> 
   <img src="//blog.viftrup.eu/assets/pictures/template-management/ipv4-settings.png" title="Click to enlarge - IPv4 settings"> 
 </a>
-<a href="//blog.viftrup.eu/assets/pictures/template-management/ipv4-variable.png" data-lightbox="ipv4-variable-large" data-title="IPv4 settings"> 
+<a href="//blog.viftrup.eu/assets/pictures/template-management/ipv4-variable.png" data-lightbox="ipv4-settings-large" data-title="IPv4 variable"> 
   <img src="//blog.viftrup.eu/assets/pictures/template-management/ipv4-variable.png" title="Click to enlarge - IPv4 variable" style="width: 400px"> 
 </a>
 If you’re unfamiliar with variables in general, a variable is often referred to by a “dollar-sign” aka $.
@@ -190,6 +190,10 @@ The top section is the “normal” variables, and the bottom is our object over
 </a>
 
 Hopefully, if everything goes well, the registration process should slowly proceed and start discovering the FTD and applying the attached template right away. This might take several minutes before completion.
+
+<a href="//blog.viftrup.eu/assets/pictures/template-management/discover.png" data-lightbox="device-wizard-large" data-title="Device Wizard"> 
+  <img src="//blog.viftrup.eu/assets/pictures/template-management/discover.png" title="Click to enlarge - Device Wizard"> 
+</a>
 
 <h3>Configure FTD + template on FMC including branch-specific values (The more scalable way through API)</h3>
 So, in the previous section, I was doing this manually through the FMC GUI, which is fine for one or two deployments. 
