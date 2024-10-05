@@ -191,10 +191,6 @@ The top section is the “normal” variables, and the bottom is our object over
 
 Hopefully, if everything goes well, the registration process should slowly proceed and start discovering the FTD and applying the attached template right away. This might take several minutes before completion.
 
-<a href="//blog.viftrup.eu/assets/pictures/template-management/discover.png" data-lightbox="device-wizard-large" data-title="Device Wizard"> 
-  <img src="//blog.viftrup.eu/assets/pictures/template-management/discover.png" title="Click to enlarge - Device Wizard"> 
-</a>
-
 <h3>Configure FTD + template on FMC including branch-specific values (The more scalable way through API)</h3>
 So, in the previous section, I was doing this manually through the FMC GUI, which is fine for one or two deployments. 
 
@@ -207,21 +203,51 @@ This can easily be adopted into a Python script or the programming language of y
 <h2>The FTD and FMC do their magic and the process within</h2>
 Once I have started the registration on both ends, the FMC will start to discover the FTD and establish the sftunnel for continuous communication and deployment.
 
+<a href="//blog.viftrup.eu/assets/pictures/template-management/discover.png" data-lightbox="registration-large" data-title="Discover"> 
+  <img src="//blog.viftrup.eu/assets/pictures/template-management/discover.png" title="Click to enlarge - Discover"> 
+</a>
 
 As the FTD is properly registered, it goes right into deploying the template and configuration as specified earlier. We can also follow that process.
+
+<a href="//blog.viftrup.eu/assets/pictures/template-management/template-start.png" data-lightbox="registration-large" data-title="Template deployment start"> 
+  <img src="//blog.viftrup.eu/assets/pictures/template-management/template-start.png" title="Click to enlarge - Template deployment start"> 
+</a>
+
+<a href="//blog.viftrup.eu/assets/pictures/template-management/template-deployed.png" data-lightbox="registration-large" data-title="Template deployment finished"> 
+  <img src="//blog.viftrup.eu/assets/pictures/template-management/template-deployed.png" title="Click to enlarge - Template deployment finished"> 
+</a>
 
 There are multiple ways to follow the deployment of the template. One would be through the traditional notifications tab as usual. 
 However, by navigating to the Template Management section, you will notice that my newly created template now states it has <i>“1 Associated Device.”</i>
 
+<a href="//blog.viftrup.eu/assets/pictures/template-management/associated-devices.png" data-lightbox="associated-large" data-title="Associated Devices"> 
+  <img src="//blog.viftrup.eu/assets/pictures/template-management/associated-devices.png" title="Click to enlarge - Associated Devices"> 
+</a>
+
 Clicking on the Associated Devices hyperlink will bring us directly into the process and status between FTD configuration state and the template state – in sync means the current version of the template is applied and present on my device.
+
+<a href="//blog.viftrup.eu/assets/pictures/template-management/associated-devices-shown.png" data-lightbox="associated-large" data-title="Associated Devices"> 
+  <img src="//blog.viftrup.eu/assets/pictures/template-management/associated-devices-shown.png" title="Click to enlarge - Associated Devices"> 
+</a>
 
 The <i>“Reapply Template”</i> button brings up a similar dialog as seen following the device wizard.
 If I, for some reason, need to change some values within my specific devices without starting all over again, I would be able to alter these and reapply the template right away; meaning only a re-deployment is necessary, but not a complete re-registration.
+
+<a href="//blog.viftrup.eu/assets/pictures/template-management/reapply-template.png" data-lightbox="reapply-large" data-title="Reapply Template dialog"> 
+  <img src="//blog.viftrup.eu/assets/pictures/template-management/reapply-template.png" title="Click to enlarge - Reapply Template dialog"> 
+</a>
 
 Besides this button, we can hover over the <i>“(X)”</i> aka variables symbol to get a quick overview of which values were provided with the template for this device.
 
 The next icon generates a very simple report summarizing which values, mappings, etc., were applied to this specific device, including timestamps for begin and finish.
 
+<h2>The proof and final words</h2>
+Aaaaand just to showcase the actual configuration output from the FTD, we see all the variables and template configurations I configured is now applied to my FTD.
+<a href="//blog.viftrup.eu/assets/pictures/template-management/cli-proof.png" data-lightbox="cli-proof-large" data-title="CLI proof from device"> 
+  <img src="//blog.viftrup.eu/assets/pictures/template-management/cli-proof.png" title="Click to enlarge - CLI proof from device"> 
+</a>
+
+My examples were very simple and I could have got into way more complex template creation, however I hope this has been informative and gives you an idea how to implement this into your environment for effective and scable deployments.
 
 <h2>Appendix - Payload used to register FTD and apply template in one go with API</h2>
 
