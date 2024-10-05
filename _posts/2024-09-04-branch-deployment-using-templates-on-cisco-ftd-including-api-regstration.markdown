@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Deploying branches with Cisco FTD and device templates"
+title: "Branch deployment using templates on Cisco FTD - including API registration"
 author: Alexander Viftrup Andersen
 categories: [Secure Firewall, Security, API]
 cover: "/assets/pictures/secure-firewall-locked.png"
