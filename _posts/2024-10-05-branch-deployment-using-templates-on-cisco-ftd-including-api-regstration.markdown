@@ -2,7 +2,7 @@
 layout: post
 title: "Branch deployment using templates on Cisco FTD - including API registration"
 author: Alexander Viftrup Andersen
-categories: [Secure Firewall, Security, API]
+categories: [Secure Firewall, Security, Api]
 cover: "/assets/pictures/secure-firewall-locked.png"
 image: "/assets/pictures/template-management/branch-deployment-linkedin.png"
 published: true
