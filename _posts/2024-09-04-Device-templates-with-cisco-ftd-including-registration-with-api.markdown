@@ -50,7 +50,7 @@ When creating a template, a desired name is required along with the ACP which wi
 Beware that you’re not redirected into the template configuration right away, and the creation will spawn a job within the FMC – this usually takes a few seconds and afterwards you’re able to navigate into the template settings.
 
 <a href="//blog.viftrup.eu/assets/pictures/template-management/create-template.png" data-lightbox="create-template-small" data-title="Create template"> 
-  <img src="//blog.viftrup.eu/assets/pictures/template-management/create-template.png" title="Click to enlarge - create template" width="500" height="600"> 
+  <img src="//blog.viftrup.eu/assets/pictures/template-management/create-template.png" title="Click to enlarge - create template" width="300" height="500"> 
 </a>
 
 <h2>Interfaces and Variables</h2>
