@@ -73,7 +73,7 @@ To create this variable, you must click on the “+”-sign next to the IP addre
 <a href="//blog.viftrup.eu/assets/pictures/template-management/ipv4-settings.png" data-lightbox="ipv4-settings-large" data-title="IPv4 settings"> 
   <img src="//blog.viftrup.eu/assets/pictures/template-management/ipv4-settings.png" title="Click to enlarge - IPv4 settings"> 
 </a>
-<a href="//blog.viftrup.eu/assets/pictures/template-management/ipv4-variable.png" data-lightbox="ipv4-variable-large" data-title="IPv4 variable"> 
+<a href="//blog.viftrup.eu/assets/pictures/template-management/ipv4-variable.png" data-lightbox="ipv4-variable-large" data-title="IPv4 settings"> 
   <img src="//blog.viftrup.eu/assets/pictures/template-management/ipv4-variable.png" title="Click to enlarge - IPv4 variable" style="width: 400px"> 
 </a>
 If you’re unfamiliar with variables in general, a variable is often referred to by a “dollar-sign” aka $.
@@ -103,7 +103,7 @@ Summarizing, if you’re using objects of any kind during templates, be sure you
 A very simple example shown below, I have created a very simple route through my inside interface towards <i>DK-SplunkCollector</i> (pay attention to the value, 192.168.0.100 I will override this during the deployment with the override feature) via Next-hop <i>DK-SplunkCollector-GW</i> on which object I also override its IP during deployment.
 
 <a href="//blog.viftrup.eu/assets/pictures/template-management/static-route.png" data-lightbox="static-route-large" data-title="Static route"> 
-  <img src="//blog.viftrup.eu/assets/pictures/template-management/static-route.png" title="Click to enlarge - Static route"> 
+  <img src="//blog.viftrup.eu/assets/pictures/template-management/static-route.png" title="Click to enlarge - Static route" style="width: 500px"> 
 </a>
 
 <h2>Configuration of DHCP Pools</h2>
