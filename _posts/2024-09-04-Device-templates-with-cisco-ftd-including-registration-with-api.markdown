@@ -38,7 +38,7 @@ However, generating the template from an existing device might require looking i
 
 <b>Device Management -> Desired Device -> Click the three dots -> Select “Generate Template from Device”</b>
 <a href="//blog.viftrup.eu/assets/pictures/template-management/template-from-device.png" data-lightbox="template-from-device-large" data-title="Generate template from device"> 
-  <img src="//blog.viftrup.eu/assets/pictures/template-management/template-from-device.png" title="Click to enlarge - template from device"> 
+  <img src="//blog.viftrup.eu/assets/pictures/template-management/template-from-device.png" title="Click to enlarge - template from device" width="460" height="578"> 
 </a>
 
 <h1>Creating a New Template from Scratch</h1>
