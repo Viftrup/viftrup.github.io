@@ -309,8 +309,5 @@ My examples were very simple and I could have gotten into way more complex templ
 ```
 
 <b>Addtional materials:</b>
-<a href="https://www.cisco.com/c/en/us/td/docs/security/secure-firewall/management-center/device-config/760/management-center-device-config-76/get-started-device-templates.html">Cisco documentation - Device Management Using Device Templates</a> 
 
-----------------
-------------
---------
+<a href="https://www.cisco.com/c/en/us/td/docs/security/secure-firewall/management-center/device-config/760/management-center-device-config-76/get-started-device-templates.html">Cisco documentation - Device Management Using Device Templates</a> 
