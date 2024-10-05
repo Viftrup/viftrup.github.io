@@ -70,7 +70,12 @@ This means instead of assigning an actual IP within the template, I can instead 
 To create this variable, you must click on the “+”-sign next to the IP address. The name you specify will be the name of our variable, so for ease of use make it self-explanatory, e.g., inside_ip.
 
 <i>(Every time you see the variable sign (X), this means we can create variables for this function).</i>
-
+<a href="//blog.viftrup.eu/assets/pictures/template-management/ipv4-settings.png" data-lightbox="ipv4-settings-large" data-title="IPv4 settings"> 
+  <img src="//blog.viftrup.eu/assets/pictures/template-management/ipv4-settings.png" title="Click to enlarge - IPv4 settings" style="width: 400px"> 
+</a>
+<a href="//blog.viftrup.eu/assets/pictures/template-management/ipv4-variable.png" data-lightbox="ipv4-variable-large" data-title="IPv4 variable"> 
+  <img src="//blog.viftrup.eu/assets/pictures/template-management/ipv4-variable.png" title="Click to enlarge - IPv4 variable" style="width: 400px"> 
+</a>
 If you’re unfamiliar with variables in general, a variable is often referred to by a “dollar-sign” aka $.
 
 Make sure to do this for all the interfaces you intend to create for your template, including etherchannels and sub-interfaces if you need such. By utilizing the variables feature, your deployments will be a breeze and easy to use.
