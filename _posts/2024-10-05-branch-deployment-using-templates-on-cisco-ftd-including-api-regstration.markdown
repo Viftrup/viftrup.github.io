@@ -252,6 +252,8 @@ My examples were very simple and I could have gotten into way more complex templ
 <h2>Appendix - Payload used to register FTD and apply template in one go with API</h2>
 
 ```
+/api/fmc_config/v1/domain/{domainUUID}/devices/devicerecords
+
 {
     "name": "AVA-DK-BRANCH01",
     "hostName": "IP",
