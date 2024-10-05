@@ -102,10 +102,18 @@ Summarizing, if you’re using objects of any kind during templates, be sure you
 
 A very simple example shown below, I have created a very simple route through my inside interface towards <i>DK-SplunkCollector</i> (pay attention to the value, 192.168.0.100 I will override this during the deployment with the override feature) via Next-hop <i>DK-SplunkCollector-GW</i> on which object I also override its IP during deployment.
 
+<a href="//blog.viftrup.eu/assets/pictures/template-management/static-route.png" data-lightbox="static-route-large" data-title="Static route"> 
+  <img src="//blog.viftrup.eu/assets/pictures/template-management/static-route.png" title="Click to enlarge - Static route" style="width: 400px"> 
+</a>
+
 <h2>Configuration of DHCP Pools</h2>
 I am not going into deep detail about this section, but as shown in the picture below I have configured two DHCP pools, one pool for my inside and one for the IoT. 
 
 Again, by utilizing variables during creation, I will be prompted about these values when deploying a new device with the template.
+
+<a href="//blog.viftrup.eu/assets/pictures/template-management/dhcp-pools.png" data-lightbox="dhcp-pools-large" data-title="DHCP Pools"> 
+  <img src="//blog.viftrup.eu/assets/pictures/template-management/dhcp-pools.png" title="Click to enlarge - DHCP Pools" style="width: 400px"> 
+</a>
 
 Be sure when configuring new DHCP pools that they are enabled. (They aren’t by default).
 
@@ -131,6 +139,14 @@ The bottom section shows the <i>“Network Object Overrides”</i> which I went 
 
 This is done by pressing the <i>“Add or Remove Network Object Overrides”</i> and making sure my objects are on the far right in <i>Selected Networks</i>.
 
+<a href="//blog.viftrup.eu/assets/pictures/template-management/template-parameters.png" data-lightbox="template-parameters-large" data-title="Template Parameters"> 
+  <img src="//blog.viftrup.eu/assets/pictures/template-management/template-parameters.png" title="Click to enlarge - Template Parameters" style="width: 400px"> 
+</a>
+
+<a href="//blog.viftrup.eu/assets/pictures/template-management/template-parameters-selected.png" data-lightbox="template-parameters-large" data-title="Template Parameters"> 
+  <img src="//blog.viftrup.eu/assets/pictures/template-management/template-parameters-selected.png" title="Click to enlarge - Template Parameters" style="width: 400px"> 
+</a>
+
 <h3>Model Mapping</h3>
 The end is almost near, just one final thing and we’re done with the template itself. 
 
@@ -139,6 +155,9 @@ This section is all about mapping the template interfaces to the desired physica
 Under normal circumstances, this would be a 1:1 mapping, Ethernet 1/1 -> Ethernet 1/1, but we have the possibility to change this, including model-specific configurations. 
 
 I will be using an FPR1010 in this example.
+<a href="//blog.viftrup.eu/assets/pictures/template-management/model-mapping.png" data-lightbox="model-mapping-large" data-title="Model Mapping"> 
+  <img src="//blog.viftrup.eu/assets/pictures/template-management/model-mapping.png" title="Click to enlarge - Model Mapping" style="width: 400px"> 
+</a>
 
 <h2>Deployment time with my newly ceated template</h2>
 Now let’s bring this template to use and watch the FMC and FTD do their magic. We just need to provide the wizard some site-specific data and a single command on the FTD.
@@ -165,6 +184,10 @@ In this post, I’ll only be covering the traditional method using a registratio
 At the far bottom, however, we’re greeted with required fields which correspond to the variables we created earlier in the template. 
 The top section is the “normal” variables, and the bottom is our object overrides for device-specific values.
 <i>Due to the nature of my personal setup, I am using the NAT ID section – I trust you know the basics of FTD registration and therefore I will not go into details as to why).</b>
+
+<a href="//blog.viftrup.eu/assets/pictures/template-management/device-wizard.png" data-lightbox="device-wizard-large" data-title="Device Wizard"> 
+  <img src="//blog.viftrup.eu/assets/pictures/template-management/device-wizard.png" title="Click to enlarge - Device Wizard" style="width: 400px"> 
+</a>
 
 Hopefully, if everything goes well, the registration process should slowly proceed and start discovering the FTD and applying the attached template right away. This might take several minutes before completion.
 
