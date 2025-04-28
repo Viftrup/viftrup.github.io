@@ -129,6 +129,8 @@ Certbot supports several means of renewing the certificates, if you're intereste
 
 I'm not covering this part as of now, but in the future I might have a look into automating from start to end with renwal and how to utilise product APIs to apply the certificates on Cisco devices or similiar.
 
+
+
 <h2>Troubleshooting</h2>
 
 **Certbot Cloudflare plugin not working**
@@ -136,7 +138,7 @@ I'm not covering this part as of now, but in the future I might have a look into
 If you already have Certbot installed on your machine, e.g., through Brew or similar, you need to uninstall these first. 
 Otherwise, the already installed Certbot will interfere and overwrite the ones used within our Python environment.
 
-Confirm the plugin has been installed with certbot plugins and you should see dns-cloudflare being listed.
+Confirm the plugin has been installed with ```certbot plugins``` and you should see ```dns-cloudflare``` being listed.
 
 **Permission denied**
 
