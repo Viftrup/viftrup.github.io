@@ -34,7 +34,7 @@ See the list here:
 Depending on your operating system, you might need to install Python and pip first. 
 
 We'll be needing this for the installation of the Cloudflare plugin, as it's not officially part of the brew repo. I'll not be covering the installation process in this post.
-<br>
+<hr>
 **Create a Python virtual environment**
 *This step is optional*
 
