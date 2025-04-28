@@ -9,14 +9,14 @@ Using Certbot to provision a publicly signed certificate and automatically popul
 
 In this post, I'll quickly go over how you can automatically, and with a simple command line statement, populate the required DNS01-challenge response with Cloudflare and generate a publicly signed certificate to be used on your services-either for production or labbing. I'll be using this purely for some upcoming lab content.
 
-Certbot is also supporting the ACME-challenge with a built-in ACME client. I however decided to go for the DNS-challenge in most cases, as this is solely relying on a TXT-record being present on my domain rather than a ACME-client.
+Certbot is also supporting the HTTP-01 with ACME-challenge with a built-in ACME client. I however decided to go for the DNS-challenge in most cases, as this is solely relying on a TXT-record being present on my domain rather than a ACME-client. Also I often need the certificate to be used multiple places within my lab or on devices which doesn't have out-of-the-box ACME or installation possibilities of third part applications.
 
 But note that this will ideally work on many different DNS providers as listed below. Beware that the syntax and plugins required are different from what you see in this post.
 
 There is also a list of third-party plugins, which aren't maintained by Certbot but are still available to be used. 
 
 See the list here:
-[Third party plugins - Certbot](https://eff-certbot.readthedocs.io/en/latest/using.html#third-party-plugins))
+[Third party plugins - Certbot](https://eff-certbot.readthedocs.io/en/latest/using.html#third-party-plugins)
 - certbot-dns-cloudflare
 - certbot-dns-digitalocean
 - certbot-dns-dnsimple
@@ -121,6 +121,13 @@ openssl pkcs12 -export -in fullchain.pem -inkey privkey.pem -out domain.pfx
 You'll then be prompted for an export password and validation of the password for the file.
 
 And now you can use the PKCS12 file wherever needed.
+
+<h2>Wrapping up</h2>
+Keep the mind the certificate is only valid for 90-days and you're requried to renew the certificate incase you need it to be valid after the orginial expiration date.
+
+Certbot supports several means of renewing the certificates, if you're interested [have a look at their documentation](https://eff-certbot.readthedocs.io/en/stable/using.html#renewing-certificates) for further guidance.
+
+I'm not covering this part as of now, but in the future I might have a look into automating from start to end with renwal and how to utilise product APIs to apply the certificates on Cisco devices or similiar.
 
 <h2>Troubleshooting</h2>
 
