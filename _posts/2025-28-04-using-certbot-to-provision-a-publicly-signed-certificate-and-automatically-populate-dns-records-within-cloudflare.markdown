@@ -32,7 +32,7 @@ See the list here:
 Depending on your operating system, you might need to install Python and pip first. 
 
 We'll be needing this for the installation of the Cloudflare plugin, as it's not officially part of the brew repo. I'll not be covering the installation process in this post.
-
+<br>
 **Create a Python virtual environment**
 *This step is optional*
 
@@ -50,11 +50,11 @@ Your command line should be appended and start with `(certbot) <user@host> <fold
 `pip3 install certbot` 
 `pip3 install certbot-dns-cloudflare`
 
-<h3> Go to Cloudflare and create an API token </h3>
-Click on your user on the far right -> My Profile -> API Tokens  
+<h3> Create a Cloudflare API Token</h3>
+Click on your user on the far right <b>My Profile -> API Tokens</b>
 Create an API Token  
 
-(Optional) Security-wise, I highly recommend using a restricted API Token, as compared to a 'Global API Key', which has full permission to your Cloudflare account. Assigning "Zone" - "DNS" - "Edit" is sufficient for this operation. 
+*(Optional)* Security-wise, I highly recommend using a restricted API Token, as compared to a 'Global API Key', which has full permission to your Cloudflare account. Assigning "Zone" - "DNS" - "Edit" is sufficient for this operation. 
 
 Select the domain on which you'll be provisioning the record.
 
@@ -67,8 +67,10 @@ Create a secret named `cloudflare.ini` (or something else, just make sure to poi
 Cloudflare API token used by Certbot
 dns_cloudflare_api_token = <TOKEN>
 ```
+<h2>Generate the certificate for your domain(s)</h2>
 
 There are different methods of acquiring a certificate for a given domain. 
+
 The parameter '-d' defines the domain of the certificate. It is possible to create multiple domain statements if needed, e.g., with and without 'www.' as seen in my examples below.
 
 <b>Option 1: Acquire certificate for 'viftrup.eu'</b>
@@ -118,11 +120,14 @@ You'll then be prompted for an export password and validation of the password fo
 
 And now you can use the PKCS12 file wherever needed.
 
-<h2>Troubleshooting:</h2>
+<h2>Troubleshooting</h2>
+
+**Certbot Cloudflare plugin not working**
 If you already have Certbot installed on your machine, e.g., through Brew or similar, you need to uninstall these first. Otherwise, the already installed Certbot will interfere and overwrite the ones used within our Python environment.
 
 Confirm the plugin has been installed with certbot plugins and you should see dns-cloudflare being listed.
 
 **Permission denied**
+
 Depending on your system, you might be required to elevate your rights to run programs or retrieve the needed files. In that case, be sure to run the commands as an elevated user or by utilizing sudo.
 
