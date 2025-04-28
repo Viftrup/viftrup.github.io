@@ -66,14 +66,14 @@ There are different methods of acquiring a certificate for a given domain.
 The parameter '-d' defines the domain of the certificate. It is possible to create multiple domain statements if needed, e.g., with and without 'www.' as seen in my examples below.
 
 <b>Option 1: Acquire certificate for 'viftrup.eu'</b>
-```
+```text
 certbot certonly \
   --dns-cloudflare \
   --dns-cloudflare-credentials cloudflare.ini \
   -d viftrup.eu
 ```
 **Option 2: Acquire a single certificate with multiple domain environments included**
-```
+```text
 certbot certonly \
   --dns-cloudflare \
   --dns-cloudflare-credentials cloudflare.ini \
@@ -82,7 +82,7 @@ certbot certonly \
 ```
 
 **Option 3: Acquire certificate for 'viftrup.eu' - but wait 60 seconds for DNS propagation to take place (Optional)**
-```
+```text
 certbot certonly \
   --dns-cloudflare \
   --dns-cloudflare-credentials cloudflare.ini \
