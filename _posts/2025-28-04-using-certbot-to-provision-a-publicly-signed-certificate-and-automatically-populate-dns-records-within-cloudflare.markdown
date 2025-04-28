@@ -9,6 +9,8 @@ Using Certbot to provision a publicly signed certificate and automatically popul
 
 In this post, I'll quickly go over how you can automatically, and with a simple command line statement, populate the required DNS01-challenge response with Cloudflare and generate a publicly signed certificate to be used on your services—either for production or labbing. I'll be using this purely for some upcoming lab content.
 
+Certbot is also supporting the ACME-challenge with a built-in ACME Client. I however decided to go for the DNS-challenge in most cases, as this is solely relying on a TXT-record being present on my domain rather than a ACME-Client.
+
 But note that this will ideally work on many different DNS providers as listed below. Beware that the syntax and plugins required are different from what you see in this post.
 
 There is also a list of third-party plugins, which aren't maintained by Certbot but are still available to be used. 
