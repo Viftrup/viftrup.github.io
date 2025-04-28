@@ -126,7 +126,9 @@ And now you can use the PKCS12 file wherever needed.
 <h2>Troubleshooting</h2>
 
 **Certbot Cloudflare plugin not working**
-If you already have Certbot installed on your machine, e.g., through Brew or similar, you need to uninstall these first. Otherwise, the already installed Certbot will interfere and overwrite the ones used within our Python environment.
+
+If you already have Certbot installed on your machine, e.g., through Brew or similar, you need to uninstall these first. 
+Otherwise, the already installed Certbot will interfere and overwrite the ones used within our Python environment.
 
 Confirm the plugin has been installed with certbot plugins and you should see dns-cloudflare being listed.
 
