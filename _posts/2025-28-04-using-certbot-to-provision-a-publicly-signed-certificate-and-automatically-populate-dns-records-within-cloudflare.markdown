@@ -7,9 +7,9 @@ categories: [Certbot, Cloudflare]
 ---
 Using Certbot to provision a publicly signed certificate and automatically populate DNS records within Cloudflare
 
-In this post, I'll quickly go over how you can automatically, and with a simple command line statement, populate the required DNS01-challenge response with Cloudflare and generate a publicly signed certificate to be used on your services—either for production or labbing. I'll be using this purely for some upcoming lab content.
+In this post, I'll quickly go over how you can automatically, and with a simple command line statement, populate the required DNS01-challenge response with Cloudflare and generate a publicly signed certificate to be used on your services-either for production or labbing. I'll be using this purely for some upcoming lab content.
 
-Certbot is also supporting the ACME-challenge with a built-in ACME Client. I however decided to go for the DNS-challenge in most cases, as this is solely relying on a TXT-record being present on my domain rather than a ACME-Client.
+Certbot is also supporting the ACME-challenge with a built-in ACME client. I however decided to go for the DNS-challenge in most cases, as this is solely relying on a TXT-record being present on my domain rather than a ACME-client.
 
 But note that this will ideally work on many different DNS providers as listed below. Beware that the syntax and plugins required are different from what you see in this post.
 
@@ -61,7 +61,7 @@ Select the domain on which you'll be provisioning the record.
 
 Additionally, you can do filtering based on client IP for enhanced security.
 
-TTL or Time-to-Live is essentially the lifetime of your token. If you're only doing this once and know you might forget to disable or delete the token, go ahead and add an expiration date. It might be worth adding an expiration date nevertheless—just in case!
+TTL or Time-to-Live is essentially the lifetime of your token. If you're only doing this once and know you might forget to disable or delete the token, go ahead and add an expiration date. It might be worth adding an expiration date nevertheless - just in case!
 
 Create a secret named `cloudflare.ini` (or something else, just make sure to point to the correct file)
 ```text
@@ -110,7 +110,7 @@ Now you've successfully created a publicly signed certificate issued by Let's En
 
 **Note that in the near future Let's Encrypt and other providers will decrease the lifetime of certificates. Let's Encrypt has announced they'll start rolling out certificates with a lifetime of 47 days and short-lived certificates of 7 days.**
 
-<h2>(Optional) - Convert to PKCS12 (.PFX) file with OpenSSL</h2>
+<h2>(Optional) - Convert to PKCS12 (.pfx) file with OpenSSL</h2>
 This step is optional and can be left out.
 
 But in case you need the certificate to be bundled into a PKCS12 (.pfx file extension format), here is how you do that.
