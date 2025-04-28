@@ -83,7 +83,6 @@ certbot certonly \
 
 **Option 3: Acquire certificate for 'viftrup.eu' - but wait 60 seconds for DNS propagation to take place (Optional)**
 ```
-
 certbot certonly \
   --dns-cloudflare \
   --dns-cloudflare-credentials cloudflare.ini \
