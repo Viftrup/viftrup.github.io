@@ -16,9 +16,7 @@ But note that this will ideally work on many different DNS providers as listed b
 There is also a list of third-party plugins, which aren't maintained by Certbot but are still available to be used. 
 
 See the list here:
-[Third party plugins - Cerbot]([https://eff-certbot.readthedocs.io/en/latest/using.html#third-party-plugins))
-
-[https://eff-certbot.readthedocs.io/en/latest/using.html#third-party-plugins](https://eff-certbot.readthedocs.io/en/latest/using.html#rtbot:
+[Third party plugins - Certbot](https://eff-certbot.readthedocs.io/en/latest/using.html#third-party-plugins))
 - certbot-dns-cloudflare
 - certbot-dns-digitalocean
 - certbot-dns-dnsimple
