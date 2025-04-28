@@ -115,7 +115,9 @@ This step is optional and can be left out.
 
 But in case you need the certificate to be bundled into a PKCS12 (.pfx file extension format), here is how you do that.
 
-'openssl pkcs12 -export -in fullchain.pem -inkey privkey.pem -out domain.pfx'
+```text
+openssl pkcs12 -export -in fullchain.pem -inkey privkey.pem -out domain.pfx
+```
 
 You'll then be prompted for an export password and validation of the password for the file.
 
