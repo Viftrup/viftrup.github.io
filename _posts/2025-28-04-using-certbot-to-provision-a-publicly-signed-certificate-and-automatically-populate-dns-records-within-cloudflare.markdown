@@ -5,7 +5,7 @@ date: 2025-04-28
 author: Alexander Viftrup Andersen
 categories: [Certbot, Cloudflare]
 cover: "/assets/pictures/certbotcloudflare-trans.png"
-image: "/assets/pictures/template-management/certbotcloudflare-linkedin.png"
+image: "/assets/pictures/certbotcloudflare.png"
 ---
 Using Certbot to provision a publicly signed certificate and automatically populate DNS records within Cloudflare
 
