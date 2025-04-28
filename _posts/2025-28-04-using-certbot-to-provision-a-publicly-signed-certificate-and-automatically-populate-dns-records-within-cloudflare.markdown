@@ -13,6 +13,8 @@ In this post, I'll quickly go over how you can automatically, and with a simple 
 
 Certbot is also supporting the HTTP-01 with ACME-challenge with a built-in ACME client. I however decided to go for the DNS-challenge in most cases, as this is solely relying on a TXT-record being present on my domain rather than a ACME-client. Also I often need the certificate to be used multiple places within my lab or on devices which doesn't have out-of-the-box ACME or installation possibilities of third part applications.
 
+One downside to ACME is also the fact you cannot generate wildcard certificates - this is possible with DNS01 as I'm walking through in this post.
+
 But note that this will ideally work on many different DNS providers as listed below. Beware that the syntax and plugins required are different from what you see in this post.
 
 There is also a list of third-party plugins, which aren't maintained by Certbot but are still available to be used. 
