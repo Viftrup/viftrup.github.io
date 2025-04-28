@@ -47,7 +47,7 @@ Issue the command `python3 -m venv certbot` - this creates a virtual environment
 
 Your command line should be appended and start with `(certbot) <user@host> <folder>`
 
-<h2>2. Installing Certbot and the Cloudflare plugin</h2>
+<h2>2. Install Certbot and the Cloudflare plugin</h2>
 `pip3 install certbot` 
 `pip3 install certbot-dns-cloudflare`
 
