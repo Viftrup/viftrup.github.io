@@ -40,10 +40,10 @@ We'll be needing this for the installation of the Cloudflare plugin. I'll not be
 
 I like to keep things separate and clear, so I'll be making a venv for this operation.
 
-<h2>Navigate to the desired folder to be used for Certbot</h3>
+<h3>Navigate to the desired folder to be used for Certbot</h3>
 Issue the command `python3 -m venv certbot` - this creates a virtual environment named 'certbot', where we can install the needed libs.
 
-<h2>Activating our newly created environment</h3>
+<h3>Activating our newly created environment</h3>
 `source certbot/bin/activate`
 
 Your command line should be appended and start with `(certbot) <user@host> <folder>`
@@ -53,8 +53,7 @@ Your command line should be appended and start with `(certbot) <user@host> <fold
 `pip3 install certbot-dns-cloudflare`
 
 <h2>3. Create a Cloudflare API Token</h2>
-Click on your user on the far right <b>My Profile -> API Tokens</b>
-Create an API Token  
+Click on your user on the far right <b>My Profile -> API Tokens -> Create an API Token</b>  
 
 *(Optional)* Security-wise, I highly recommend using a restricted API Token, as compared to a 'Global API Key', which has full permission to your Cloudflare account. Assigning "Zone" - "DNS" - "Edit" is sufficient for this operation. 
 
