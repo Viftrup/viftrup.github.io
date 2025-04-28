@@ -36,23 +36,23 @@ Depending on your operating system, you might need to install Python and pip fir
 
 We'll be needing this for the installation of the Cloudflare plugin. I'll not be covering the installation process for Python and pip in this post.
 <hr>
-<h2>Create a Python virtual environment</h2> <i>(This step is optional)</i>
+<h2>1. Create a Python virtual environment</h2> <i>(This step is optional)</i>
 
 I like to keep things separate and clear, so I'll be making a venv for this operation.
 
-<h3>Navigate to the desired folder to be used for Certbot</h3>
+<h2>Navigate to the desired folder to be used for Certbot</h3>
 Issue the command `python3 -m venv certbot` - this creates a virtual environment named 'certbot', where we can install the needed libs.
 
-<h3>Activating our newly created environment</h3>
+<h2>Activating our newly created environment</h3>
 `source certbot/bin/activate`
 
 Your command line should be appended and start with `(certbot) <user@host> <folder>`
 
-<h2>Installing Certbot and the Cloudflare plugin</h2>
+<h2>2. Installing Certbot and the Cloudflare plugin</h2>
 `pip3 install certbot` 
 `pip3 install certbot-dns-cloudflare`
 
-<h2> Create a Cloudflare API Token</h2>
+<h2>3. Create a Cloudflare API Token</h2>
 Click on your user on the far right <b>My Profile -> API Tokens</b>
 Create an API Token  
 
@@ -69,7 +69,7 @@ Create a secret named `cloudflare.ini` (or something else, just make sure to poi
 Cloudflare API token used by Certbot
 dns_cloudflare_api_token = <TOKEN>
 ```
-<h2>Generate the certificate for your domain(s)</h2>
+<h2>4. Generate the certificate for your domain(s)</h2>
 
 There are different methods of acquiring a certificate for a given domain. 
 
@@ -104,7 +104,7 @@ The last option is just like option 1, but with an added DNS propagation timer. 
 
 I normally tend to use the last option, as I often find the default 10 seconds to be too short, and my challenge will fail.
 
-<h2>Retrieving the certificate</h2>
+<h2>5. Retrieving the certificate</h2>
 Depending on your setup and system, the certificate parts will be put into '/etc/letsencrypt/live/<domain>' - it'll also be printed to your terminal for the exact location of certificate material.
 
 Now you've successfully created a publicly signed certificate issued by Let's Encrypt to be used where needed. Keep in mind by default the certificate is valid for 90 days. You can either request a new certificate or renew the existing one by then.
