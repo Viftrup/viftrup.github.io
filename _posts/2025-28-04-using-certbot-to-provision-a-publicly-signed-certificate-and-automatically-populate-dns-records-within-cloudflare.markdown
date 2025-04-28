@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Using Certbot to Provision a Publicly Signed Certificate and Automatically Populate DNS Records within Cloudflare"
+title: "Using Certbot to provision a public certificate and auto-populate DNS records in Cloudflare"
 date: 2025-04-28
 author: Alexander Viftrup Andersen
 categories: [Certbot, Cloudflare]
