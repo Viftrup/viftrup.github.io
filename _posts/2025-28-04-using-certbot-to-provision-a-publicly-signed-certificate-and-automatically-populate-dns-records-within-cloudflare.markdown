@@ -35,8 +35,7 @@ Depending on your operating system, you might need to install Python and pip fir
 
 We'll be needing this for the installation of the Cloudflare plugin, as it's not officially part of the brew repo. I'll not be covering the installation process in this post.
 <hr>
-**Create a Python virtual environment**
-*This step is optional*
+<h2>Create a Python virtual environment <i>(This step is optional)</i></h2>
 
 I like to keep things separate and clear, so I'll be making a venv for this operation.
 
@@ -48,11 +47,11 @@ Issue the command `python3 -m venv certbot` - this creates a virtual environment
 
 Your command line should be appended and start with `(certbot) <user@host> <folder>`
 
-<h3>Installing Certbot and the Cloudflare plugin</h3>
+<h2>Installing Certbot and the Cloudflare plugin</h2>
 `pip3 install certbot` 
 `pip3 install certbot-dns-cloudflare`
 
-<h3> Create a Cloudflare API Token</h3>
+<h2> Create a Cloudflare API Token</h2>
 Click on your user on the far right <b>My Profile -> API Tokens</b>
 Create an API Token  
 
