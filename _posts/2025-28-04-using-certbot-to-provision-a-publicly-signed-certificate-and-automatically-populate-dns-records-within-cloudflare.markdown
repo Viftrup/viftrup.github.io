@@ -11,7 +11,9 @@ In this post, I'll quickly go over how you can automatically, and with a simple 
 
 But note that this will ideally work on many different DNS providers as listed below. Beware that the syntax and plugins required are different from what you see in this post.
 
-There is also a list of third-party plugins, which aren't maintained by Certbot but are still available to be used. See the list here:
+There is also a list of third-party plugins, which aren't maintained by Certbot but are still available to be used. 
+
+See the list here:
 [https://eff-certbot.readthedocs.io/en/latest/using.html#third-party-plugins](https://eff-certbot.readthedocs.io/en/latest/using.html#rtbot:
 - certbot-dns-cloudflare
 - certbot-dns-digitalocean
@@ -27,40 +29,44 @@ There is also a list of third-party plugins, which aren't maintained by Certbot 
 - certbot-dns-route53
 - certbot-dns-sakuracloud
 
-Depending on your operating system, you might need to install Python and pip first. We'll be needing this for the installation of the Cloudflare plugin, as it's not officially part of the brew repo. I'll not be covering the installation process in this post.
+Depending on your operating system, you might need to install Python and pip first. 
+
+We'll be needing this for the installation of the Cloudflare plugin, as it's not officially part of the brew repo. I'll not be covering the installation process in this post.
 
 **Create a Python virtual environment**
 *This step is optional*
 
 I like to keep things separate and clear, so I'll be making a venv for this operation.
 
-Navigate to the desired folder to be used for Certbot.
+<h3>Navigate to the desired folder to be used for Certbot</h3>
 Issue the command `python3 -m venv certbot` - this creates a virtual environment named 'certbot', where we can install the needed libs.
 
-**Activating our newly created environment**
+<h3>Activating our newly created environment</h3>
 `source certbot/bin/activate`
 
 Your command line should be appended and start with `(certbot) <user@host> <folder>`
 
-### Installing Certbot and the Cloudflare plugin
-`pip3 install certbot`  
+<h3>Installing Certbot and the Cloudflare plugin</h3>
+`pip3 install certbot` 
 `pip3 install certbot-dns-cloudflare`
 
-### Go to Cloudflare and create an API token
+<h3> Go to Cloudflare and create an API token </h3>
 Click on your user on the far right -> My Profile -> API Tokens  
 Create an API Token  
-(Optional)
 
-Security-wise, I highly recommend using a restricted API Token, as compared to a 'Global API Key', which has full permission to your Cloudflare account. Assigning "Zone" - "DNS" - "Edit" is sufficient for this operation. Select the domain on which you'll be provisioning the record.
+(Optional) Security-wise, I highly recommend using a restricted API Token, as compared to a 'Global API Key', which has full permission to your Cloudflare account. Assigning "Zone" - "DNS" - "Edit" is sufficient for this operation. 
+
+Select the domain on which you'll be provisioning the record.
 
 Additionally, you can do filtering based on client IP for enhanced security.
 
 TTL or Time-to-Live is essentially the lifetime of your token. If you're only doing this once and know you might forget to disable or delete the token, go ahead and add an expiration date. It might be worth adding an expiration date nevertheless—just in case!
 
 Create a secret named `cloudflare.ini` (or something else, just make sure to point to the correct file)
-
-# Cloudflare API token used by Certbot
+```text
+Cloudflare API token used by Certbot
 dns_cloudflare_api_token = <TOKEN>
+```
 
 There are different methods of acquiring a certificate for a given domain. 
 The parameter '-d' defines the domain of the certificate. It is possible to create multiple domain statements if needed, e.g., with and without 'www.' as seen in my examples below.
